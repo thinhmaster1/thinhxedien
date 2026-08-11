@@ -1,8 +1,28 @@
 import { display, esc, money, UPDATING } from "./core.js";
 
 export function Header({ overlay = false } = {}) {
-  return `<header class="site-header ${overlay ? "is-overlay" : ""}"><a class="brand" href="index.html" aria-label="Thịnh Xe Điện - Trang chủ"><span class="v-mark">T</span><span>Thịnh Xe Điện</span></a><nav aria-label="Điều hướng chính"><a href="index.html#models">Dòng xe</a><a href="compare.html">So sánh</a><a href="data.html">Dữ liệu</a><a href="policies.html">Ưu đãi T8</a><a href="quote.html">Báo giá</a></nav><a class="nav-cta" href="quote.html">Lập báo giá</a></header>`;
+  return `<header class="site-header ${overlay ? "is-overlay" : ""}"><a class="brand" href="index.html" aria-label="Thịnh Xe Điện - Trang chủ"><span class="v-mark">T</span><span>Thịnh Xe Điện</span></a><nav aria-label="Điều hướng chính"><a href="index.html#models">Dòng xe</a><a href="compare.html">So sánh</a><a href="data.html">Dữ liệu</a><a href="policies.html">Ưu đãi T8</a><a href="quote.html">Báo giá</a></nav><button class="nav-cta" type="button" data-open-consultation>Đăng ký tư vấn</button><dialog class="consult-dialog" id="consult-dialog" aria-labelledby="consult-title"><form method="dialog" class="consult-form" id="consult-form"><button class="consult-close" type="button" data-close-consultation aria-label="Đóng">×</button><span>THỊNH XE ĐIỆN</span><h2 id="consult-title">Tư vấn & lái thử.</h2><p>Để lại thông tin, Bùi Đắc Thịnh sẽ liên hệ hỗ trợ bạn.</p><fieldset><legend>Nhu cầu của bạn</legend><div class="consult-choice"><label><input type="radio" name="requestType" value="Nhờ tư vấn" checked><b>Nhờ tư vấn</b></label><label><input type="radio" name="requestType" value="Đăng ký lái thử"><b>Đăng ký lái thử</b></label></div></fieldset><div class="consult-fields"><label><span>Họ và tên</span><input name="customerName" type="text" autocomplete="name" required placeholder="Nguyễn Văn A"></label><label><span>Số điện thoại</span><input name="customerPhone" type="tel" autocomplete="tel" inputmode="tel" required pattern="[0-9 +]{9,15}" placeholder="09xx xxx xxx"></label><label><span>Dòng xe quan tâm</span><select name="car"><option value="Chưa xác định">Chọn dòng xe</option><option>VF 2</option><option>VF 3</option><option>VF 5</option><option>VF 6</option><option>VF 7</option><option>VF 8</option><option>VF 8 Thế hệ mới</option><option>VF 9</option><option>Herio Green</option><option>Limo Green</option><option>VF MPV 7</option><option>EC Van</option></select></label><label><span>Khu vực</span><input name="location" type="text" autocomplete="address-level2" placeholder="Tỉnh / thành phố"></label><label class="consult-note"><span>Ghi chú</span><textarea name="note" rows="3" placeholder="Thời gian thuận tiện để liên hệ hoặc lái thử"></textarea></label></div><small>Thông tin chỉ được dùng để liên hệ tư vấn theo yêu cầu của bạn.</small><button class="consult-submit" type="submit">Gửi yêu cầu qua Zalo</button><p class="consult-status" id="consult-status" aria-live="polite"></p></form></dialog></header>`;
 }
+
+document.addEventListener("click", event => {
+  const dialog = document.querySelector("#consult-dialog");
+  if (event.target.closest("[data-open-consultation]")) {
+    dialog?.showModal();
+    setTimeout(() => dialog?.querySelector("input[name='customerName']")?.focus(), 50);
+  }
+  if (event.target.closest("[data-close-consultation]")) dialog?.close();
+  if (event.target === dialog) dialog.close();
+});
+
+document.addEventListener("submit", event => {
+  if (event.target.id !== "consult-form") return;
+  event.preventDefault();
+  const data = new FormData(event.target);
+  const message = [`${data.get("requestType")} - Thịnh Xe Điện`, `Khách hàng: ${data.get("customerName")}`, `Số điện thoại: ${data.get("customerPhone")}`, `Dòng xe: ${data.get("car")}`, `Khu vực: ${data.get("location") || "Chưa cung cấp"}`, `Ghi chú: ${data.get("note") || "Không có"}`].join("\n");
+  navigator.clipboard?.writeText(message).catch(() => {});
+  window.open("https://zalo.me/0352978519", "_blank", "noopener");
+  document.querySelector("#consult-status").textContent = "Đã sao chép nội dung. Hãy dán vào cửa sổ Zalo vừa mở để gửi yêu cầu.";
+});
 
 export function Footer() {
   return `<footer id="sources"><a class="brand" href="index.html"><span class="v-mark">T</span><span>Thịnh Xe Điện</span></a><p>Dữ liệu tổng hợp từ bảng thông số sản phẩm và chính sách bán hàng VinFast tại Việt Nam, cập nhật tháng 08/2026.</p><small>Trang tham khảo độc lập · Không phải website bán hàng chính thức</small></footer>`;
