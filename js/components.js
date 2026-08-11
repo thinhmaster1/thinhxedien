@@ -1,11 +1,11 @@
 import { display, esc, money, UPDATING } from "./core.js";
 
 export function Header({ overlay = false } = {}) {
-  return `<header class="site-header ${overlay ? "is-overlay" : ""}"><a class="brand" href="index.html" aria-label="Thịnh Xe Điện - Trang chủ"><span class="v-mark">T</span><span>Thịnh Xe Điện</span></a><nav aria-label="Điều hướng chính"><a href="index.html#models">Dòng xe</a><a href="compare.html">So sánh</a><a href="data.html">Dữ liệu</a><a href="quote.html">Báo giá</a></nav><a class="nav-cta" href="quote.html">Lập báo giá</a></header>`;
+  return `<header class="site-header ${overlay ? "is-overlay" : ""}"><a class="brand" href="index.html" aria-label="Thịnh Xe Điện - Trang chủ"><span class="v-mark">T</span><span>Thịnh Xe Điện</span></a><nav aria-label="Điều hướng chính"><a href="index.html#models">Dòng xe</a><a href="compare.html">So sánh</a><a href="data.html">Dữ liệu</a><a href="policies.html">Ưu đãi T8</a><a href="quote.html">Báo giá</a></nav><a class="nav-cta" href="quote.html">Lập báo giá</a></header>`;
 }
 
 export function Footer() {
-  return `<footer id="sources"><a class="brand" href="index.html"><span class="v-mark">T</span><span>Thịnh Xe Điện</span></a><p>Dữ liệu tổng hợp từ bảng thông số sản phẩm và chính sách giá VinFast tại Việt Nam, cập nhật tháng 07/2026.</p><small>Trang tham khảo độc lập · Không phải website bán hàng chính thức</small></footer>`;
+  return `<footer id="sources"><a class="brand" href="index.html"><span class="v-mark">T</span><span>Thịnh Xe Điện</span></a><p>Dữ liệu tổng hợp từ bảng thông số sản phẩm và chính sách bán hàng VinFast tại Việt Nam, cập nhật tháng 08/2026.</p><small>Trang tham khảo độc lập · Không phải website bán hàng chính thức</small></footer>`;
 }
 
 export function VehicleCard(car, { large = false } = {}) {
