@@ -4,6 +4,39 @@ import { Footer, Header } from "../components.js";
 document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();
 
+const ACCESS_HASH = "f6bca1d9410f17cb033cce86877c077d28343888b1d105f26ebde9ff6ead3540";
+const ACCESS_KEY = "thinh-xe-dien-quote-access";
+const gate = document.querySelector("#quote-gate");
+const gateForm = document.querySelector("#quote-gate-form");
+const gateError = document.querySelector("#quote-gate-error");
+
+const digest = async value => {
+  const bytes = new TextEncoder().encode(value);
+  const hash = await crypto.subtle.digest("SHA-256", bytes);
+  return [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, "0")).join("");
+};
+
+const unlockQuote = () => {
+  sessionStorage.setItem(ACCESS_KEY, "granted");
+  document.body.classList.remove("quote-locked");
+  gate.hidden = true;
+};
+
+if (sessionStorage.getItem(ACCESS_KEY) === "granted") unlockQuote();
+
+gateForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  const input = document.querySelector("#quote-passcode");
+  const valid = await digest(input.value) === ACCESS_HASH;
+  if (valid) {
+    unlockQuote();
+    return;
+  }
+  gateError.textContent = "Passcode chưa đúng. Vui lòng thử lại.";
+  input.value = "";
+  input.focus();
+});
+
 const FEES = {
   registration: { province: 140000, city: 14000000 },
   inspection: 95000,
