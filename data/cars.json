@@ -7,19 +7,10 @@
   "policyDocument": "260705_Chính sách giá bán các dòng xe ô tô điện VinFast tại TTVN.pdf",
   "currency": "VND",
   "additionalPrices": [
-    {"name":"Nerio Green","segment":"Crossover","use":"Dịch vụ","versions":[{"name":"Tiêu chuẩn 1","price":628000000}]},
     {"name":"Lạc Hồng 900","segment":"Xe chuyên dụng","use":"Cao cấp","versions":[{"name":"Tiêu chuẩn 1","price":5000000000}]},
     {"name":"Lạc Hồng 900 Chống đạn","segment":"Xe chuyên dụng","use":"Cao cấp","versions":[{"name":"Tiêu chuẩn 1","price":36000000000}]}
   ],
   "cars": [
-    {
-      "slug": "minio-green", "name": "Minio Green", "segment": "Mini EV", "use": "Đô thị", "category": "city", "categoryOrder": 1, "displayOrder": 1, "featured": true, "price": 269000000, "image": "public/cars/minio-green.jpg", "tagline": "Nhỏ gọn, linh hoạt cho mọi hành trình trong phố.",
-      "versions": [{"name":"Tiêu chuẩn 1","price":269000000}], "colors": ["Đen Jet Black", "Bạc Desat Silver", "Trắng Infinity Blanc", "Đỏ Crimson Red", "Đen Jet Black + nóc vàng", "Bạc Desat Silver + nóc đen", "Vàng Summer Yellow + nóc trắng", "Xanh Tropical Jade", "Hồng Rose Metallic", "Hồng Rose Metallic + nóc trắng", "Hồng Rose Metallic + nóc xanh GSM", "Xanh Tropical Jade + nóc trắng", "Xanh Tropical Jade + nóc vàng", "Đỏ Crimson Red + nóc trắng"],
-      "colorPrices": {"Đen Jet Black":0,"Bạc Desat Silver":0,"Trắng Infinity Blanc":0,"Đỏ Crimson Red":0,"Đen Jet Black + nóc vàng":3000000,"Bạc Desat Silver + nóc đen":3000000,"Vàng Summer Yellow + nóc trắng":3000000,"Xanh Tropical Jade":8000000,"Hồng Rose Metallic":8000000,"Hồng Rose Metallic + nóc trắng":11000000,"Hồng Rose Metallic + nóc xanh GSM":11000000,"Xanh Tropical Jade + nóc trắng":11000000,"Xanh Tropical Jade + nóc vàng":11000000,"Đỏ Crimson Red + nóc trắng":3000000},
-      "colorNote": "Khách đã cọc Minio Green màu vàng trước 06/05/2026 được miễn phí khi đổi sang màu khác bất kỳ.",
-      "specsSource": "https://vinfastauto.com/vn_vi/cau-hoi-thuong-gap/cau-hoi-xe-o-to/san-pham/minio-green",
-      "specs": {"seats":"4 chỗ","range":"210 km","power":"40 HP","torque":"65 Nm","battery":"18,3 kWh","dimensions":"3.090 × 1.496 × 1.663 mm","wheelbase":"2.065 mm","clearance":"166 mm","trunk":"47 / 542 lít","topSpeed":"80 km/h","driveModes":"Eco / Normal","dcCharge":"24 kW","brakes":"Đĩa / Tang trống","wheels":"Mâm thép 13 inch","suspension":"MacPherson / MacPherson","lights":"LED / Halogen","screen":"7 inch","speakers":"2","airbags":"1"}
-    },
     {
       "slug": "vf-2", "name": "VF 2", "segment": "Mini SUV", "use": "Đô thị", "category": "city", "categoryOrder": 1, "displayOrder": 2, "featured": false, "price": 188000000, "image": "public/cars/vf2-new.jpg", "imageSource": "https://vinfastauto.com/vn_vi/vinfast-ra-mat-vf-2-xe-do-thi-co-nho-gia-188-trieu-dong", "tagline": "Mẫu xe điện dễ tiếp cận cho nhịp sống trẻ.",
       "versions": [{"name":"Tiêu chuẩn 3","price":188000000}], "colors": ["Trắng Infinity Blanc", "Đỏ Solar Ruby", "Bạc Desat Silver", "Xanh Urban Mint", "Vàng Summer Yellow", "Xanh Sky Blue", "Hồng Rose Pink", "Be Pebble Beige"],
@@ -32,11 +23,6 @@
       "colorPrices": {"Trắng Infinity Blanc":0,"Xám Zenith Grey":0,"Đỏ Solar Ruby":0,"Vàng Summer Yellow + nóc trắng":8000000,"Xanh Sky Blue + nóc trắng":8000000,"Hồng Rose Pink + nóc trắng":8000000,"Xanh Urban Mint":8000000},
       "specsSource": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf19bf2a1/Document/VF3_Brochure_RGB_T42025.pdf",
       "specs": {"seats":"4 chỗ","range":"215 km","power":"41 HP","torque":"110 Nm","battery":"18,64 kWh","dimensions":"3.190 × 1.679 × 1.652 mm","wheelbase":"2.075 mm","clearance":"175 mm","trunk":"36 / 285 lít","topSpeed":"100 km/h","driveModes":"Eco / Normal","dcCharge":"Sạc 10–70% trong 36 phút","homeCharger":"Cầm tay 2,2 kW: 4 triệu / Cầm tay OBC: 6 triệu đồng","connectivity":"Android Auto / Apple CarPlay: có trên Tiêu chuẩn 2, không có trên Tiêu chuẩn 1","versionEquipment":"Plus Tiêu chuẩn 2 có thêm ốp la-zăng, gương chỉnh/gập điện và camera lùi","brakes":"Đĩa / Tang trống","wheels":"Mâm thép 16 inch","suspension":"MacPherson / Trục cứng, thanh xoắn Panhard","lights":"Halogen / Halogen","screen":"10 inch","speakers":"2","airbags":"1"}
-    },
-    {
-      "slug": "herio-green", "name": "Herio Green", "segment": "Crossover", "use": "Dịch vụ", "category": "service", "categoryOrder": 4, "displayOrder": 1, "featured": true, "price": 450000000, "image": "public/cars/vf5.jpg", "tagline": "Tối ưu vận hành cho kinh doanh dịch vụ xanh.",
-      "versions": [{"name":"Tiêu chuẩn 2","price":450000000},{"name":"Tiêu chuẩn 1","price":469000000}], "colors": ["Đen Jet Black", "Bạc Desat Silver", "Đỏ Solar Ruby", "Trắng Infinity Blanc"],
-      "specs": {"seats":"5 chỗ","range":"326 km","power":"134 HP","torque":"135 Nm","battery":"37,23 kWh","dimensions":"3.967 × 1.723 × 1.579 mm","wheelbase":"2.514 mm","clearance":"160 mm","trunk":"260 / 900 lít","topSpeed":"130 km/h","driveModes":"Eco / Sport","dcCharge":"50 kW","upholstery":"Da (Tiêu chuẩn 1) / Nỉ (Tiêu chuẩn 2)","frontSeatAdjustment":"6 hướng (Tiêu chuẩn 1) / 4 hướng (Tiêu chuẩn 2)","mirrors":"Chỉnh điện (Tiêu chuẩn 1) / Chỉnh cơ (Tiêu chuẩn 2)","parkingSupport":"Tiêu chuẩn 1 có cảm biến đỗ xe sau","versionEquipment":"Tiêu chuẩn 1 có cruise control, túi khí hành khách trước, sưởi kính sau và các tiện ích bổ sung","brakes":"Đĩa thông gió / Đĩa","wheels":"Mâm thép 16 inch","suspension":"MacPherson / Thanh xoắn","lights":"Halogen / Halogen","screen":"8 inch (Tiêu chuẩn 1) / 10 inch (Tiêu chuẩn 2)","speakers":"2","airbags":"1 / 2 tùy phiên bản"}
     },
     {
       "slug": "vf-5", "name": "VF 5", "segment": "A-SUV", "use": "Gia đình", "category": "family", "categoryOrder": 2, "displayOrder": 1, "featured": true, "price": 496000000, "image": "public/cars/vf5.jpg", "tagline": "SUV điện năng động cho gia đình trẻ.",
