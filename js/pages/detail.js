@@ -42,40 +42,55 @@ const fuelSavingSection = car => `
       <p>Ước tính chi phí năng lượng của ${car.name} so với một xe động cơ đốt trong có cùng nhu cầu di chuyển.</p>
     </div>
     <div class="fuel-calculator">
-      <form class="fuel-form" id="fuel-form">
-        <label><span>Quãng đường mỗi tháng</span><div><input id="monthly-distance" type="number" min="1" step="100" value="3000" inputmode="numeric"><b>km</b></div></label>
-        <fieldset><legend>Loại nhiên liệu so sánh</legend><div class="fuel-toggle"><label><input type="radio" name="fuel" value="gasoline" checked><span>Xăng</span></label><label><input type="radio" name="fuel" value="diesel"><span>Dầu</span></label></div></fieldset>
-        <label><span>Mức tiêu thụ nhiên liệu / 100 km</span><div><input id="fuel-consumption" type="number" min="0.1" step="0.1" value="8" inputmode="decimal"><b>lít</b></div></label>
-        <div class="free-charge-note"><i>✓</i><p><strong>Miễn phí sạc V-Green</strong><small>Áp dụng trong thời gian chính sách đến 10/02/2029.</small></p></div>
+      <form class="fuel-form" id="fuel-form" data-battery="${car.specs.battery || ""}" data-range="${car.specs.range || ""}">
+        <div class="fuel-form-intro"><span>Thiết lập hành trình</span><b>3 thông tin để bắt đầu</b></div>
+        <label><span>Quãng đường mỗi tháng</span><div><input id="monthly-distance" type="number" min="1" step="100" placeholder="Nhập số km" inputmode="numeric"><b>km</b></div></label>
+        <fieldset><legend>Loại nhiên liệu so sánh</legend><div class="fuel-toggle"><label><input type="radio" name="fuel" value="gasoline"><span><i>⛽</i><b>Xăng</b><small>22.320 đ/lít</small><em>✓</em></span></label><label><input type="radio" name="fuel" value="diesel"><span><i>D</i><b>Dầu diesel</b><small>29.640 đ/lít</small><em>✓</em></span></label></div></fieldset>
+        <label><span>Mức tiêu thụ nhiên liệu / 100 km</span><div><input id="fuel-consumption" type="number" min="0.1" step="0.1" placeholder="Nhập số lít" inputmode="decimal"><b>lít</b></div></label>
+        <label class="free-charge-note"><span class="charge-copy"><strong>Miễn phí sạc V-Green</strong><small>Tắt để tính theo giá sạc 3.858 đ/kWh.</small></span><input id="free-charge" type="checkbox" checked><i aria-hidden="true"></i></label>
       </form>
       <div class="fuel-results" aria-live="polite">
-        <div class="fuel-result-main"><span>Lợi thế chi phí năng lượng của ${car.name}</span><strong id="saving-month">0 ₫</strong><small>Tiết kiệm ước tính mỗi tháng</small></div>
+        <div class="fuel-empty" id="fuel-empty"><i>↗</i><strong>Nhập thông tin để xem mức tiết kiệm</strong><span>Kết quả sẽ được cập nhật ngay khi đủ 3 thông tin.</span></div>
+        <div class="fuel-result-content" id="fuel-result-content" hidden><div class="fuel-result-main"><span>Lợi thế chi phí năng lượng của ${car.name}</span><strong id="saving-month">—</strong><small>Tiết kiệm ước tính mỗi tháng</small></div>
         <div class="fuel-result-grid">
-          <article><span>Xe xăng/dầu mỗi tháng</span><b id="combustion-month">0 ₫</b></article>
-          <article><span>${car.name} mỗi tháng</span><b>0 ₫</b><small>Trong thời gian miễn phí sạc</small></article>
-          <article><span>Tiết kiệm mỗi năm</span><b id="saving-year">0 ₫</b></article>
-          <article><span>Tiết kiệm tới 10/02/2029</span><b id="saving-total">0 ₫</b></article>
-        </div>
+          <article><span>Xe xăng/dầu mỗi tháng</span><b id="combustion-month">—</b></article>
+          <article><span>${car.name} mỗi tháng</span><b id="electric-month">—</b><small id="electric-note">Trong thời gian miễn phí sạc</small></article>
+          <article><span>Tiết kiệm mỗi năm</span><b id="saving-year">—</b></article>
+          <article><span>Tiết kiệm tới 10/02/2029</span><b id="saving-total">—</b></article>
+        </div></div>
       </div>
     </div>
-    <p class="fuel-disclaimer">Giá tham chiếu từ VinFast ngày 06/08/2026: xăng E10 RON 95-III Vùng I 22.320 đ/lít; dầu diesel 0,001S-V Vùng I 29.640 đ/lít. Kết quả chỉ mang tính ước tính và thay đổi theo quãng đường, mức tiêu hao, giá nhiên liệu và chính sách sạc.</p>
+    <p class="fuel-disclaimer">Giá tham chiếu: xăng E10 RON 95-III 22.320 đ/lít, dầu diesel 29.640 đ/lít (VinFast cập nhật ngày 06/08/2026) và sạc công cộng 3.858 đ/kWh. Kết quả chỉ mang tính ước tính và thay đổi theo quãng đường, mức tiêu hao, giá năng lượng và chính sách sạc.</p>
   </section>`;
 
 const initFuelCalculator = () => {
   const form = document.querySelector("#fuel-form");
   if (!form) return;
   const format = value => `${Math.round(value).toLocaleString("vi-VN")} ₫`;
+  const firstNumber = value => Number(String(value).replace(",", ".").match(/[\d.]+/)?.[0] || 0);
+  const battery = firstNumber(form.dataset.battery);
+  const range = firstNumber(form.dataset.range);
   const monthsUntilFreeChargeEnds = Math.max(0, (new Date("2029-02-10") - new Date()) / (1000 * 60 * 60 * 24 * 30.4375));
   const update = () => {
     const distance = Math.max(0, Number(document.querySelector("#monthly-distance").value) || 0);
     const consumption = Math.max(0, Number(document.querySelector("#fuel-consumption").value) || 0);
-    const fuel = form.querySelector('[name="fuel"]:checked').value;
+    const selectedFuel = form.querySelector('[name="fuel"]:checked');
+    const ready = distance > 0 && consumption > 0 && selectedFuel;
+    document.querySelector("#fuel-empty").hidden = Boolean(ready);
+    document.querySelector("#fuel-result-content").hidden = !ready;
+    if (!ready) return;
+    const fuel = selectedFuel.value;
     const fuelPrice = fuel === "diesel" ? 29640 : 22320;
-    const monthlyCost = distance / 100 * consumption * fuelPrice;
-    document.querySelector("#combustion-month").textContent = format(monthlyCost);
-    document.querySelector("#saving-month").textContent = format(monthlyCost);
-    document.querySelector("#saving-year").textContent = format(monthlyCost * 12);
-    document.querySelector("#saving-total").textContent = format(monthlyCost * monthsUntilFreeChargeEnds);
+    const combustionCost = distance / 100 * consumption * fuelPrice;
+    const freeCharge = document.querySelector("#free-charge").checked;
+    const electricCost = freeCharge || !range ? 0 : distance * battery / range * 3858;
+    const saving = combustionCost - electricCost;
+    document.querySelector("#combustion-month").textContent = format(combustionCost);
+    document.querySelector("#electric-month").textContent = format(electricCost);
+    document.querySelector("#electric-note").textContent = freeCharge ? "Trong thời gian miễn phí sạc" : `Ước tính ${battery && range ? (battery / range * 100).toFixed(1).replace(".", ",") : "—"} kWh/100 km`;
+    document.querySelector("#saving-month").textContent = format(saving);
+    document.querySelector("#saving-year").textContent = format(saving * 12);
+    document.querySelector("#saving-total").textContent = format(saving * monthsUntilFreeChargeEnds);
   };
   form.addEventListener("input", update);
   update();
