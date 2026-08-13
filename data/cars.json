@@ -1,5 +1,5 @@
 {
-  "updated": "10/08/2026",
+  "updated": "12/08/2026",
   "colorsUpdated": "10/08/2026",
   "colorsSource": "https://shop.vinfastauto.com/vn_vi/dat-coc-o-to-dien-vinfast.html",
   "policyUpdated": "01/08/2026",
@@ -15,7 +15,8 @@
       "slug": "vf-2", "name": "VF 2", "segment": "Mini SUV", "use": "Đô thị", "category": "city", "categoryOrder": 1, "displayOrder": 2, "featured": false, "price": 188000000, "image": "public/cars/vf2-new.jpg", "imageSource": "https://vinfastauto.com/vn_vi/vinfast-ra-mat-vf-2-xe-do-thi-co-nho-gia-188-trieu-dong", "tagline": "Mẫu xe điện dễ tiếp cận cho nhịp sống trẻ.",
       "versions": [{"name":"Tiêu chuẩn 3","price":188000000}], "colors": ["Trắng Infinity Blanc", "Đỏ Solar Ruby", "Bạc Desat Silver", "Xanh Urban Mint", "Vàng Summer Yellow", "Xanh Sky Blue", "Hồng Rose Pink", "Be Pebble Beige"],
       "specsSource": "https://static-cms-prod.vinfastauto.com/brochure_vf_2.pdf",
-      "specs": {"seats":"4 chỗ","range":"210 km","power":"40 HP","torque":"65 Nm","battery":"18,3 kWh","dimensions":"3.090 × 1.496 × 1.663 mm","wheelbase":"2.065 mm","clearance":"166 mm","trunk":null,"topSpeed":"80 km/h","driveModes":"Eco / Normal","dcCharge":"24 kW","brakes":"Đĩa / Tang trống","wheels":"13 inch","suspension":"MacPherson / MacPherson","lights":"LED / Halogen","screen":"7 inch","speakers":"2","airbags":"1"}
+      "specsNote": "Dung tích khoang hành lý tham chiếu từ dữ liệu Minio Green theo yêu cầu.",
+      "specs": {"seats":"4 chỗ","range":"210 km","power":"40 HP","torque":"65 Nm","battery":"18,3 kWh","dimensions":"3.090 × 1.496 × 1.663 mm","wheelbase":"2.065 mm","clearance":"166 mm","trunk":"47 / 542 lít","topSpeed":"80 km/h","driveModes":"Eco / Normal","dcCharge":"24 kW","brakes":"Đĩa / Tang trống","wheels":"13 inch","suspension":"MacPherson / MacPherson","lights":"LED / Halogen","screen":"7 inch","speakers":"2","airbags":"1"}
     },
     {
       "slug": "vf-3", "name": "VF 3", "segment": "Mini SUV", "use": "Đô thị", "category": "city", "categoryOrder": 1, "displayOrder": 3, "featured": false, "price": 278000000, "image": "public/cars/vf3.jpg", "tagline": "Cá tính, gọn gàng và sẵn sàng khám phá thành phố.",
@@ -61,13 +62,14 @@
       "versions": [{"name":"Tiêu chuẩn 3","price":899000000}], "colors": ["Trắng Infinity Blanc", "Xanh Starburst Blue", "Đỏ Solar Ruby", "Đen Jet Black", "Đỏ Solar Ruby + nóc đen", "Cam Vitality + nóc đen", "Xanh Starburst + nóc trắng", "Tím Mysterioso + nóc bạc", "Đen Jet Black + nóc bạc", "Cam Vitality + nóc trắng", "Cam Vitality", "Tím Mysterioso"],
       "colorPrices": {"Trắng Infinity Blanc":0,"Xanh Starburst Blue":0,"Đỏ Solar Ruby":0,"Đen Jet Black":0,"Đỏ Solar Ruby + nóc đen":12000000,"Cam Vitality + nóc đen":12000000,"Xanh Starburst + nóc trắng":12000000,"Tím Mysterioso + nóc bạc":12000000,"Đen Jet Black + nóc bạc":12000000,"Cam Vitality + nóc trắng":12000000,"Cam Vitality":12000000,"Tím Mysterioso":12000000},
       "specsSource": "https://vinfastauto.com/vn_vi/dat-coc-xe-vf8-the-all-new-2026",
-      "specs": {"seats":"5 chỗ","range":"480 - 500 km","power":"228 HP","torque":"330 Nm","battery":"60,13 kWh","dimensions":"4.701 × 1.872 × 1.670 mm","wheelbase":"2.840 mm","clearance":"170 mm","trunk":">600 / 1.600 lít","topSpeed":"160 km/h","driveModes":"Eco / Normal / Sport","dcCharge":"Sạc 10–70% dưới 30 phút","brakes":"Đĩa thông gió / Đĩa","wheels":"19 inch","suspension":"MacPherson / Đa điểm thích ứng FSD","lights":"LED","screen":"12,9 inch","speakers":"8","airbags":null}
+      "specs": {"seats":"5 chỗ","range":"480 - 500 km","power":"228 HP","torque":"330 Nm","battery":"60,13 kWh","dimensions":"4.701 × 1.872 × 1.670 mm","wheelbase":"2.840 mm","clearance":"170 mm","trunk":">600 / 1.600 lít","topSpeed":"160 km/h","driveModes":"Eco / Normal / Sport","dcCharge":"Sạc 10–70% dưới 30 phút","brakes":"Đĩa thông gió / Đĩa","wheels":"19 inch","suspension":"MacPherson / Đa điểm thích ứng FSD","lights":"LED","screen":"12,9 inch","speakers":"8","airbags":"VinFast chưa công bố"}
     },
     {
       "slug": "vf-9", "name": "VF 9", "segment": "E-SUV", "use": "Cao cấp", "category": "premium", "categoryOrder": 3, "displayOrder": 3, "featured": false, "price": 1348000000, "image": "public/cars/vf9.jpg", "tagline": "SUV điện cỡ lớn cho hành trình đẳng cấp.",
       "versions": [{"name":"Eco - Tiêu chuẩn 1","price":1348000000},{"name":"Plus trần thép - Tiêu chuẩn 1","price":1529000000}], "colors": ["Trắng Infinity Blanc", "Đen Jet Black", "Xám Zenith Grey", "Đỏ Crimson Red", "Xanh Urban Mint", "Xanh Ivy Green", "Bạc Desat Silver"],
       "colorPrices": {"Trắng Infinity Blanc":0,"Đen Jet Black":0,"Xám Zenith Grey":0,"Đỏ Crimson Red":0,"Xanh Urban Mint":0,"Xanh Ivy Green":12000000,"Bạc Desat Silver":12000000},
-      "specs": {"seats":"6 / 7 chỗ","range":"602 - 626 km","power":"402 HP","torque":"620 Nm","battery":"123 kWh","dimensions":"5.119 × 2.004 × 1.691 mm","wheelbase":"3.149 mm","clearance":"174 / 184 mm","trunk":"212 / 926 lít","topSpeed":"200 km/h","driveModes":"Eco / Normal / Sport","dcCharge":null,"batteryType":"CATL","homeCharger":"Bộ sạc AC 11 kW (tùy chọn 12 triệu đồng)","paidOptions":"Plus: cấu hình 6 ghế cơ trưởng 32 triệu đồng","brakes":"Đĩa thông gió / Đĩa thông gió","wheels":"20 / 21 inch","suspension":"MacPherson / Đa điểm khí nén","lights":"LED matrix","screen":"15,6 inch","speakers":"11 / 13","airbags":"11"}
+      "specsSource": "https://vinfastauto.com/vn_vi/vinfast-ban-giao-lo-xe-vf-9-dau-tien-vao-ngay-2732023",
+      "specs": {"seats":"6 / 7 chỗ","range":"602 - 626 km","power":"402 HP","torque":"620 Nm","battery":"123 kWh","dimensions":"5.119 × 2.004 × 1.691 mm","wheelbase":"3.149 mm","clearance":"174 / 184 mm","trunk":"212 / 926 lít","topSpeed":"200 km/h","driveModes":"Eco / Normal / Sport","dcCharge":"Sạc 10–70% trong 26 phút","batteryType":"CATL","homeCharger":"Bộ sạc AC 11 kW (tùy chọn 12 triệu đồng)","paidOptions":"Plus: cấu hình 6 ghế cơ trưởng 32 triệu đồng","brakes":"Đĩa thông gió / Đĩa thông gió","wheels":"20 / 21 inch","suspension":"MacPherson / Đa điểm khí nén","lights":"LED matrix","screen":"15,6 inch","speakers":"11 / 13","airbags":"11"}
     },
     {
       "slug": "limo-green", "name": "Limo Green", "segment": "MPV", "use": "Dịch vụ", "category": "service", "categoryOrder": 4, "displayOrder": 2, "featured": false, "price": 699000000, "image": "public/cars/limo-green.jpg", "tagline": "Không gian rộng rãi, tối ưu cho dịch vụ chuyên nghiệp.",
@@ -79,14 +81,14 @@
       "versions": [{"name":"Tiêu chuẩn 2","price":750000000}], "colors": ["Trắng Infinity Blanc", "Đen Jet Black", "Xám Zenith Grey", "Đỏ Solar Ruby", "Xanh Moonlit Ocean", "Nâu Introspective Brown"],
       "colorPrices": {"Trắng Infinity Blanc":0,"Đen Jet Black":0,"Xám Zenith Grey":0,"Đỏ Solar Ruby":0,"Xanh Moonlit Ocean":10000000,"Nâu Introspective Brown":10000000},
       "colorNote": "Xe thuộc chương trình cọc tiên phong VF MPV 7 được miễn phí màu nâng cao.",
-      "specsSource": "https://static-cms-prod.vinfastauto.com/brochure/VF_MPV%207_Brochure_2026.02.03.pdf",
-      "specs": {"seats":"7 chỗ","range":"450 km","power":"201 HP","torque":"280 Nm","battery":"60,13 kWh","dimensions":"4.740 × 1.872 × 1.734 mm","wheelbase":"2.840 mm","clearance":"185 mm","trunk":null,"topSpeed":null,"driveModes":"Eco / Normal / Sport","dcCharge":"80 kW","brakes":"Đĩa thông gió / Đĩa","wheels":"19 inch","suspension":"MacPherson / Đa liên kết","lights":"LED","screen":"10,1 inch","speakers":"4","airbags":"4"}
+      "specsSource": "https://vinfastauto.com/vn_vi/vinfast-chinh-thuc-ra-mat-vf-mpv-7-xe-dien-7-cho-cho-gia-dinh-viet",
+      "specs": {"seats":"7 chỗ","range":"450 km","power":"201 HP","torque":"280 Nm","battery":"60,13 kWh","dimensions":"4.740 × 1.872 × 1.734 mm","wheelbase":"2.840 mm","clearance":"185 mm","trunk":"Tối đa 1.240 lít","topSpeed":"VinFast chưa công bố","driveModes":"Eco / Normal / Sport","dcCharge":"80 kW; sạc 10–70% trong 30 phút","brakes":"Đĩa thông gió / Đĩa","wheels":"19 inch","suspension":"MacPherson / Đa liên kết","lights":"LED","screen":"10,1 inch","speakers":"4","airbags":"4"}
     },
     {
       "slug": "ec-van", "name": "EC Van", "segment": "Xe thương mại", "use": "Vận tải", "category": "commercial", "categoryOrder": 5, "displayOrder": 1, "featured": true, "price": 268000000, "image": "public/cars/ec-van.jpg", "tagline": "Giải pháp vận tải điện gọn nhẹ và tiết kiệm.",
       "versions": [{"name":"Tiêu chuẩn - cấp Tiêu chuẩn 1","price":268000000},{"name":"Nâng cao - cấp Tiêu chuẩn 1","price":286000000},{"name":"Nâng cao + cửa trượt - cấp Tiêu chuẩn 1","price":306000000}], "colors": ["Xanh Urban Mint", "Đỏ Solar Ruby", "Vàng Summer Yellow", "Trắng Infinity Blanc"],
       "specsSource": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe181c64f/Document/ECVan_Brochure.pdf",
-      "specs": {"seats":"2 chỗ","range":"150 km","power":"40 HP","torque":"110 Nm","battery":"17 kWh","dimensions":"3.767 × 1.680 × 1.790 mm","wheelbase":"2.520 mm","clearance":"165 mm","trunk":"2.600 lít","topSpeed":"75 km/h","driveModes":null,"dcCharge":"19,4 kW","brakes":"Đĩa / Tang trống","wheels":"14 inch","suspension":"MacPherson / Nhíp lá","lights":"Halogen / Halogen","screen":null,"speakers":"Radio / Bluetooth / USB","airbags":null}
+      "specs": {"seats":"2 chỗ","range":"150 km","power":"40 HP","torque":"110 Nm","battery":"17 kWh","dimensions":"3.767 × 1.680 × 1.790 mm","wheelbase":"2.520 mm","clearance":"165 mm","trunk":"2.600 lít","topSpeed":"75 km/h","driveModes":"VinFast chưa công bố","dcCharge":"19,4 kW","brakes":"Đĩa / Tang trống","wheels":"14 inch","suspension":"MacPherson / Nhíp lá","lights":"Halogen / Halogen","screen":"Không trang bị màn hình trung tâm; Radio / Bluetooth / USB","speakers":"Radio / Bluetooth / USB","airbags":"VinFast chưa công bố"}
     }
   ]
 }
