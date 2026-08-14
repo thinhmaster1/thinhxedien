@@ -1,0 +1,30 @@
+{
+  "updated": "14/08/2026",
+  "vinclub": {
+    "label": "ƯU ĐÃI VINCLUB ĐẶC BIỆT",
+    "title": "Quyền lợi thành viên được nhân ba.",
+    "period": "01/08–31/10/2026",
+    "condition": "Áp dụng cho xe xuất hóa đơn trong thời gian chương trình.",
+    "tiers": [
+      {"name":"CHƯA CÓ HẠNG / GOLD","total":"3%","discount":"Giảm trực tiếp 1,5%","points":"Tích điểm chi tiêu 1,5%"},
+      {"name":"PLATINUM","total":"6%","discount":"Giảm trực tiếp 3%","points":"Tích điểm chi tiêu 3%","featured":true},
+      {"name":"DIAMOND","total":"9%","discount":"Giảm trực tiếp 4,5%","points":"Tích điểm chi tiêu 4,5%"}
+    ],
+    "note": "Khách đã có hạng nhận 3 lần quyền lợi tương ứng với hạng hiện tại. Khách chưa có hạng được áp dụng quyền lợi tương đương Gold. Tổng quyền lợi gồm phần giảm trực tiếp và phần tích điểm; điểm thưởng không phải số tiền trừ ngay vào giá xe. Mức ưu đãi có thể được VinFast điều chỉnh theo từng thời kỳ."
+  },
+  "active": [
+    {"period":"ĐẾN 31/08/2026","model":"Limo Green","benefit":"Giảm 35 triệu đồng/xe","description":"Áp dụng theo ngày xuất hóa đơn.","highlight":true},
+    {"period":"ĐẾN 31/08/2026","model":"VF MPV 7","benefit":"Giảm 20 triệu đồng/xe","description":"Áp dụng theo ngày xuất hóa đơn.","highlight":true},
+    {"period":"TỪ 04/08/2026 · ĐẾN KHI CÓ THÔNG BÁO MỚI","model":"VF MPV 7","benefit":"Tặng camera 360","description":"Tặng kèm toàn bộ công lắp đặt camera.","highlight":true},
+    {"period":"ĐẾN KHI CÓ THÔNG BÁO MỚI","model":"VF 3 Eco/Plus","benefit":"Miễn phí màu sơn nâng cao","description":"Dành cho xe VIN 2025 trở về trước."},
+    {"period":"ĐẾN KHI CÓ THÔNG BÁO KHÁC","model":"EC Van Tiêu chuẩn","benefit":"Giảm 20 triệu đồng/xe","description":"Áp dụng theo ngày xuất hóa đơn."},
+    {"period":"ĐẾN 31/12/2026","model":"Chủ xe xăng VinFast đổi xanh","benefit":"30–80 triệu đồng","description":"Fadil 30 triệu, Lux A 60 triệu, Lux SA 80 triệu. Mỗi xe điện mới dùng tối đa một voucher."},
+    {"period":"ĐẾN KHI CÓ THÔNG BÁO MỚI","model":"Xe công vụ","benefit":"Chiết khấu 5%","description":"Tính trên giá sau khuyến mãi, áp dụng qua kênh O2O và đại lý."},
+    {"period":"ĐẾN 31/12/2026","model":"Công an & Quân đội","benefit":"Giảm 5% MSRP gồm VAT","description":"Dành cho người đang công tác chính thức và người thân đủ điều kiện; không cộng gộp với một số chính sách khác."},
+    {"period":"ĐẾN 31/12/2026","model":"CBNV & CBLĐ VNPost","benefit":"Giảm 3% hoặc 5% MSRP","description":"CBNV giảm 3%; cán bộ lãnh đạo giảm 5%. Áp dụng cho người lao động và người thân đủ điều kiện."}
+  ],
+  "legacy": [
+    {"name":"Tiên phong VF 2","description":"Ưu đãi 8 triệu đồng. Cọc khách lẻ còn hiệu lực đến 28/02/2027; cọc sỉ đại lý đến 30/04/2027."},
+    {"name":"VF 8 Thế hệ mới","description":"Ưu đãi 51 triệu đồng. Cọc lẻ còn hiệu lực đến 31/12/2026; cọc sỉ đại lý đến 31/01/2027."}
+  ]
+}
