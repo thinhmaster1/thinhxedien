@@ -1,5 +1,11 @@
 import { display, esc, fail, loadCars, money, param, specGroups } from "../core.js";
-import { CarSelector, CompareValue, Footer, Header, MissingNote } from "../components.js";
+import { applySeo, CarSelector, CompareValue, Footer, Header, MissingNote } from "../components.js";
+
+applySeo({
+  title: "So sánh xe VinFast 2026 | Giá & thông số",
+  description: "So sánh tối đa 3 xe VinFast theo giá từng phiên bản, quãng đường, pin, công suất và thông số kỹ thuật.",
+  canonical: "https://thinhxedien.com/compare.html"
+});
 
 document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();

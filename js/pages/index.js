@@ -1,5 +1,11 @@
 import { categories, fail, loadCars } from "../core.js";
-import { CategorySection, Footer, Header } from "../components.js";
+import { applySeo, CategorySection, Footer, Header } from "../components.js";
+
+applySeo({
+  title: "Thịnh Xe Điện | Giá xe VinFast & khuyến mãi 2026",
+  description: "Xem các dòng xe điện VinFast, giá theo phiên bản, khuyến mãi và nhận tư vấn tại Thủ Dầu Một, Bình Dương qua 0352 978 519.",
+  canonical: "https://thinhxedien.com/index.html"
+});
 
 document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();

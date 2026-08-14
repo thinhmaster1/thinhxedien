@@ -1,5 +1,14 @@
 import { esc, fail, loadCars, money } from "../core.js";
-import { Footer, Header } from "../components.js";
+import { applySeo, Footer, Header } from "../components.js";
+
+applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhxedien.com/quote.html" });
+let robotsMeta = document.head.querySelector('meta[name="robots"]');
+if (!robotsMeta) {
+  robotsMeta = document.createElement("meta");
+  robotsMeta.name = "robots";
+  document.head.appendChild(robotsMeta);
+}
+robotsMeta.content = "noindex,nofollow";
 
 document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();

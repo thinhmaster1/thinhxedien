@@ -1,5 +1,11 @@
 import { esc, fail, money, UPDATING } from "../core.js";
-import { Footer, Header } from "../components.js";
+import { applySeo, Footer, Header } from "../components.js";
+
+applySeo({
+  title: "Bảng giá xe VinFast 2026 | Tất cả phiên bản",
+  description: "Bảng giá các dòng xe điện VinFast và từng phiên bản, kèm quãng đường và số chỗ. Tư vấn tại Bình Dương: 0352 978 519.",
+  canonical: "https://thinhxedien.com/data.html"
+});
 
 document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();

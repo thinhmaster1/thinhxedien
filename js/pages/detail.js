@@ -1,5 +1,5 @@
 import { fail, loadCars, money, param, specGroups } from "../core.js";
-import { Footer, Header, MetricCard, SpecAccordion, VehicleCard } from "../components.js";
+import { applySeo, Footer, Header, MetricCard, SpecAccordion, VehicleCard } from "../components.js";
 
 document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();
@@ -100,7 +100,13 @@ loadCars().then(cars => {
   const car = cars.find(item => item.slug === param("xe")) || cars[0];
   const related = cars.filter(item => item.slug !== car.slug && (item.category === car.category || item.use === car.use)).slice(0,3);
   const detailImage = car.detailImage || car.image;
-  document.title = `${car.name} — Thịnh Xe Điện`;
+  const seoTitle = `Giá VinFast ${car.name} tại Bình Dương 2026 | Thịnh Xe Điện`;
+  const seoDescription = `Xem giá, phiên bản, màu sắc và thông số VinFast ${car.name} tại Thủ Dầu Một, Bình Dương. Nhận tư vấn và báo giá qua 0352 978 519.`;
+  applySeo({ title: seoTitle, description: seoDescription, canonical: `https://thinhxedien.com/detail.html?xe=${car.slug}`, image: `https://thinhxedien.com/${car.image}`, type: "product" });
+  const productSchema = document.createElement("script");
+  productSchema.type = "application/ld+json";
+  productSchema.textContent = JSON.stringify({"@context":"https://schema.org","@graph":[{"@type":"Product","name":`VinFast ${car.name}`,"image":[`https://thinhxedien.com/${car.image}`],"description":seoDescription,"brand":{"@type":"Brand","name":"VinFast"},"offers":{"@type":"AggregateOffer","priceCurrency":"VND","lowPrice":Math.min(...car.versions.map(version => version.price)),"highPrice":Math.max(...car.versions.map(version => version.price)),"offerCount":car.versions.length,"availability":"https://schema.org/InStock","url":`https://thinhxedien.com/detail.html?xe=${car.slug}`}}, {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Thịnh Xe Điện","item":"https://thinhxedien.com/index.html"},{"@type":"ListItem","position":2,"name":"Các dòng xe VinFast","item":"https://thinhxedien.com/index.html#models"},{"@type":"ListItem","position":3,"name":`VinFast ${car.name}`,"item":`https://thinhxedien.com/detail.html?xe=${car.slug}`}]}]});
+  document.head.appendChild(productSchema);
   document.querySelector("#detail-root").innerHTML = `
     <section class="product-intro"><div class="product-intro__copy"><span>${car.segment} · ${car.use}</span><h1>${car.name}</h1><p>${car.tagline}</p><strong>Giá từ ${money(car.price)}</strong><div class="hero-actions"><a class="blue-button" href="compare.html?xe=${car.slug}">So sánh xe</a><a href="#overview">Xem tổng quan <span>↓</span></a></div></div><div class="product-intro__visual is-thumbnail"><img src="${car.image}" alt="${car.name}"></div></section>
     <section class="metric-band" id="overview">${MetricCard("Quãng đường",car.specs.range,"Mỗi lần sạc")}${MetricCard("Công suất",car.specs.power,"Hiệu suất tối đa")}${MetricCard("Dung lượng pin",car.specs.battery,"Theo phiên bản")}${MetricCard("Số chỗ",car.specs.seats,"Không gian sử dụng")}</section>
