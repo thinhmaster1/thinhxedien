@@ -45,7 +45,8 @@
 .category-heading{margin-bottom:36px}
 .category-grid,.category-grid.single{grid-template-columns:repeat(3,1fr);gap:18px}
 .category-grid.single .vehicle-card{max-width:380px}
-.vehicle-card,.vehicle-card.is-featured{grid-column:auto;display:flex;grid-template-columns:none;min-height:420px;background:var(--soft);color:var(--black)}
+.vehicle-card,.vehicle-card.is-featured{grid-column:auto;display:flex;grid-template-columns:none;min-height:420px;background:var(--soft);color:var(--black);border:1px solid #dfe3e8;box-shadow:0 8px 28px #1d4d7a0a;overflow:hidden;transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
+.vehicle-card:hover,.vehicle-card.is-featured:hover{border-color:#b9cddd;box-shadow:0 16px 38px #1d4d7a14;transform:translateY(-2px)}
 .tone-soft .vehicle-card{background:#fff}
 .vehicle-card.is-featured{background:linear-gradient(145deg,#edf6ff,#f5f5f7)}
 .vehicle-card__copy,.vehicle-card.is-featured .vehicle-card__copy{padding:26px 26px 0}
@@ -53,7 +54,7 @@
 .vehicle-card p,.vehicle-card.is-featured p{font-size:14px;color:var(--gray);line-height:1.4}
 .vehicle-card.is-featured .vehicle-card__price span{color:var(--gray)}
 .vehicle-card__image,.vehicle-card.is-featured .vehicle-card__image{height:270px;margin-top:auto}
-.vehicle-card__image{display:flex;align-items:flex-end;justify-content:center;background:#fff}.tone-soft .vehicle-card__image{background:#fff}.vehicle-card__image img,.vehicle-card.is-featured .vehicle-card__image img{width:100%;height:100%;object-fit:contain;object-position:center bottom;transform:none}.vehicle-card:hover .vehicle-card__image img{transform:none}
+.vehicle-card__image{display:flex;align-items:flex-end;justify-content:center;background:linear-gradient(180deg,#fff0,#fff 28%);border-top:1px solid #edf0f3}.tone-soft .vehicle-card__image{background:linear-gradient(180deg,#fff0,#fff 28%)}.vehicle-card__image img,.vehicle-card.is-featured .vehicle-card__image img{width:100%;height:100%;object-fit:contain;object-position:center bottom;transform:none}.vehicle-card:hover .vehicle-card__image img{transform:none}
 .card-actions{margin-top:15px;gap:16px}
 .product-intro{padding-top:48px}
 .product-intro__visual{height:min(540px,58vw);margin-top:36px}
