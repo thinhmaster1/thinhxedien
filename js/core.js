@@ -18,6 +18,11 @@ export const categories = {
 
 export const formatNumber = input => new Intl.NumberFormat("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 1 }).format(Number(input));
 export const money = input => input == null ? UPDATING : `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(Math.ceil(Number(input)))} ₫`;
+export const moneyInputValue = input => Math.max(0, Number(String(input ?? "").replace(/[^\d]/g, "")) || 0);
+export const formatMoneyInput = input => {
+  const value = moneyInputValue(input.value);
+  input.value = value ? new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value) : "";
+};
 export const display = input => input || UPDATING;
 export const esc = input => String(input ?? "").replace(/[&<>'"]/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", '"':"&quot;" }[char]));
 export const param = name => new URLSearchParams(location.search).get(name);

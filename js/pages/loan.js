@@ -1,5 +1,5 @@
 import { applySeo, Footer, Header } from "../components.js";
-import { money } from "../core.js";
+import { formatMoneyInput, money, moneyInputValue } from "../core.js";
 import { setupPrivateAccess } from "../access.js";
 
 applySeo({
@@ -14,11 +14,13 @@ setupPrivateAccess({ gateId: "loan-gate", formId: "loan-gate-form", inputId: "lo
 
 const form = document.querySelector("#loan-form");
 const currency = value => money(value);
+const amountInput = document.querySelector("#loan-amount");
 const transferredAmount = Number(new URLSearchParams(location.search).get("amount"));
-if (Number.isFinite(transferredAmount) && transferredAmount > 0) document.querySelector("#loan-amount").value = String(Math.ceil(transferredAmount));
+if (Number.isFinite(transferredAmount) && transferredAmount > 0) amountInput.value = String(Math.ceil(transferredAmount));
+formatMoneyInput(amountInput);
 
 function calculate() {
-  const principal = Math.max(0, Number(document.querySelector("#loan-amount").value) || 0);
+  const principal = moneyInputValue(amountInput.value);
   const rateInput = document.querySelector("#loan-rate");
   const annualRate = Math.max(0, Number(rateInput.value) || 0);
   const years = Math.max(0, Number(document.querySelector("#loan-years").value) || 0);
@@ -51,5 +53,6 @@ function calculate() {
   document.querySelector("#loan-schedule-body").innerHTML = rows.join("");
 }
 
+amountInput.addEventListener("input", () => formatMoneyInput(amountInput));
 form.addEventListener("input", calculate);
 calculate();

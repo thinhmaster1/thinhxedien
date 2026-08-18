@@ -1,4 +1,4 @@
-import { esc, fail, loadCars, money } from "../core.js";
+import { esc, fail, formatMoneyInput, loadCars, money, moneyInputValue } from "../core.js";
 import { applySeo, Footer, Header } from "../components.js";
 import { setupPrivateAccess } from "../access.js";
 
@@ -26,7 +26,6 @@ const FEES = {
 const SALES_PHONE = "0352 978 519";
 const SALES_ADVISOR = "Bùi Đắc Thịnh";
 
-const numberValue = input => Math.max(0, Number(input) || 0);
 const feeRow = (label, value, note = "") => `<div><span>${esc(label)}${note ? `<small>${esc(note)}</small>` : ""}</span><b>${money(value)}</b></div>`;
 
 loadCars().then(cars => {
@@ -36,7 +35,7 @@ loadCars().then(cars => {
     <section class="quote-workspace"><form class="quote-form" id="quote-form">
       <div class="quote-form__heading"><span>THÔNG TIN BÁO GIÁ</span><h2>Lựa chọn của khách hàng</h2></div>
       <div class="customer-fields"><label><span>Tên khách hàng <small>Không bắt buộc</small></span><input id="customer-name" type="text" placeholder="Nhập tên khách hàng"></label><label><span>Số điện thoại <small>Không bắt buộc</small></span><input id="customer-phone" type="tel" placeholder="Nhập số điện thoại"></label></div>
-      <fieldset><legend>Xe và phiên bản</legend><div class="form-grid"><label><span>Dòng xe · xếp theo giá tăng dần</span><select id="car-select">${quoteCars.map(car => `<option value="${car.slug}">${esc(car.name)}</option>`).join("")}</select></label><label><span>Phiên bản</span><select id="version-select"></select></label></div><label><span>Màu ngoại thất</span><select id="color-select"></select></label><label><span>Giảm giá <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="number" min="0" step="1000000" inputmode="numeric" placeholder="0"><i>₫</i></div></label></fieldset>
+      <fieldset><legend>Xe và phiên bản</legend><div class="form-grid"><label><span>Dòng xe · xếp theo giá tăng dần</span><select id="car-select">${quoteCars.map(car => `<option value="${car.slug}">${esc(car.name)}</option>`).join("")}</select></label><label><span>Phiên bản</span><select id="version-select"></select></label></div><label><span>Màu ngoại thất</span><select id="color-select"></select></label><label><span>Giảm giá <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="text" inputmode="numeric" placeholder="0"><i>₫</i></div></label></fieldset>
       <fieldset><legend>Đăng ký và sử dụng</legend><div class="choice-group"><span>Khu vực đăng ký biển</span><div><label><input type="radio" name="registration" value="province" checked><b>Tỉnh</b><small>140.000 ₫</small></label><label><input type="radio" name="registration" value="city"><b>Thành phố</b><small>14.000.000 ₫</small></label></div></div><div class="choice-group"><span>Loại biển số</span><div><label><input type="radio" name="plate" value="white" checked><b>Biển trắng</b><small>Xe cá nhân</small></label><label><input type="radio" name="plate" value="yellow"><b>Biển vàng</b><small>Xe kinh doanh</small></label></div></div><label class="check-option"><input id="physical-cash" type="checkbox"><span><b>Thêm bảo hiểm vật chất cho thanh toán tiền mặt</b><small>Không bắt buộc khi mua tiền mặt. Phương án vay luôn bắt buộc.</small></span></label></fieldset>
     </form><aside class="quote-results" id="quote-results"></aside></section>`;
 
@@ -44,6 +43,7 @@ loadCars().then(cars => {
   const carSelect = document.querySelector("#car-select");
   const versionSelect = document.querySelector("#version-select");
   const colorSelect = document.querySelector("#color-select");
+  const discountInput = document.querySelector("#discount");
 
   const selectedCar = () => quoteCars.find(car => car.slug === carSelect.value) || quoteCars[0];
 
@@ -58,7 +58,7 @@ loadCars().then(cars => {
     const version = car.versions[Number(versionSelect.value) || 0];
     const color = colorSelect.value || car.colors[0];
     const listPrice = version.price;
-    const discount = Math.min(numberValue(document.querySelector("#discount").value), listPrice);
+    const discount = Math.min(moneyInputValue(discountInput.value), listPrice);
     const colorFee = car.colorPrices?.[color] || 0;
     const vehicleValue = Math.max(0, listPrice - discount + colorFee);
     const registrationType = form.elements.registration.value;
@@ -86,6 +86,7 @@ loadCars().then(cars => {
   }
 
   carSelect.addEventListener("change", () => { updateOptions(); calculate(); });
+  discountInput.addEventListener("input", () => formatMoneyInput(discountInput));
   form.addEventListener("input", calculate);
   form.addEventListener("change", calculate);
   updateOptions();
