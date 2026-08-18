@@ -1,5 +1,6 @@
 import { applySeo, Footer, Header } from "../components.js";
-import { formatNumber } from "../core.js";
+import { money } from "../core.js";
+import { setupPrivateAccess } from "../access.js";
 
 applySeo({
   title: "Tính lãi suất vay mua xe & dư nợ trả góp",
@@ -9,13 +10,17 @@ applySeo({
 
 document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();
+setupPrivateAccess({ gateId: "loan-gate", formId: "loan-gate-form", inputId: "loan-passcode", errorId: "loan-gate-error" });
 
 const form = document.querySelector("#loan-form");
-const currency = value => `${formatNumber(value)} ₫`;
+const currency = value => money(value);
+const transferredAmount = Number(new URLSearchParams(location.search).get("amount"));
+if (Number.isFinite(transferredAmount) && transferredAmount > 0) document.querySelector("#loan-amount").value = String(Math.ceil(transferredAmount));
 
 function calculate() {
   const principal = Math.max(0, Number(document.querySelector("#loan-amount").value) || 0);
-  const annualRate = Math.max(0, Number(document.querySelector("#loan-rate").value) || 0);
+  const rateInput = document.querySelector("#loan-rate");
+  const annualRate = Math.max(0, Number(rateInput.value) || 0);
   const years = Math.max(0, Number(document.querySelector("#loan-years").value) || 0);
   const months = Math.round(years * 12);
   const monthlyRate = annualRate / 100 / 12;
@@ -39,7 +44,7 @@ function calculate() {
   }
 
   document.querySelector("#monthly-payment").textContent = currency(fixedPayment);
-  document.querySelector("#loan-term-label").textContent = `${months} tháng · Lãi suất ${formatNumber(annualRate)}%/năm`;
+  document.querySelector("#loan-term-label").textContent = `${months} tháng · Lãi suất ${rateInput.value || "0"}%/năm`;
   document.querySelector("#total-interest").textContent = currency(totalInterest);
   document.querySelector("#total-payment").textContent = currency(totalPayment);
   document.querySelector("#principal-total").textContent = currency(principal);

@@ -4,13 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Công cụ tính khoản vay mua xe, tiền trả hàng tháng, tổng lãi và lịch dư nợ chi tiết.">
+  <meta name="robots" content="noindex,nofollow">
   <title>Tính lãi suất và trả góp — Thịnh Xe Điện</title>
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/refinements.css">
 </head>
-<body>
+<body class="quote-locked">
   <div id="header"></div>
   <main>
     <section class="loan-hero"><span>CÔNG CỤ TÀI CHÍNH</span><h1>Tính khoản vay.<br>Rõ từng tháng.</h1><p>Ước tính khoản trả đều hàng tháng, tiền lãi và dư nợ còn lại trong toàn bộ thời gian vay.</p></section>
@@ -18,7 +19,7 @@
       <form class="loan-form" id="loan-form">
         <div><span>THÔNG TIN KHOẢN VAY</span><h2>Nhập dữ liệu của bạn.</h2></div>
         <label><span>Số tiền vay</span><div><input id="loan-amount" type="number" min="1000000" step="1000000" value="500000000" required><b>₫</b></div></label>
-        <label><span>Lãi suất mỗi năm</span><div><input id="loan-rate" type="number" min="0" max="100" step="0.1" value="8.5" required><b>%</b></div></label>
+        <label><span>Lãi suất mỗi năm</span><div><input id="loan-rate" type="number" min="0" max="100" step="any" value="8.5" required><b>%</b></div></label>
         <label><span>Thời hạn vay</span><div><input id="loan-years" type="number" min="1" max="30" step="1" value="5" required><b>năm</b></div></label>
         <p>Lịch tính theo phương thức trả góp đều hàng tháng, lãi tính trên dư nợ thực tế còn lại.</p>
       </form>
@@ -31,6 +32,7 @@
     <section class="loan-schedule"><div class="loan-schedule__heading"><div><span>LỊCH THANH TOÁN</span><h2>Chi tiết từng tháng.</h2></div><p>Mỗi kỳ gồm phần gốc, phần lãi và dư nợ còn lại sau thanh toán.</p></div><div class="loan-table-wrap"><table class="loan-table"><thead><tr><th>Tháng</th><th>Dư nợ đầu kỳ</th><th>Tiền gốc</th><th>Tiền lãi</th><th>Thanh toán</th><th>Dư nợ còn lại</th></tr></thead><tbody id="loan-schedule-body"></tbody></table></div><p class="loan-note">Kết quả chỉ mang tính tham khảo. Số tiền thực tế có thể khác do ngày giải ngân, cách làm tròn, phí và chính sách của từng ngân hàng.</p></section>
   </main>
   <div id="footer"></div>
+  <section class="quote-gate" id="loan-gate" aria-labelledby="loan-gate-title"><form id="loan-gate-form"><span>TRUY CẬP RIÊNG TƯ</span><h1 id="loan-gate-title">Mở công cụ trả góp.</h1><p>Sử dụng cùng passcode với trang báo giá.</p><label for="loan-passcode">Passcode</label><div><input id="loan-passcode" name="passcode" type="password" autocomplete="current-password" required autofocus><button type="submit">Mở khóa</button></div><small id="loan-gate-error" role="alert" aria-live="polite"></small></form></section>
   <script type="module" src="js/pages/loan.js"></script>
 </body>
 </html>
