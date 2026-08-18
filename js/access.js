@@ -8,27 +8,6 @@ const digest = async value => {
   return [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, "0")).join("");
 };
 
-export function setupPrivateAccess({ gateId, formId, inputId, errorId }) {
-  const gate = document.querySelector(`#${gateId}`);
-  const form = document.querySelector(`#${formId}`);
-  const input = document.querySelector(`#${inputId}`);
-  const error = document.querySelector(`#${errorId}`);
-  const unlock = () => {
-    sessionStorage.setItem(ACCESS_KEY, "granted");
-    document.body.classList.remove("quote-locked");
-    gate.hidden = true;
-  };
-
-  if (sessionStorage.getItem(ACCESS_KEY) === "granted" || sessionStorage.getItem(LEGACY_ACCESS_KEY) === "granted") unlock();
-
-  form.addEventListener("submit", async event => {
-    event.preventDefault();
-    if (await digest(input.value) === ACCESS_HASH) {
-      unlock();
-      return;
-    }
-    error.textContent = "Passcode chưa đúng. Vui lòng thử lại.";
-    input.value = "";
-    input.focus();
-  });
-}
+export const hasPrivateAccess = () => sessionStorage.getItem(ACCESS_KEY) === "granted" || sessionStorage.getItem(LEGACY_ACCESS_KEY) === "granted";
+export const verifyPrivatePasscode = async value => await digest(value) === ACCESS_HASH;
+export const grantPrivateAccess = () => sessionStorage.setItem(ACCESS_KEY, "granted");

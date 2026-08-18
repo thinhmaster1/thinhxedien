@@ -1,6 +1,5 @@
 import { applySeo, Footer, Header } from "../components.js";
 import { formatMoneyInput, money, moneyInputValue } from "../core.js";
-import { setupPrivateAccess } from "../access.js";
 
 applySeo({
   title: "Tính lãi suất vay mua xe & dư nợ trả góp",
@@ -10,7 +9,6 @@ applySeo({
 
 document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();
-setupPrivateAccess({ gateId: "loan-gate", formId: "loan-gate-form", inputId: "loan-passcode", errorId: "loan-gate-error" });
 
 const form = document.querySelector("#loan-form");
 const currency = value => money(value);

@@ -12,6 +12,29 @@
     ],
     "note": "Khách đã có hạng nhận 3 lần quyền lợi tương ứng với hạng hiện tại. Khách chưa có hạng được áp dụng quyền lợi tương đương Gold. Tổng quyền lợi gồm phần giảm trực tiếp và phần tích điểm; điểm thưởng không phải số tiền trừ ngay vào giá xe. Mức ưu đãi có thể được VinFast điều chỉnh theo từng thời kỳ."
   },
+  "quoteOptions": {
+    "model": [
+      {"id":"limo-35m","label":"Limo Green · Giảm 35 triệu","carSlugs":["limo-green"],"type":"fixed","value":35000000,"note":"Đến 31/08/2026"},
+      {"id":"mpv7-20m","label":"VF MPV 7 · Giảm 20 triệu","carSlugs":["mpv-7"],"type":"fixed","value":20000000,"note":"Đến 31/08/2026"},
+      {"id":"mpv7-camera","label":"VF MPV 7 · Tặng camera 360 và công lắp đặt","carSlugs":["mpv-7"],"type":"gift","value":0,"note":"Từ 04/08/2026 đến khi có thông báo mới"},
+      {"id":"ecvan-20m","label":"EC Van Tiêu chuẩn · Giảm 20 triệu","carSlugs":["ec-van"],"type":"fixed","value":20000000,"note":"Đến khi có thông báo mới"},
+      {"id":"vf2-8m","label":"Tiên phong VF 2 · Giảm 8 triệu","carSlugs":["vf-2"],"type":"fixed","value":8000000,"note":"Theo điều kiện cọc còn hiệu lực"},
+      {"id":"vf8new-51m","label":"VF 8 Thế hệ mới · Giảm 51 triệu","carSlugs":["vf-8-moi"],"type":"fixed","value":51000000,"note":"Theo điều kiện cọc còn hiệu lực"}
+    ],
+    "customer": [
+      {"id":"vinclub-gold","label":"VinClub Gold / chưa có hạng · Giảm trực tiếp 1,5%","type":"percent","value":0.015,"base":"listPrice"},
+      {"id":"vinclub-platinum","label":"VinClub Platinum · Giảm trực tiếp 3%","type":"percent","value":0.03,"base":"listPrice"},
+      {"id":"vinclub-diamond","label":"VinClub Diamond · Giảm trực tiếp 4,5%","type":"percent","value":0.045,"base":"listPrice"},
+      {"id":"trade-fadil","label":"Đổi xe xăng VinFast · Fadil · Giảm 30 triệu","type":"fixed","value":30000000},
+      {"id":"trade-luxa","label":"Đổi xe xăng VinFast · Lux A · Giảm 60 triệu","type":"fixed","value":60000000},
+      {"id":"trade-luxsa","label":"Đổi xe xăng VinFast · Lux SA · Giảm 80 triệu","type":"fixed","value":80000000},
+      {"id":"public-service","label":"Xe công vụ · Chiết khấu 5%","type":"percent","value":0.05,"base":"afterModel"},
+      {"id":"police-military","label":"Công an & Quân đội · Giảm 5% MSRP","type":"percent","value":0.05,"base":"listPrice"},
+      {"id":"vnpost-staff","label":"CBNV VNPost · Giảm 3% MSRP","type":"percent","value":0.03,"base":"listPrice"},
+      {"id":"vnpost-leader","label":"CBLĐ VNPost · Giảm 5% MSRP","type":"percent","value":0.05,"base":"listPrice"}
+    ],
+    "note": "Chỉ chọn ưu đãi khi khách hàng đáp ứng đủ điều kiện. Một số chương trình không được cộng gộp; cần xác nhận lại tại thời điểm xuất hóa đơn. Điểm VinClub không được trừ vào báo giá này."
+  },
   "active": [
     {"period":"ĐẾN 31/08/2026","model":"Limo Green","benefit":"Giảm 35 triệu đồng/xe","description":"Áp dụng theo ngày xuất hóa đơn.","highlight":true},
     {"period":"ĐẾN 31/08/2026","model":"VF MPV 7","benefit":"Giảm 20 triệu đồng/xe","description":"Áp dụng theo ngày xuất hóa đơn.","highlight":true},
