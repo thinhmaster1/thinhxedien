@@ -16,7 +16,8 @@ export const categories = {
   commercial: { eyebrow: "GỌN NHẸ. BỀN BỈ.", title: "Xe thương mại", description: "Giải pháp vận tải điện cho công việc trong đô thị." }
 };
 
-export const money = input => input == null ? UPDATING : `${new Intl.NumberFormat("vi-VN").format(input)} ₫`;
+export const formatNumber = input => new Intl.NumberFormat("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 1 }).format(Number(input));
+export const money = input => input == null ? UPDATING : `${formatNumber(input)} ₫`;
 export const display = input => input || UPDATING;
 export const esc = input => String(input ?? "").replace(/[&<>'"]/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", '"':"&quot;" }[char]));
 export const param = name => new URLSearchParams(location.search).get(name);

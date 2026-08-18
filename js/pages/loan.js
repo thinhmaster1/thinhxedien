@@ -1,4 +1,5 @@
 import { applySeo, Footer, Header } from "../components.js";
+import { formatNumber } from "../core.js";
 
 applySeo({
   title: "Tính lãi suất vay mua xe & dư nợ trả góp",
@@ -10,7 +11,7 @@ document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();
 
 const form = document.querySelector("#loan-form");
-const currency = value => `${Math.round(value).toLocaleString("vi-VN")} ₫`;
+const currency = value => `${formatNumber(value)} ₫`;
 
 function calculate() {
   const principal = Math.max(0, Number(document.querySelector("#loan-amount").value) || 0);
@@ -38,7 +39,7 @@ function calculate() {
   }
 
   document.querySelector("#monthly-payment").textContent = currency(fixedPayment);
-  document.querySelector("#loan-term-label").textContent = `${months} tháng · Lãi suất ${annualRate.toLocaleString("vi-VN")}%/năm`;
+  document.querySelector("#loan-term-label").textContent = `${months} tháng · Lãi suất ${formatNumber(annualRate)}%/năm`;
   document.querySelector("#total-interest").textContent = currency(totalInterest);
   document.querySelector("#total-payment").textContent = currency(totalPayment);
   document.querySelector("#principal-total").textContent = currency(principal);

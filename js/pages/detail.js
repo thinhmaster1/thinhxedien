@@ -1,4 +1,4 @@
-import { fail, loadCars, money, param, specGroups } from "../core.js";
+import { fail, formatNumber, loadCars, money, param, specGroups } from "../core.js";
 import { applySeo, Footer, Header, MetricCard, SpecAccordion, VehicleCard } from "../components.js";
 
 document.querySelector("#header").innerHTML = Header();
@@ -66,7 +66,7 @@ const fuelSavingSection = car => `
 const initFuelCalculator = () => {
   const form = document.querySelector("#fuel-form");
   if (!form) return;
-  const format = value => `${Math.round(value).toLocaleString("vi-VN")} ₫`;
+  const format = value => `${formatNumber(value)} ₫`;
   const firstNumber = value => Number(String(value).replace(",", ".").match(/[\d.]+/)?.[0] || 0);
   const battery = firstNumber(form.dataset.battery);
   const range = firstNumber(form.dataset.range);
