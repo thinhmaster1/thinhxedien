@@ -6,11 +6,12 @@
     "period": "01/08–31/10/2026",
     "condition": "Áp dụng cho xe xuất hóa đơn trong thời gian chương trình.",
     "tiers": [
-      {"name":"CHƯA CÓ HẠNG / GOLD","total":"3%","discount":"Giảm trực tiếp 1,5%","points":"Tích điểm chi tiêu 1,5%"},
+      {"name":"MEMBER / CHƯA CÓ HẠNG","total":"1%","discount":"Giảm trực tiếp 0,5%","points":"Tích điểm chi tiêu 0,5%"},
+      {"name":"GOLD","total":"3%","discount":"Giảm trực tiếp 1,5%","points":"Tích điểm chi tiêu 1,5%"},
       {"name":"PLATINUM","total":"6%","discount":"Giảm trực tiếp 3%","points":"Tích điểm chi tiêu 3%","featured":true},
       {"name":"DIAMOND","total":"9%","discount":"Giảm trực tiếp 4,5%","points":"Tích điểm chi tiêu 4,5%"}
     ],
-    "note": "Khách đã có hạng nhận 3 lần quyền lợi tương ứng với hạng hiện tại. Khách chưa có hạng được áp dụng quyền lợi tương đương Gold. Tổng quyền lợi gồm phần giảm trực tiếp và phần tích điểm; điểm thưởng không phải số tiền trừ ngay vào giá xe. Mức ưu đãi có thể được VinFast điều chỉnh theo từng thời kỳ."
+    "note": "Member hoặc khách chưa có hạng được giảm trực tiếp 0,5% và tích điểm 0,5%. Khách Gold, Platinum và Diamond nhận quyền lợi tương ứng theo hạng. Điểm thưởng không phải số tiền trừ ngay vào giá xe. Mức ưu đãi có thể được VinFast điều chỉnh theo từng thời kỳ."
   },
   "quoteOptions": {
     "model": [
@@ -22,7 +23,8 @@
       {"id":"vf8new-51m","label":"VF 8 Thế hệ mới · Giảm 51 triệu","carSlugs":["vf-8-moi"],"type":"fixed","value":51000000,"note":"Theo điều kiện cọc còn hiệu lực"}
     ],
     "vinclub": [
-      {"id":"vinclub-gold","label":"VinClub Gold / chưa có hạng · Giảm trực tiếp 1,5%","type":"percent","value":0.015,"base":"listPrice"},
+      {"id":"vinclub-member","label":"VinClub Member / chưa có hạng · Giảm trực tiếp 0,5%","type":"percent","value":0.005,"base":"listPrice"},
+      {"id":"vinclub-gold","label":"VinClub Gold · Giảm trực tiếp 1,5%","type":"percent","value":0.015,"base":"listPrice"},
       {"id":"vinclub-platinum","label":"VinClub Platinum · Giảm trực tiếp 3%","type":"percent","value":0.03,"base":"listPrice"},
       {"id":"vinclub-diamond","label":"VinClub Diamond · Giảm trực tiếp 4,5%","type":"percent","value":0.045,"base":"listPrice"}
     ],
