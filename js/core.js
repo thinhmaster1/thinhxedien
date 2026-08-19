@@ -2,10 +2,11 @@ export const UPDATING = "Dữ liệu đang cập nhật";
 
 export const specGroups = [
   { title: "Kích thước & không gian", items: [["Kích thước", "dimensions"], ["Chiều dài cơ sở", "wheelbase"], ["Khoảng sáng gầm", "clearance"], ["Khoang hành lý", "trunk"], ["Số chỗ", "seats"]] },
-  { title: "Pin & vận hành", items: [["Quãng đường", "range"], ["Dung lượng pin", "battery"], ["Công suất", "power"], ["Mô-men xoắn", "torque"], ["Tốc độ tối đa", "topSpeed"], ["Chế độ lái", "driveModes"], ["Sạc nhanh DC", "dcCharge"]] },
-  { title: "Phiên bản & trang bị", items: [["Hệ truyền động", "drivetrain"], ["Loại pin theo phiên bản", "batteryType"], ["Bộ sạc tại nhà tương thích", "homeCharger"], ["Kết nối điện thoại", "connectivity"], ["Ghế", "upholstery"], ["Điều chỉnh ghế trước", "frontSeatAdjustment"], ["Gương chiếu hậu", "mirrors"], ["Lốp theo phiên bản", "tireType"], ["Hỗ trợ đỗ xe", "parkingSupport"], ["Tùy chọn trả phí", "paidOptions"], ["Trang bị theo phiên bản", "versionEquipment"]] },
-  { title: "Khung gầm & ngoại thất", items: [["Hệ thống phanh", "brakes"], ["Mâm", "wheels"], ["Hệ thống treo", "suspension"], ["Đèn", "lights"]] },
-  { title: "Tiện nghi & an toàn", items: [["Màn hình", "screen"], ["Loa", "speakers"], ["Túi khí", "airbags"]] }
+  { title: "Pin & vận hành", items: [["Quãng đường", "range"], ["Dung lượng pin", "battery"], ["Công suất", "power"], ["Mô-men xoắn", "torque"], ["Tốc độ tối đa", "topSpeed"], ["Chế độ lái", "driveModes"], ["Hệ dẫn động", "drivetrain"], ["Phanh tái sinh", "regenerativeBraking"], ["Sạc nhanh DC", "dcCharge"], ["Sạc AC tối đa", "acCharge"]] },
+  { title: "Phiên bản & trang bị", items: [["Loại pin theo phiên bản", "batteryType"], ["Bộ sạc tại nhà tương thích", "homeCharger"], ["Lốp theo phiên bản", "tireType"], ["Tùy chọn trả phí", "paidOptions"], ["Trang bị theo phiên bản", "versionEquipment"], ["Phụ kiện lắp thêm (AFS)", "optionalEquipment"]] },
+  { title: "Khung gầm & ngoại thất", items: [["Hệ thống phanh", "brakes"], ["Phanh đỗ xe", "parkingBrake"], ["Mâm", "wheels"], ["Hệ thống treo", "suspension"], ["Đèn", "lights"], ["Gương & ngoại thất", "exteriorFeatures"]] },
+  { title: "Nội thất & tiện nghi", items: [["Chất liệu ghế", "upholstery"], ["Ghế & vô-lăng", "seatFeatures"], ["Điều hòa & lọc khí", "climate"], ["Màn hình", "screen"], ["Âm thanh", "speakers"], ["Kết nối", "connectivity"], ["Tiện nghi khác", "convenience"]] },
+  { title: "An toàn & hỗ trợ lái", items: [["Túi khí", "airbags"], ["An toàn chủ động", "safetySystems"], ["Hỗ trợ đỗ xe", "parkingSupport"], ["ADAS", "adas"]] }
 ];
 
 export const categories = {
