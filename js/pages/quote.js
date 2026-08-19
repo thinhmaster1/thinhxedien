@@ -36,7 +36,7 @@ Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
       <div class="quote-form__heading"><span>THÔNG TIN BÁO GIÁ</span><h2>Lựa chọn của khách hàng</h2></div>
       <div class="customer-fields"><label><span>Tên khách hàng <small>Không bắt buộc</small></span><input id="customer-name" type="text" placeholder="Nhập tên khách hàng"></label><label><span>Số điện thoại <small>Không bắt buộc</small></span><input id="customer-phone" type="tel" placeholder="Nhập số điện thoại"></label></div>
       <fieldset><legend>Xe và phiên bản</legend><div class="form-grid"><label><span>Dòng xe · xếp theo giá tăng dần</span><select id="car-select">${quoteCars.map(car => `<option value="${car.slug}">${esc(car.name)}</option>`).join("")}</select></label><label><span>Phiên bản</span><select id="version-select"></select></label></div><label><span>Màu ngoại thất</span><select id="color-select"></select></label></fieldset>
-      <fieldset><legend>Ưu đãi áp dụng</legend><div class="quote-promotion-group"><span>Ưu đãi theo dòng xe</span><div class="promotion-options" id="model-promotions"></div></div><label><span>Ưu đãi theo khách hàng / VinClub</span><select id="customer-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.customer.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><label><span>Giảm giá thêm <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="text" inputmode="numeric" placeholder="0"><i>₫</i></div></label><p class="promotion-help">${esc(promotions.quoteOptions.note)}</p></fieldset>
+      <fieldset><legend>Ưu đãi áp dụng</legend><div class="quote-promotion-group"><span>Ưu đãi theo dòng xe</span><div class="promotion-options" id="model-promotions"></div></div><label><span>Ưu đãi theo khách hàng</span><select id="customer-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.customer.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><label><span>Ưu đãi VinClub <small>Không áp dụng cùng QĐ hoặc VNPost</small></span><select id="vinclub-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.vinclub.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><label><span>Giảm giá thêm <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="text" inputmode="numeric" placeholder="0"><i>₫</i></div></label><p class="promotion-help" id="promotion-help">${esc(promotions.quoteOptions.note)}</p></fieldset>
       <fieldset><legend>Đăng ký và sử dụng</legend><div class="choice-group"><span>Khu vực đăng ký biển</span><div><label><input type="radio" name="registration" value="province" checked><b>Tỉnh</b><small>140.000 ₫</small></label><label><input type="radio" name="registration" value="city"><b>Thành phố</b><small>14.000.000 ₫</small></label></div></div><div class="choice-group"><span>Loại biển số</span><div><label><input type="radio" name="plate" value="white" checked><b>Biển trắng</b><small>Xe cá nhân</small></label><label><input type="radio" name="plate" value="yellow"><b>Biển vàng</b><small>Xe kinh doanh</small></label></div></div><label class="check-option"><input id="physical-cash" type="checkbox"><span><b>Thêm bảo hiểm vật chất cho thanh toán tiền mặt</b><small>Không bắt buộc khi mua tiền mặt. Phương án vay luôn bắt buộc.</small></span></label></fieldset>
     </form><aside class="quote-results" id="quote-results"></aside></section>`;
 
@@ -46,9 +46,21 @@ Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
   const colorSelect = document.querySelector("#color-select");
   const modelPromotionsRoot = document.querySelector("#model-promotions");
   const customerPromotionSelect = document.querySelector("#customer-promotion");
+  const vinclubPromotionSelect = document.querySelector("#vinclub-promotion");
+  const promotionHelp = document.querySelector("#promotion-help");
   const discountInput = document.querySelector("#discount");
 
   const selectedCar = () => quoteCars.find(car => car.slug === carSelect.value) || quoteCars[0];
+
+  function syncPromotionRules() {
+    const customerPromotion = promotions.quoteOptions.customer.find(item => item.id === customerPromotionSelect.value);
+    const excludesVinClub = customerPromotion?.excludes?.includes("vinclub");
+    if (excludesVinClub) vinclubPromotionSelect.value = "";
+    vinclubPromotionSelect.disabled = Boolean(excludesVinClub);
+    promotionHelp.textContent = excludesVinClub
+      ? "Ưu đãi Công an & Quân đội hoặc VNPost không được áp dụng đồng thời với VinClub. VinClub đã được tắt."
+      : promotions.quoteOptions.note;
+  }
 
   function updateOptions() {
     const car = selectedCar();
@@ -66,12 +78,16 @@ Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
     const selectedPromotionIds = [...form.querySelectorAll('[name="modelPromotion"]:checked')].map(input => input.value);
     const modelPromotions = promotions.quoteOptions.model.filter(item => selectedPromotionIds.includes(item.id));
     const customerPromotion = promotions.quoteOptions.customer.find(item => item.id === customerPromotionSelect.value);
+    const vinclubPromotion = promotions.quoteOptions.vinclub.find(item => item.id === vinclubPromotionSelect.value);
     const modelDiscount = Math.min(modelPromotions.filter(item => item.type === "fixed").reduce((total,item) => total + item.value,0),listPrice);
     const customerBase = customerPromotion?.base === "afterModel" ? Math.max(0,listPrice - modelDiscount) : listPrice;
     const requestedCustomerDiscount = customerPromotion?.type === "percent" ? customerBase * customerPromotion.value : customerPromotion?.type === "fixed" ? customerPromotion.value : 0;
     const customerDiscount = Math.min(requestedCustomerDiscount,Math.max(0,listPrice - modelDiscount));
-    const manualDiscount = Math.min(moneyInputValue(discountInput.value),Math.max(0,listPrice - modelDiscount - customerDiscount));
-    const discount = modelDiscount + customerDiscount + manualDiscount;
+    const vinclubBase = vinclubPromotion?.base === "afterModel" ? Math.max(0,listPrice - modelDiscount) : listPrice;
+    const requestedVinclubDiscount = vinclubPromotion?.type === "percent" ? vinclubBase * vinclubPromotion.value : vinclubPromotion?.type === "fixed" ? vinclubPromotion.value : 0;
+    const vinclubDiscount = Math.min(requestedVinclubDiscount,Math.max(0,listPrice - modelDiscount - customerDiscount));
+    const manualDiscount = Math.min(moneyInputValue(discountInput.value),Math.max(0,listPrice - modelDiscount - customerDiscount - vinclubDiscount));
+    const discount = modelDiscount + customerDiscount + vinclubDiscount + manualDiscount;
     const colorFee = car.colorPrices?.[color] || 0;
     const vehicleValue = Math.max(0, listPrice - discount + colorFee);
     const registrationType = form.elements.registration.value;
@@ -91,7 +107,7 @@ Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
     const customerPhone = document.querySelector("#customer-phone").value.trim();
 
     document.querySelector("#quote-results").innerHTML = `<div class="quote-result-head"><div><span>BÁO GIÁ DỰ KIẾN</span><h2>${esc(car.name)}</h2><p>${esc(version.name)} · ${esc(color)}</p>${customer ? `<small>Khách hàng: ${esc(customer)}${customerPhone ? ` · ${esc(customerPhone)}` : ""}</small>` : customerPhone ? `<small>SĐT khách hàng: ${esc(customerPhone)}</small>` : ""}<a class="quote-contact" href="tel:0352978519"><span>Tư vấn bán hàng</span><b>${SALES_ADVISOR}</b><small>${SALES_PHONE}</small></a></div><div class="quote-actions"><button class="is-secondary" type="button" id="print-quote">In báo giá</button></div></div>
-      <section class="vehicle-cost"><h3>Giá trị xe</h3>${feeRow("Giá niêm yết",listPrice)}${modelPromotions.filter(item => item.type === "fixed").map(item => feeRow("Ưu đãi dòng xe",-item.value,item.label)).join("")}${modelPromotions.filter(item => item.type === "gift").map(item => `<div class="promotion-gift"><span>${esc(item.label)}<small>${esc(item.note || "Quà tặng kèm")}</small></span><b>Tặng kèm</b></div>`).join("")}${customerPromotion ? feeRow("Ưu đãi khách hàng",-customerDiscount,customerPromotion.label) : ""}${manualDiscount ? feeRow("Giảm giá thêm",-manualDiscount) : ""}${feeRow("Phụ phí màu",colorFee)}<div class="subtotal"><span>Giá xe sau ưu đãi</span><b>${money(vehicleValue)}</b></div></section>
+      <section class="vehicle-cost"><h3>Giá trị xe</h3>${feeRow("Giá niêm yết",listPrice)}${modelPromotions.filter(item => item.type === "fixed").map(item => feeRow("Ưu đãi dòng xe",-item.value,item.label)).join("")}${modelPromotions.filter(item => item.type === "gift").map(item => `<div class="promotion-gift"><span>${esc(item.label)}<small>${esc(item.note || "Quà tặng kèm")}</small></span><b>Tặng kèm</b></div>`).join("")}${customerPromotion ? feeRow("Ưu đãi khách hàng",-customerDiscount,customerPromotion.label) : ""}${vinclubPromotion ? feeRow("Ưu đãi VinClub",-vinclubDiscount,vinclubPromotion.label) : ""}${manualDiscount ? feeRow("Giảm giá thêm",-manualDiscount) : ""}${feeRow("Phụ phí màu",colorFee)}<div class="subtotal"><span>Giá xe sau ưu đãi</span><b>${money(vehicleValue)}</b></div></section>
       <div class="payment-results"><article class="payment-card cash"><span>THANH TOÁN TIỀN MẶT</span><h3>${money(cashTotal)}</h3><p>Tổng chi phí dự kiến để nhận xe.</p><div class="fee-breakdown">${feeRow("Giá xe",vehicleValue)}${feeRow("Đăng ký biển",registration,registrationType === "city" ? "Thành phố" : "Tỉnh")}${feeRow("Lệ phí đăng kiểm",FEES.inspection)}${feeRow("Bảo trì đường bộ",road,plate === "white" ? "Biển trắng" : "Biển vàng")}${feeRow("Bảo hiểm TNDS",liability,sevenSeats ? "7 chỗ" : "Tối đa 5 chỗ")}${document.querySelector("#physical-cash").checked ? feeRow("Bảo hiểm vật chất",physical,`${FEES.physicalRate[plate] * 100}% giá niêm yết`) : ""}</div></article>
       <article class="payment-card loan"><span>THANH TOÁN VAY</span><h3>${money(loanTotal)}</h3><p>Khoản tiền dự kiến cần chuẩn bị ban đầu.</p><div class="fee-breakdown">${feeRow("Trả trước 15% giá trị xe",downPayment)}${feeRow("Đăng ký biển",registration,registrationType === "city" ? "Thành phố" : "Tỉnh")}${feeRow("Lệ phí đăng kiểm",FEES.inspection)}${feeRow("Bảo trì đường bộ",road,plate === "white" ? "Biển trắng" : "Biển vàng")}${feeRow("Bảo hiểm TNDS",liability,sevenSeats ? "7 chỗ" : "Tối đa 5 chỗ")}${feeRow("Bảo hiểm vật chất bắt buộc",physical,`${FEES.physicalRate[plate] * 100}% giá niêm yết`)}</div><div class="loan-note"><span>Dư nợ dự kiến 85%</span><b>${money(remainingLoan)}</b><small>Chưa bao gồm lãi vay ngân hàng.</small><a href="loan.html?amount=${Math.ceil(remainingLoan)}">Tính lãi và lịch trả góp <span>›</span></a></div></article></div>
       <p class="quote-disclaimer">Báo giá mang tính tham khảo theo dữ liệu hiện có. Chi phí thực tế có thể thay đổi theo thời điểm, địa phương, ngân hàng và chính sách bán hàng.</p>`;
@@ -99,9 +115,11 @@ Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
   }
 
   carSelect.addEventListener("change", () => { updateOptions(); calculate(); });
+  customerPromotionSelect.addEventListener("change", syncPromotionRules);
   discountInput.addEventListener("input", () => formatMoneyInput(discountInput));
   form.addEventListener("input", calculate);
   form.addEventListener("change", calculate);
   updateOptions();
+  syncPromotionRules();
   calculate();
 }).catch(fail);
