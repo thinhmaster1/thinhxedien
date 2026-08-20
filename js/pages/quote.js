@@ -37,7 +37,7 @@ Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
       <div class="customer-fields"><label><span>Tên khách hàng <small>Không bắt buộc</small></span><input id="customer-name" type="text" placeholder="Nhập tên khách hàng"></label><label><span>Số điện thoại <small>Không bắt buộc</small></span><input id="customer-phone" type="tel" placeholder="Nhập số điện thoại"></label></div>
       <fieldset><legend>Xe và phiên bản</legend><div class="form-grid"><label><span>Dòng xe · xếp theo giá tăng dần</span><select id="car-select">${quoteCars.map(car => `<option value="${car.slug}">${esc(car.name)}</option>`).join("")}</select></label><label><span>Phiên bản</span><select id="version-select"></select></label></div><label><span>Màu ngoại thất</span><select id="color-select"></select></label></fieldset>
       <fieldset><legend>Ưu đãi áp dụng</legend><div class="quote-promotion-group"><span>Ưu đãi theo dòng xe</span><div class="promotion-options" id="model-promotions"></div></div><label><span>Ưu đãi theo khách hàng</span><select id="customer-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.customer.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><label><span>Giảm giá thêm <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="text" inputmode="numeric" placeholder="0"><i>₫</i></div></label></fieldset>
-      <fieldset class="vinclub-quote-section"><legend>Ưu đãi VinClub</legend><label><span>Hạng thành viên <small>Không áp dụng cùng QĐ hoặc VNPost</small></span><select id="vinclub-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.vinclub.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><p class="promotion-help" id="promotion-help">${esc(promotions.quoteOptions.note)}</p></fieldset>
+      <fieldset class="vinclub-quote-section" id="vinclub-promotion"><legend>Ưu đãi VinClub</legend><div class="vinclub-quote-heading"><span>Chọn hạng thành viên</span><small>Không áp dụng cùng QĐ hoặc VNPost</small></div><div class="vinclub-quote-options"><label class="is-none"><input type="radio" name="vinclubPromotion" value="" checked><span><b>Không áp dụng</b><small>Không sử dụng quyền lợi VinClub</small></span><i>✓</i></label>${promotions.quoteOptions.vinclub.map(item => `<label><input type="radio" name="vinclubPromotion" value="${esc(item.id)}"><span><b>${esc(item.label.split(" · ")[0].replace("VinClub ",""))}</b><small>Giảm trực tiếp</small><strong>${String(item.value * 100).replace(".",",")}%</strong></span><i>✓</i></label>`).join("")}</div><p class="promotion-help" id="promotion-help">${esc(promotions.quoteOptions.note)}</p></fieldset>
       <fieldset><legend>Đăng ký và sử dụng</legend><div class="choice-group"><span>Khu vực đăng ký biển</span><div><label><input type="radio" name="registration" value="province" checked><b>Tỉnh</b><small>140.000 ₫</small></label><label><input type="radio" name="registration" value="city"><b>Thành phố</b><small>14.000.000 ₫</small></label></div></div><div class="choice-group"><span>Loại biển số</span><div><label><input type="radio" name="plate" value="white" checked><b>Biển trắng</b><small>Xe cá nhân</small></label><label><input type="radio" name="plate" value="yellow"><b>Biển vàng</b><small>Xe kinh doanh</small></label></div></div><label class="check-option"><input id="physical-cash" type="checkbox"><span><b>Thêm bảo hiểm vật chất cho thanh toán tiền mặt</b><small>Không bắt buộc khi mua tiền mặt. Phương án vay luôn bắt buộc.</small></span></label></fieldset>
     </form><aside class="quote-results" id="quote-results"></aside></section>`;
 
@@ -47,7 +47,7 @@ Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
   const colorSelect = document.querySelector("#color-select");
   const modelPromotionsRoot = document.querySelector("#model-promotions");
   const customerPromotionSelect = document.querySelector("#customer-promotion");
-  const vinclubPromotionSelect = document.querySelector("#vinclub-promotion");
+  const vinclubPromotionRoot = document.querySelector("#vinclub-promotion");
   const promotionHelp = document.querySelector("#promotion-help");
   const discountInput = document.querySelector("#discount");
 
@@ -56,8 +56,9 @@ Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
   function syncPromotionRules() {
     const customerPromotion = promotions.quoteOptions.customer.find(item => item.id === customerPromotionSelect.value);
     const excludesVinClub = customerPromotion?.excludes?.includes("vinclub");
-    if (excludesVinClub) vinclubPromotionSelect.value = "";
-    vinclubPromotionSelect.disabled = Boolean(excludesVinClub);
+    if (excludesVinClub) vinclubPromotionRoot.querySelector('[name="vinclubPromotion"][value=""]').checked = true;
+    vinclubPromotionRoot.disabled = Boolean(excludesVinClub);
+    vinclubPromotionRoot.classList.toggle("is-disabled",Boolean(excludesVinClub));
     promotionHelp.textContent = excludesVinClub
       ? "Ưu đãi Công an & Quân đội hoặc VNPost không được áp dụng đồng thời với VinClub. VinClub đã được tắt."
       : promotions.quoteOptions.note;
@@ -79,7 +80,8 @@ Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
     const selectedPromotionIds = [...form.querySelectorAll('[name="modelPromotion"]:checked')].map(input => input.value);
     const modelPromotions = promotions.quoteOptions.model.filter(item => selectedPromotionIds.includes(item.id));
     const customerPromotion = promotions.quoteOptions.customer.find(item => item.id === customerPromotionSelect.value);
-    const vinclubPromotion = promotions.quoteOptions.vinclub.find(item => item.id === vinclubPromotionSelect.value);
+    const selectedVinclubId = form.elements.vinclubPromotion.value;
+    const vinclubPromotion = promotions.quoteOptions.vinclub.find(item => item.id === selectedVinclubId);
     const modelDiscount = Math.min(modelPromotions.filter(item => item.type === "fixed").reduce((total,item) => total + item.value,0),listPrice);
     const customerBase = customerPromotion?.base === "afterModel" ? Math.max(0,listPrice - modelDiscount) : listPrice;
     const requestedCustomerDiscount = customerPromotion?.type === "percent" ? customerBase * customerPromotion.value : customerPromotion?.type === "fixed" ? customerPromotion.value : 0;
