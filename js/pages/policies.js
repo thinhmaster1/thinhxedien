@@ -4,7 +4,7 @@ import { applySeo, Footer, Header } from "../components.js";
 applySeo({
   title: "Khuyến mãi VinFast tháng 8/2026 | Thịnh Xe Điện",
   description: "Tổng hợp ưu đãi VinFast và quyền lợi VinClub đang áp dụng. Liên hệ tư vấn tại Thủ Dầu Một, Bình Dương: 0352 978 519.",
-  canonical: "https://thinhxedien.com/policies.html"
+  canonical: "https://thinhmaster1.github.io/thinhxedien/policies.html"
 });
 
 document.querySelector("#header").innerHTML = Header();

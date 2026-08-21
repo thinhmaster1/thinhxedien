@@ -1,7 +1,7 @@
 import { display, esc, money, UPDATING } from "./core.js";
 import { grantPrivateAccess, hasPrivateAccess, verifyPrivatePasscode } from "./access.js";
 
-const SITE_URL = "https://thinhxedien.com";
+const SITE_URL = "https://thinhmaster1.github.io/thinhxedien";
 const ensureMeta = (selector, attributes) => {
   let element = document.head.querySelector(selector);
   if (!element) {
@@ -13,7 +13,8 @@ const ensureMeta = (selector, attributes) => {
 
 export function applySeo({ title = document.title, description, canonical, image = `${SITE_URL}/public/cars/thumb-vf8-new.png`, type = "website" } = {}) {
   document.title = title;
-  const pageUrl = canonical || `${SITE_URL}${location.pathname === "/" ? "/index.html" : location.pathname}`;
+  const repositoryPath = location.pathname.replace(/^\/thinhxedien(?=\/|$)/, "") || "/index.html";
+  const pageUrl = canonical || `${SITE_URL}${repositoryPath === "/" ? "/index.html" : repositoryPath}`;
   if (description) ensureMeta('meta[name="description"]', { name: "description", content: description });
   ensureMeta('link[rel="canonical"]', { rel: "canonical", href: pageUrl });
   ensureMeta('meta[property="og:title"]', { property: "og:title", content: title });

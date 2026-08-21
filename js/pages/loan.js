@@ -4,7 +4,7 @@ import { formatMoneyInput, money, moneyInputValue } from "../core.js";
 applySeo({
   title: "Tính lãi suất vay mua xe & dư nợ trả góp",
   description: "Nhập số tiền vay, lãi suất và thời hạn để xem khoản trả hàng tháng, tổng lãi cùng lịch dư nợ chi tiết.",
-  canonical: "https://thinhxedien.com/loan.html"
+  canonical: "https://thinhmaster1.github.io/thinhxedien/loan.html"
 });
 
 document.querySelector("#header").innerHTML = Header();

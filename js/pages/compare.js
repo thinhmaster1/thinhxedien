@@ -4,7 +4,7 @@ import { applySeo, CarSelector, CompareValue, Footer, Header, MissingNote } from
 applySeo({
   title: "So sánh xe VinFast 2026 | Giá & thông số",
   description: "So sánh tối đa 3 xe VinFast theo giá từng phiên bản, quãng đường, pin, công suất và thông số kỹ thuật.",
-  canonical: "https://thinhxedien.com/compare.html"
+  canonical: "https://thinhmaster1.github.io/thinhxedien/compare.html"
 });
 
 document.querySelector("#header").innerHTML = Header();

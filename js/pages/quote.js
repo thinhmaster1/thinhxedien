@@ -1,7 +1,7 @@
 import { esc, fail, formatMoneyInput, loadCars, money, moneyInputValue } from "../core.js";
 import { applySeo, Footer, Header } from "../components.js";
 
-applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhxedien.com/quote.html" });
+applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhmaster1.github.io/thinhxedien/quote.html" });
 let robotsMeta = document.head.querySelector('meta[name="robots"]');
 if (!robotsMeta) {
   robotsMeta = document.createElement("meta");

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thinhxedien.com/sitemap.xml
+Sitemap: https://thinhmaster1.github.io/thinhxedien/sitemap.xml
