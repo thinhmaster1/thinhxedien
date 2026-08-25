@@ -17,7 +17,7 @@ const FEES = {
   registration: { province: 140000, city: 14000000 },
   inspection: 95000,
   road: { white: 1560000, yellow: 2160000 },
-  liability: { white5: 846000, yellow5: 800000, white7: 941000, yellow7: 1200000 },
+  liability: { white5: 530000, yellow5: 840000, white7: 880000, yellow7: 1190000 },
   physicalRate: { white: .012, yellow: .016 }
 };
 const SALES_PHONE = "0352 978 519";
