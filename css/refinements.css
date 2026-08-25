@@ -189,10 +189,66 @@
 
 /* Quote promotion choices */
 .quote-promotion-group{margin-top:15px}.quote-promotion-group>span{display:block;color:var(--gray);font-size:12px;font-weight:600;margin-bottom:8px}.promotion-options{display:grid;gap:8px}.promotion-options>p{margin:0;padding:13px;border:1px dashed #d7dbe0;border-radius:12px;color:var(--gray);font-size:11px}.promotion-options label{display:flex;align-items:flex-start;gap:10px;padding:13px;border:1px solid var(--line);border-radius:13px;background:#fff;cursor:pointer}.promotion-options label:has(input:checked){border-color:var(--blue);background:#f2f8ff}.promotion-options input{margin-top:3px;accent-color:var(--blue)}.promotion-options b,.promotion-options small{display:block}.promotion-options b{font-size:12px}.promotion-options small{color:var(--gray);font-size:10px;line-height:1.4;margin-top:4px}.promotion-help{margin:18px 0 0;padding:14px 15px;border-radius:13px;background:#fff8e9;color:#73510d;font-size:10px;line-height:1.5}.promotion-gift{align-items:center!important}.promotion-gift>b{color:#168545!important}.promotion-gift small{max-width:220px}
-.vinclub-quote-section{border-color:#c9e1f8!important;background:linear-gradient(145deg,#f8fbff,#edf6ff)!important}.vinclub-quote-section legend{color:var(--blue)}.vinclub-quote-heading{display:flex;justify-content:space-between;gap:12px;margin:4px 0 10px}.vinclub-quote-heading span{font-size:12px;font-weight:650}.vinclub-quote-heading small{color:var(--gray);font-size:9px}.vinclub-quote-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.vinclub-quote-options label{position:relative;min-height:92px;padding:13px;border:1px solid #d7e3ee;border-radius:14px;background:#fff;cursor:pointer;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease}.vinclub-quote-options label:has(input:checked){border-color:var(--blue);background:#f7fbff;box-shadow:0 0 0 2px #1683e817}.vinclub-quote-options input{position:absolute;opacity:0;pointer-events:none}.vinclub-quote-options span,.vinclub-quote-options b,.vinclub-quote-options small,.vinclub-quote-options strong{display:block}.vinclub-quote-options b{max-width:calc(100% - 22px);font-size:11px;line-height:1.3}.vinclub-quote-options small{color:var(--gray);font-size:8px;margin-top:8px}.vinclub-quote-options strong{color:var(--blue);font-size:24px;line-height:1;letter-spacing:-.04em;margin-top:3px}.vinclub-quote-options i{position:absolute;right:11px;top:11px;width:18px;height:18px;border:1px solid #c8d3dd;border-radius:50%;color:transparent;font-size:10px;font-style:normal;line-height:16px;text-align:center}.vinclub-quote-options label:has(input:checked) i{border-color:var(--blue);background:var(--blue);color:#fff}.vinclub-quote-options label.is-none{grid-column:1/-1;min-height:auto}.vinclub-quote-options label.is-none small{margin-top:3px}.vinclub-quote-options label.is-none strong{display:none}.vinclub-quote-section .promotion-help{background:#fff}.vinclub-quote-section.is-disabled{opacity:.62}.vinclub-quote-section.is-disabled .vinclub-quote-options label{cursor:not-allowed}.vinclub-quote-section.is-disabled .promotion-help{color:#8a5810;background:#fff7e8}
+.vinclub-quote-section{margin-top:22px;padding:22px 20px 18px!important;border:1px solid #c5def6!important;border-radius:22px;background:linear-gradient(180deg,#f7fbff 0%,#eef6ff 100%)!important;box-shadow:inset 0 1px 0 #fff}
+.vinclub-quote-section legend{color:var(--blue);font-size:18px;letter-spacing:-.02em}
+.vinclub-quote-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 14px}
+.vinclub-quote-heading span{color:var(--black);font-size:13px;font-weight:700}
+.vinclub-quote-heading small{flex:0 1 auto;max-width:58%;padding:5px 9px;border-radius:999px;background:#fff;color:#5b6b7a;font-size:10px;font-weight:600;line-height:1.3;text-align:right}
+.vinclub-quote-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.vinclub-quote-options label{position:relative;display:flex;min-height:118px;padding:16px 40px 16px 16px;border:1px solid #d4e2ee;border-radius:16px;background:#fff;box-shadow:0 1px 2px #0b1f3310;cursor:pointer;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease,transform .2s ease}
+.vinclub-quote-options label:hover{border-color:#9ec7ea;box-shadow:0 8px 18px #0b3a6a12}
+.vinclub-quote-options label:has(input:checked){border-color:var(--blue);background:#f4f9ff;box-shadow:0 0 0 3px #0071e31f,0 8px 18px #0071e314}
+.vinclub-quote-options input{position:absolute;opacity:0;pointer-events:none}
+.vinclub-quote-options span{display:flex;flex-direction:column;min-width:0;flex:1}
+.vinclub-quote-options b{color:var(--black);font-size:13px;font-weight:750;line-height:1.25;letter-spacing:-.01em}
+.vinclub-quote-options em{margin-top:3px;color:#7a8693;font-size:11px;font-style:normal;font-weight:500}
+.vinclub-quote-options small{margin-top:auto;padding-top:14px;color:#7a8693;font-size:10px;font-weight:650;letter-spacing:.04em;text-transform:uppercase}
+.vinclub-quote-options strong{margin-top:4px;color:var(--blue);font-size:28px;line-height:1;letter-spacing:-.045em}
+.vinclub-quote-options i{position:absolute;top:14px;right:14px;width:20px;height:20px;border:1.5px solid #c5d0da;border-radius:50%;color:transparent;font-size:11px;font-style:normal;font-weight:700;line-height:17px;text-align:center}
+.vinclub-quote-options label:has(input:checked) i{border-color:var(--blue);background:var(--blue);color:#fff}
+.vinclub-quote-options label.is-none{grid-column:1 / -1;min-height:0;align-items:center;padding:15px 48px 15px 16px}
+.vinclub-quote-options label.is-none span{display:block}
+.vinclub-quote-options label.is-none small{margin:4px 0 0;padding:0;text-transform:none;letter-spacing:0;font-size:12px;font-weight:500}
+.vinclub-quote-options label.is-none i{top:50%;transform:translateY(-50%)}
+.vinclub-quote-section .promotion-help{margin:14px 0 0;padding:13px 15px;border:1px solid #f0e2c0;border-radius:14px;background:#fffdf7;color:#6d5314;font-size:11px;line-height:1.55}
+.vinclub-quote-section.is-disabled{opacity:.58}
+.vinclub-quote-section.is-disabled .vinclub-quote-options label{cursor:not-allowed;box-shadow:none}
+.vinclub-quote-section.is-disabled .promotion-help{color:#8a5810;background:#fff7e8}
 .vehicle-cost .policy-base{margin:7px -8px 3px;padding:11px 8px!important;border-top:1px solid #d9e9f8;border-bottom:1px solid #d9e9f8;background:#f5faff;color:#32516d!important}.vehicle-cost .policy-base b{color:var(--blue)}
-@media(max-width:560px){.vinclub-quote-heading{display:block}.vinclub-quote-heading small{display:block;margin-top:4px}.vinclub-quote-options{grid-template-columns:1fr}.vinclub-quote-options label.is-none{grid-column:auto}}
+@media(max-width:560px){.vinclub-quote-heading{align-items:flex-start;flex-direction:column;gap:8px}.vinclub-quote-heading small{max-width:none;text-align:left}.vinclub-quote-options{grid-template-columns:1fr}.vinclub-quote-options label,.vinclub-quote-options label.is-none{grid-column:auto}.vinclub-quote-options label{min-height:108px}}
 
 /* Compact private-tools access below footer */
 .private-tool-link,.private-tools-links{display:none!important}.private-tools-visible .private-tool-link{display:inline-flex!important}.private-tools-access{min-height:54px;margin:0 min(-24px,calc((1180px - 100vw)/2));padding:10px max(24px,calc((100vw - 1180px)/2));border-top:1px solid #d9dde2;background:#eef1f4;display:flex;align-items:center;justify-content:flex-end}.private-tools-access form{display:flex;align-items:center;gap:7px}.private-tools-access label{color:#777b81;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}.private-tools-access input{width:115px;height:30px;border:1px solid #cfd4da;border-radius:8px;background:#fff;padding:0 9px;font-size:11px}.private-tools-access button{height:30px;border:0;border-radius:8px;background:#6d737a;color:#fff;padding:0 11px;font-size:10px;font-weight:700;cursor:pointer}.private-tools-access [role=status]{min-width:88px;color:#a23a32;font-size:10px}.private-tools-links{align-items:center;gap:10px}.private-tools-visible .private-tools-access form{display:none}.private-tools-visible .private-tools-links{display:flex!important}.private-tools-links a{border-radius:8px;background:#fff;color:var(--blue);padding:7px 10px;font-size:10px;font-weight:700;box-shadow:inset 0 0 0 1px #d5dce3}
 @media(max-width:720px){.private-tools-access{margin:0 -18px;padding:12px 18px;justify-content:flex-start}.private-tools-access form{width:100%;display:grid;grid-template-columns:1fr auto}.private-tools-access label,.private-tools-access [role=status]{grid-column:1/-1}.private-tools-access input{width:100%;height:36px}.private-tools-access button{height:36px}.private-tools-visible .private-tools-links{width:100%;display:grid!important;grid-template-columns:1fr 1fr}.private-tools-links a{text-align:center;padding:10px}}
+
+/* Light and dark appearance */
+.theme-toggle{flex:0 0 auto;width:34px;height:34px;border:0;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--black);font-size:18px;line-height:1;cursor:pointer;transition:background .2s ease,transform .2s ease}.theme-toggle:hover{transform:scale(1.05)}.theme-toggle:focus-visible{outline:3px solid #0071e366}
+html[data-theme="dark"]{--black:#f5f5f7;--gray:#a1a1a6;--soft:#1c1c1e;--line:#3a3a3c;--blue:#2997ff;--blue-hover:#40a9ff;--white:#151517}
+html[data-theme="dark"] body{background:#0f0f11;color:var(--black)}
+html[data-theme="dark"] .site-header,html[data-theme="dark"] .site-header.is-overlay{background:#121214e8;color:var(--black);border-bottom-color:#ffffff1a}
+html[data-theme="dark"] .theme-toggle,html[data-theme="dark"] .nav-toggle{background:#2c2c2e;color:var(--black)}
+html[data-theme="dark"] :is(.model-category.tone-soft,.local-models,.compare-picker,.quote-results,.private-tools-access){background:#171719}
+html[data-theme="dark"] :is(.catalog-hero,.quote-hero,.loan-hero,.local-hero,.local-contact,.policy-hero,.data-hero,.compare-hero){background:radial-gradient(circle at 84% 12%,#123d66 0,transparent 31%),linear-gradient(135deg,#111820,#111113)}
+html[data-theme="dark"] :is(.vehicle-card:not(.is-featured),.metric-card,.selector-card,.summary-grid article,.version-cards article,.swatches>div,.policy-card,.local-service-grid article,.local-hero aside,.quote-form,.vehicle-cost,.payment-card,.loan-form,.loan-table-wrap,.consult-dialog,.fuel-form,.price-table-wrap){background:#1c1c1e;color:var(--black);border-color:#353539;box-shadow:none}
+html[data-theme="dark"] :is(.quote-form input,.quote-form select,.consult-fields input,.consult-fields select,.consult-fields textarea,.private-tools-access input,.fuel-form input,.fuel-form select){background:#252528;color:var(--black);border-color:#414146}
+html[data-theme="dark"] select option{background:#252528;color:var(--black)}
+html[data-theme="dark"] :is(.choice-group label:has(input:checked),.consult-choice label:has(input:checked),.promotion-options label:has(input:checked),.vinclub-quote-options label:has(input:checked)){background:#102b43}
+html[data-theme="dark"] :is(.promotion-options label,.vinclub-quote-options label,.vinclub-quote-heading small,.site-footer__cta .footer-map,.private-tools-links a,.payment-switch button[aria-selected="true"]){background:#252528;color:var(--black);border-color:#414146}
+html[data-theme="dark"] .vinclub-quote-section{background:linear-gradient(180deg,#172534,#141c25)!important;border-color:#31506c!important;box-shadow:none}
+html[data-theme="dark"] :is(.promotion-help,.vinclub-quote-section .promotion-help){background:#302918;color:#e3c46d;border-color:#594b27}
+html[data-theme="dark"] .vehicle-cost .policy-base{background:#132535;color:#a9cbe8!important;border-color:#29465f}
+html[data-theme="dark"] .payment-switch{background:#29292c}
+html[data-theme="dark"] .loan-note{background:#14283b}
+html[data-theme="dark"] .loan-form label>div{background:#252528;border-color:#414146}
+html[data-theme="dark"] :is(.loan-table th,.data-table th){background:#252528;color:#b6b6bc;border-color:#414146}
+html[data-theme="dark"] :is(.loan-table td,.data-table td,.comparison-row,.comparison-row>b,.spec-accordion__content>div){border-color:#303034}
+html[data-theme="dark"] :is(.loan-table tbody tr:hover,.data-table tbody tr:hover){background:#1b2835}
+html[data-theme="dark"] .site-footer{background:#151517;color:var(--black);border-color:#333338}
+html[data-theme="dark"] .site-footer__cta{background:linear-gradient(135deg,#202226,#14283b);border-color:#31465a;box-shadow:none}
+html[data-theme="dark"] :is(.site-footer__brand p,.site-footer__column p,.site-footer__column a,.site-footer__column>span,.site-footer__bottom>small){color:var(--gray)}
+html[data-theme="dark"] :is(.site-footer__bottom,.private-tools-access){border-color:#333338}
+html[data-theme="dark"] .consult-direct{background:linear-gradient(135deg,#14283b,#1c1c1e)}
+html[data-theme="dark"] .selector-card__image{background:#2c2c2e}
+html[data-theme="dark"] .quote-gate{background:#10101299}
+html[data-theme="dark"] .quote-gate form{background:#1c1c1ef2;border-color:#353539}
+@media(max-width:780px){.theme-toggle{margin-left:auto}.site-header{gap:8px}html[data-theme="dark"] .site-header #primary-navigation{background:#121214fa;border-color:#333338;box-shadow:0 18px 40px #0008}html[data-theme="dark"] .site-header #primary-navigation a{border-color:#303034}}
