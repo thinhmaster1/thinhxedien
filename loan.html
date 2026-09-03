@@ -14,22 +14,24 @@
 <body>
   <div id="header"></div>
   <main>
-    <section class="loan-hero"><span>CÔNG CỤ TÀI CHÍNH</span><h1>Tính khoản vay.<br>Rõ từng tháng.</h1><p>Ước tính khoản trả đều hàng tháng, tiền lãi và dư nợ còn lại trong toàn bộ thời gian vay.</p></section>
+    <section class="loan-hero"><span>CÔNG CỤ TÀI CHÍNH</span><h1>Tính khoản vay.<br>Rõ từng tháng.</h1><p>Ước tính khoản trả hàng tháng, tiền lãi và dư nợ với lãi suất ưu đãi ban đầu rồi chuyển sang lãi suất thả nổi.</p></section>
     <section class="loan-workspace">
       <form class="loan-form" id="loan-form">
         <div><span>THÔNG TIN KHOẢN VAY</span><h2>Nhập dữ liệu của bạn.</h2></div>
         <label><span>Số tiền vay</span><div><input id="loan-amount" type="text" inputmode="numeric" value="500,000,000" required><b>₫</b></div></label>
-        <label><span>Lãi suất mỗi năm</span><div><input id="loan-rate" type="number" min="0" max="100" step="any" value="8.5" required><b>%</b></div></label>
+        <label><span>Lãi suất ưu đãi ban đầu</span><div><input id="loan-rate" type="number" min="0" max="100" step="any" value="8.5" required><b>%/năm</b></div></label>
+        <label><span>Thời gian ưu đãi</span><div><input id="loan-fixed-months" type="number" min="1" max="360" step="1" value="12" required><b>tháng</b></div></label>
+        <label><span>Lãi suất thả nổi sau ưu đãi</span><div><input id="loan-floating-rate" type="number" min="0" max="100" step="any" value="11.5" required><b>%/năm</b></div></label>
         <label><span>Thời hạn vay</span><div><input id="loan-years" type="number" min="1" max="30" step="1" value="5" required><b>năm</b></div></label>
-        <p>Lịch tính theo phương thức trả góp đều hàng tháng, lãi tính trên dư nợ thực tế còn lại.</p>
+        <p>Khoản trả hàng tháng được tính lại khi bắt đầu giai đoạn thả nổi. Lãi tính trên dư nợ thực tế còn lại.</p>
       </form>
       <div class="loan-overview" aria-live="polite">
         <span>KẾT QUẢ ƯỚC TÍNH</span>
-        <div class="loan-payment"><small>Trả đều mỗi tháng</small><strong id="monthly-payment">—</strong><p id="loan-term-label">—</p></div>
+        <div class="loan-payment"><small>KHOẢN TRẢ DỰ KIẾN</small><div class="loan-stage-payments"><div><span>Giai đoạn ưu đãi</span><strong id="monthly-payment">—</strong></div><div><span>Giai đoạn thả nổi</span><strong id="floating-payment">—</strong></div></div><p id="loan-term-label">—</p></div>
         <div class="loan-totals"><article><span>Tổng tiền lãi</span><b id="total-interest">—</b></article><article><span>Tổng cộng</span><b id="total-payment">—</b></article><article><span>Tiền vay ban đầu</span><b id="principal-total">—</b></article></div>
       </div>
     </section>
-    <section class="loan-schedule"><div class="loan-schedule__heading"><div><span>LỊCH THANH TOÁN</span><h2>Chi tiết từng tháng.</h2></div><p>Mỗi kỳ gồm phần gốc, phần lãi và dư nợ còn lại sau thanh toán.</p></div><div class="loan-table-wrap"><table class="loan-table"><thead><tr><th>Tháng</th><th>Dư nợ đầu kỳ</th><th>Tiền gốc</th><th>Tiền lãi</th><th>Thanh toán</th><th>Dư nợ còn lại</th></tr></thead><tbody id="loan-schedule-body"></tbody></table></div><p class="loan-note">Kết quả chỉ mang tính tham khảo. Số tiền thực tế có thể khác do ngày giải ngân, cách làm tròn, phí và chính sách của từng ngân hàng.</p></section>
+    <section class="loan-schedule"><div class="loan-schedule__heading"><div><span>LỊCH THANH TOÁN</span><h2>Chi tiết từng tháng.</h2></div><p>Mỗi kỳ thể hiện lãi suất đang áp dụng, phần gốc, phần lãi và dư nợ còn lại.</p></div><div class="loan-table-wrap"><table class="loan-table"><thead><tr><th>Tháng</th><th>Lãi suất</th><th>Dư nợ đầu kỳ</th><th>Tiền gốc</th><th>Tiền lãi</th><th>Thanh toán</th><th>Dư nợ còn lại</th></tr></thead><tbody id="loan-schedule-body"></tbody></table></div><p class="loan-note">Lãi suất thả nổi là mức giả định để tham khảo và có thể được ngân hàng điều chỉnh trong thực tế. Số tiền thực tế cũng có thể khác do ngày giải ngân, cách làm tròn, phí và chính sách từng ngân hàng.</p></section>
   </main>
   <div id="footer"></div>
   <script type="module" src="js/pages/loan.js"></script>
