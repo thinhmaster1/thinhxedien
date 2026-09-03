@@ -21,6 +21,7 @@ const annuityPayment = (principal, monthlyRate, months) => {
   if (!months) return 0;
   return monthlyRate === 0 ? principal / months : principal * monthlyRate * (1 + monthlyRate) ** months / ((1 + monthlyRate) ** months - 1);
 };
+const percentage = value => new Intl.NumberFormat("vi-VN",{ maximumFractionDigits:2 }).format(value);
 
 function calculate() {
   const principal = moneyInputValue(amountInput.value);
@@ -43,6 +44,7 @@ function calculate() {
   let totalPayment = 0;
   let currentPayment = introductoryPayment;
   let floatingPayment = 0;
+  let balanceAfterFixed = principal;
   const rows = [];
 
   for (let month = 1; month <= months; month += 1) {
@@ -58,16 +60,22 @@ function calculate() {
     const principalPayment = month === months ? openingBalance : Math.min(Math.max(currentPayment - interest,0),openingBalance);
     const payment = principalPayment + interest;
     balance = Math.max(0, openingBalance - principalPayment);
+    if (month === fixedMonths) balanceAfterFixed = balance;
     totalInterest += interest;
     totalPayment += payment;
-    rows.push(`<tr class="${month === fixedMonths + 1 ? "is-floating-start" : ""}"><td>${month}${month === fixedMonths + 1 ? `<small>Bắt đầu thả nổi</small>` : ""}</td><td>${new Intl.NumberFormat("vi-VN",{ maximumFractionDigits:2 }).format(appliedAnnualRate)}%/năm</td><td>${currency(openingBalance)}</td><td>${currency(principalPayment)}</td><td>${currency(interest)}</td><td><b>${currency(payment)}</b></td><td>${currency(balance)}</td></tr>`);
+    rows.push(`<tr class="${month === fixedMonths + 1 ? "is-floating-start" : ""}"><td>${month}${month === fixedMonths + 1 ? `<small>Bắt đầu thả nổi</small>` : ""}</td><td>${percentage(appliedAnnualRate)}%/năm</td><td>${currency(openingBalance)}</td><td>${currency(principalPayment)}</td><td>${currency(interest)}</td><td><b>${currency(payment)}</b></td><td>${currency(balance)}</td></tr>`);
   }
 
+  const hasFloatingPeriod = fixedMonths < months;
   document.querySelector("#monthly-payment").textContent = currency(introductoryPayment);
-  document.querySelector("#floating-payment").textContent = fixedMonths < months ? currency(floatingPayment) : "Không áp dụng";
-  document.querySelector("#loan-term-label").textContent = fixedMonths < months
-    ? `${annualRate}%/năm trong ${fixedMonths} tháng · sau đó ${floatingAnnualRate}%/năm`
-    : `${annualRate}%/năm trong toàn bộ ${months} tháng`;
+  document.querySelector("#floating-payment").textContent = hasFloatingPeriod ? currency(floatingPayment) : "Không áp dụng";
+  document.querySelector("#balance-after-fixed").textContent = currency(balanceAfterFixed);
+  document.querySelector("#floating-start-label").textContent = hasFloatingPeriod
+    ? `Sau ${fixedMonths} tháng ưu đãi · bắt đầu lãi thả nổi ${percentage(floatingAnnualRate)}%/năm từ tháng ${fixedMonths + 1}`
+    : `Ưu đãi áp dụng hết ${months} tháng · không còn dư nợ để tính lãi thả nổi`;
+  document.querySelector("#loan-term-label").textContent = hasFloatingPeriod
+    ? `${percentage(annualRate)}%/năm trong ${fixedMonths} tháng · sau đó ${percentage(floatingAnnualRate)}%/năm`
+    : `${percentage(annualRate)}%/năm trong toàn bộ ${months} tháng`;
   document.querySelector("#total-interest").textContent = currency(totalInterest);
   document.querySelector("#total-payment").textContent = currency(totalPayment);
   document.querySelector("#principal-total").textContent = currency(principal);
