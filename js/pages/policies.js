@@ -1,4 +1,4 @@
-import { esc, fail } from "../core.js";
+import { esc, fail, loadPromotions } from "../core.js";
 import { applySeo, Footer, Header } from "../components.js";
 
 applySeo({
@@ -10,10 +10,7 @@ applySeo({
 document.querySelector("#header").innerHTML = Header();
 document.querySelector("#footer").innerHTML = Footer();
 
-fetch("data/promotions.json").then(response => {
-  if (!response.ok) throw new Error("Không thể tải dữ liệu khuyến mãi");
-  return response.json();
-}).then(data => {
+loadPromotions().then(data => {
   document.querySelector("#policy-date").textContent = `BẢN TIN CHÍNH SÁCH · ${data.updated}`;
   const vinclub = data.vinclub;
   document.querySelector("#vinclub-promo").innerHTML = `<div class="vinclub-promo__head"><div><span>${esc(vinclub.label)}</span><h2>Ưu đãi rõ theo<br>từng hạng thành viên.</h2><p>Chọn đúng hạng VinClub để xem phần giảm trực tiếp được trừ vào giá xe và quyền lợi tích điểm đi kèm.</p></div><div class="vinclub-period"><span>THỜI GIAN ÁP DỤNG</span><b>${esc(vinclub.period)}</b><p>${esc(vinclub.condition)}</p></div></div><div class="vinclub-tiers">${vinclub.tiers.map(tier => `<article class="${tier.featured ? "is-featured" : ""}"><div class="vinclub-tier__head"><span>${esc(tier.name)}</span>${tier.featured ? `<em>PHỔ BIẾN</em>` : ""}</div><div class="vinclub-tier__discount"><small>GIẢM TRỰC TIẾP</small><strong>${esc(tier.discount.replace("Giảm trực tiếp ",""))}</strong></div><div class="vinclub-tier__benefits"><p><span>Tích điểm</span><b>${esc(tier.points.replace("Tích điểm chi tiêu ",""))}</b></p><p><span>Tổng quyền lợi</span><b>${esc(tier.total)}</b></p></div></article>`).join("")}</div><div class="vinclub-promo__note"><b>Lưu ý khi báo giá</b><p>${esc(vinclub.note)}</p></div>`;

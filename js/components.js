@@ -115,7 +115,7 @@ export function Footer() {
 }
 
 export function VehicleCard(car, { large = false } = {}) {
-  return `<article class="vehicle-card ${large ? "is-featured" : ""}"><div class="vehicle-card__copy"><span class="pill">${esc(car.segment)}</span><h3>${esc(car.name)}</h3><p>${esc(car.tagline)}</p><div class="card-actions"><a href="detail.html?xe=${car.slug}">Tìm hiểu thêm <span>›</span></a><a href="compare.html?xe=${car.slug}">So sánh <span>›</span></a></div></div><a class="vehicle-card__image" href="detail.html?xe=${car.slug}" aria-label="Xem ${esc(car.name)}"><img src="${car.image}" alt="${esc(car.name)}"></a></article>`;
+  return `<article class="vehicle-card ${large ? "is-featured" : ""}"><div class="vehicle-card__copy"><span class="pill">${esc(car.segment)}</span><h3>${esc(car.name)}</h3><p>${esc(car.tagline)}</p><div class="card-actions"><a href="detail.html?xe=${car.slug}">Tìm hiểu thêm <span>›</span></a><a href="compare.html?xe=${car.slug}">So sánh <span>›</span></a></div></div><a class="vehicle-card__image" href="detail.html?xe=${car.slug}" aria-label="Xem ${esc(car.name)}"><img src="${car.image}" alt="${esc(car.name)}" ${large ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></a></article>`;
 }
 
 export function CategorySection(group, index) {
@@ -133,7 +133,7 @@ export function SpecAccordion(group, specs, index, open = false) {
 }
 
 export function CarSelector(car, cars, index, selected) {
-  return `<article class="selector-card"><div class="selector-card__image"><img src="${car.image}" alt="${esc(car.name)}"></div><label><span>MẪU XE</span><select data-selector="${index}" aria-label="Chọn xe thứ ${index + 1}">${cars.map(item => `<option value="${item.slug}" ${item.slug === car.slug ? "selected" : ""} ${selected.includes(item.slug) && item.slug !== car.slug ? "disabled" : ""}>${esc(item.name)}</option>`).join("")}</select></label><strong>${money(car.price)}</strong><button data-remove="${index}" aria-label="Xóa ${esc(car.name)}">Xóa</button></article>`;
+  return `<article class="selector-card"><div class="selector-card__image"><img src="${car.image}" alt="${esc(car.name)}" decoding="async"></div><label><span>MẪU XE</span><select data-selector="${index}" aria-label="Chọn xe thứ ${index + 1}">${cars.map(item => `<option value="${item.slug}" ${item.slug === car.slug ? "selected" : ""} ${selected.includes(item.slug) && item.slug !== car.slug ? "disabled" : ""}>${esc(item.name)}</option>`).join("")}</select></label><strong>${money(car.price)}</strong><button data-remove="${index}" aria-label="Xóa ${esc(car.name)}">Xóa</button></article>`;
 }
 
 export function CompareValue(rawValue, highlight = false) {

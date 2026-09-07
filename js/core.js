@@ -28,10 +28,17 @@ export const display = input => input || UPDATING;
 export const esc = input => String(input ?? "").replace(/[&<>'"]/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", '"':"&quot;" }[char]));
 export const param = name => new URLSearchParams(location.search).get(name);
 
+const loadJson = async (path, message) => {
+  const response = await fetch(path,{ cache: "no-cache" });
+  if (!response.ok) throw new Error(message);
+  return response.json();
+};
+
+export const loadCarData = () => loadJson("data/cars.json","Không thể tải dữ liệu xe");
+export const loadPromotions = () => loadJson("data/promotions.json","Không thể tải dữ liệu khuyến mãi");
+
 export async function loadCars() {
-  const response = await fetch("data/cars.json");
-  if (!response.ok) throw new Error("Không thể tải dữ liệu xe");
-  return (await response.json()).cars;
+  return (await loadCarData()).cars;
 }
 
 export function fail(error) {

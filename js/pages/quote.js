@@ -1,4 +1,4 @@
-import { esc, fail, formatMoneyInput, loadCars, money, moneyInputValue } from "../core.js";
+import { esc, fail, formatMoneyInput, loadCars, loadPromotions, money, moneyInputValue } from "../core.js";
 import { applySeo, Footer, Header } from "../components.js";
 
 applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhmaster1.github.io/thinhxedien/quote.html" });
@@ -299,10 +299,7 @@ function downloadQuoteImage(car, paymentMode) {
   }
 }
 
-Promise.all([loadCars(), fetch("data/promotions.json").then(response => {
-  if (!response.ok) throw new Error("Không thể tải dữ liệu khuyến mãi");
-  return response.json();
-})]).then(([cars,promotions]) => {
+Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
   const quoteCars = [...cars].sort((a,b) => a.price - b.price);
   const root = document.querySelector("#quote-root");
   root.innerHTML = `<section class="quote-hero"><span>CÔNG CỤ BÁO GIÁ</span><h1>Báo giá rõ ràng.<br>Chọn xe thật nhanh.</h1><p>Chọn xe, phiên bản, màu sắc và thông tin đăng ký để xem ngay chi phí dự kiến theo hai phương thức thanh toán.</p></section>
