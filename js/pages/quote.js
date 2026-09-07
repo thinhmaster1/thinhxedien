@@ -26,6 +26,32 @@ const REGISTRATION_SERVICE_FEE = 3000000;
 const QUOTE_IMAGE_WIDTH = 1080;
 const QUOTE_IMAGE_FONT = '-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif';
 
+const fileNamePart = value => String(value || "")
+  .replace(/Đ/g,"D")
+  .replace(/đ/g,"d")
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"")
+  .replace(/[^a-zA-Z0-9]+/g,"-")
+  .replace(/^-+|-+$/g,"")
+  .slice(0,60)
+  .replace(/-+$/g,"");
+
+export function quoteImageFileName(car, paymentMode, { customerName = "", customerPhone = "" } = {}, date = new Date()) {
+  const paymentName = paymentMode === "cash" ? "Tra-thang" : "Tra-gop";
+  const namePart = fileNamePart(customerName);
+  const phonePart = String(customerPhone).replace(/\D/g,"").slice(0,15);
+  const datePart = [date.getFullYear(),String(date.getMonth() + 1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-");
+  return [
+    "Bao-gia",
+    "VinFast",
+    fileNamePart(car?.name || car?.slug || "Xe"),
+    paymentName,
+    namePart ? `Khach-${namePart}` : "",
+    phonePart ? `SDT-${phonePart}` : "",
+    datePart
+  ].filter(Boolean).join("-") + ".png";
+}
+
 const feeRow = (label, value, note = "") => `<div><span>${esc(label)}${note ? `<small>${esc(note)}</small>` : ""}</span><b>${money(value)}</b></div>`;
 
 const setCanvasFont = (context, size, weight = 400) => {
@@ -282,9 +308,10 @@ function downloadQuoteImage(car, paymentMode) {
   status.textContent = "";
   try {
     const link = document.createElement("a");
-    const paymentName = paymentMode === "cash" ? "tra-thang" : "tra-gop";
+    const customerName = document.querySelector("#customer-name")?.value.trim() || "";
+    const customerPhone = document.querySelector("#customer-phone")?.value.trim() || "";
     link.href = quoteImageUrl(currentQuoteImageData());
-    link.download = `bao-gia-${car.slug}-${paymentName}.png`;
+    link.download = quoteImageFileName(car,paymentMode,{ customerName,customerPhone });
     link.hidden = true;
     document.body.appendChild(link);
     link.click();
