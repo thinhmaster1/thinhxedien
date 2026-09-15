@@ -1,5 +1,5 @@
 import { esc, fail, loadCarData, money, UPDATING } from "../core.js";
-import { applySeo, Footer, Header } from "../components.js";
+import { applySeo, mountSiteShell } from "../components.js?v=2026091502";
 
 applySeo({
   title: "Bảng giá xe VinFast 2026 | Tất cả phiên bản",
@@ -7,8 +7,7 @@ applySeo({
   canonical: "https://thinhmaster1.github.io/thinhxedien/data.html"
 });
 
-document.querySelector("#header").innerHTML = Header();
-document.querySelector("#footer").innerHTML = Footer();
+mountSiteShell();
 
 const modelRow = car => {
   const prices = car.versions.map(version => version.price).filter(Boolean);

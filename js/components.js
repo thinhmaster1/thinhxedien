@@ -39,11 +39,57 @@ export function applySeo({ title = document.title, description, canonical, image
 applySeo();
 if (hasPrivateAccess()) document.body.classList.add("private-tools-visible");
 
+const PAGE_TEMPLATES = {
+  "index.html": { key: "home", label: "Dòng xe", nav: "index.html" },
+  "detail.html": { key: "detail", label: "Chi tiết xe", nav: "index.html" },
+  "data.html": { key: "prices", label: "Bảng giá", nav: "data.html" },
+  "compare.html": { key: "compare", label: "So sánh xe", nav: "compare.html" },
+  "policies.html": { key: "policies", label: "Ưu đãi", nav: "policies.html" },
+  "quote.html": { key: "quote", label: "Báo giá", nav: "quote.html" },
+  "loan.html": { key: "loan", label: "Tính trả góp", nav: "loan.html" },
+  "vinfast-thu-dau-mot-binh-duong.html": { key: "local", label: "Showroom Bình Dương", nav: "vinfast-thu-dau-mot-binh-duong.html" }
+};
+
+/** Shared shell for every production page, including keyboard and navigation states. */
+export function mountSiteShell() {
+  const file = location.pathname.split("/").pop() || "index.html";
+  const page = PAGE_TEMPLATES[file] || PAGE_TEMPLATES["index.html"];
+  document.body.dataset.page = page.key;
+  const main = document.querySelector("main");
+  if (main) {
+    if (!main.id) main.id = "main-content";
+    main.tabIndex = -1;
+    if (!document.querySelector(".skip-link")) {
+      document.body.insertAdjacentHTML("afterbegin", `<a class="skip-link" href="#${esc(main.id)}">Bỏ qua menu, đến nội dung</a>`);
+    }
+  }
+  document.querySelector("#header").innerHTML = Header();
+  document.querySelector("#footer").innerHTML = Footer();
+  document.querySelectorAll("#primary-navigation a").forEach(link => {
+    if (link.getAttribute("href").split("#")[0] === page.nav) link.setAttribute("aria-current", "page");
+  });
+  if (page.key !== "home" && !document.querySelector(".site-breadcrumb")) {
+    document.querySelector("#header").insertAdjacentHTML("afterend", `<nav class="site-breadcrumb" aria-label="Đường dẫn trang"><a href="index.html">Trang chủ</a><span aria-hidden="true">/</span><span aria-current="page">${esc(page.label)}</span></nav>`);
+  }
+  updateThemeButtons();
+}
+
 export function Header({ overlay = false } = {}) {
   return `<header class="site-header ${overlay ? "is-overlay" : ""}"><a class="brand" href="index.html" aria-label="Thịnh Xe Điện - Trang chủ"><span class="v-mark">T</span><span>Thịnh Xe Điện</span></a><nav id="primary-navigation" aria-label="Điều hướng chính"><a href="index.html#models">Dòng xe</a><a href="data.html">Bảng giá</a><a href="compare.html">So sánh</a><a href="policies.html">Ưu đãi</a><a class="private-tool-link" href="quote.html">Báo giá</a><a class="private-tool-link" href="loan.html">Trả góp</a><a href="vinfast-thu-dau-mot-binh-duong.html">Thủ Dầu Một</a><button class="mobile-consult" type="button" data-open-consultation>Đăng ký tư vấn</button></nav><button class="theme-toggle" type="button" data-toggle-theme aria-label="Chuyển giao diện" aria-pressed="false"><span aria-hidden="true">☾</span></button><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Mở menu"><i></i><i></i></button><button class="nav-cta" type="button" data-open-consultation>Đăng ký tư vấn</button><dialog class="consult-dialog" id="consult-dialog" aria-labelledby="consult-title"><form method="dialog" class="consult-form" id="consult-form"><button class="consult-close" type="button" data-close-consultation aria-label="Đóng">×</button><span>THỊNH XE ĐIỆN</span><h2 id="consult-title">Tư vấn & lái thử.</h2><p>Để lại thông tin, Bùi Đắc Thịnh sẽ liên hệ hỗ trợ bạn.</p><a class="consult-direct" href="tel:0352978519"><span><small>TƯ VẤN TRỰC TIẾP</small><b>Gọi ngay 0352 978 519</b></span><i>Gọi ngay</i></a><div class="consult-divider"><span>hoặc để lại thông tin</span></div><fieldset><legend>Nhu cầu của bạn</legend><div class="consult-choice"><label><input type="radio" name="requestType" value="Nhờ tư vấn" checked><b>Nhờ tư vấn</b></label><label><input type="radio" name="requestType" value="Đăng ký lái thử"><b>Đăng ký lái thử</b></label></div></fieldset><div class="consult-fields"><label><span>Họ và tên</span><input name="customerName" type="text" autocomplete="name" required placeholder="Nguyễn Văn A"></label><label><span>Số điện thoại</span><input name="customerPhone" type="tel" autocomplete="tel" inputmode="tel" required pattern="[0-9 +]{9,15}" placeholder="09xx xxx xxx"></label><label><span>Dòng xe quan tâm</span><select name="car"><option value="Chưa xác định">Chọn dòng xe</option><option>VF 2</option><option>VF 3</option><option>VF 5</option><option>VF 6</option><option>VF 7</option><option>VF 8</option><option>VF 8 Thế hệ mới</option><option>VF 9</option><option>Herio Green</option><option>Limo Green</option><option>VF MPV 7</option><option>EC Van</option></select></label><label><span>Khu vực</span><input name="location" type="text" autocomplete="address-level2" placeholder="Tỉnh / thành phố"></label><label class="consult-note"><span>Ghi chú</span><textarea name="note" rows="3" placeholder="Thời gian thuận tiện để liên hệ hoặc lái thử"></textarea></label></div><small>Để bảo đảm an toàn thông tin khách hàng, yêu cầu sẽ được gửi trực tiếp qua Zalo tới Bùi Đắc Thịnh. Website không lưu trữ thông tin bạn đã nhập.</small><button class="consult-submit" type="submit">Gửi trực tiếp qua Zalo</button><p class="consult-status" id="consult-status" aria-live="polite"></p></form></dialog></header>`;
 }
 
 queueMicrotask(updateThemeButtons);
+
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape") return;
+  const header = document.querySelector(".site-header.nav-open");
+  if (!header) return;
+  header.classList.remove("nav-open");
+  const toggle = header.querySelector(".nav-toggle");
+  toggle?.setAttribute("aria-expanded", "false");
+  toggle?.setAttribute("aria-label", "Mở menu");
+  toggle?.focus();
+});
 
 document.addEventListener("click", event => {
   if (event.target.closest("[data-toggle-theme]")) {
@@ -65,22 +111,17 @@ document.addEventListener("click", event => {
   } else if (!event.target.closest(".site-header") || event.target.closest("#primary-navigation a")) {
     header?.classList.remove("nav-open");
     header?.querySelector(".nav-toggle")?.setAttribute("aria-expanded", "false");
+    header?.querySelector(".nav-toggle")?.setAttribute("aria-label", "Mở menu");
   }
   if (event.target.closest("[data-open-consultation]")) {
     header?.classList.remove("nav-open");
     header?.querySelector(".nav-toggle")?.setAttribute("aria-expanded", "false");
+    header?.querySelector(".nav-toggle")?.setAttribute("aria-label", "Mở menu");
     dialog?.showModal();
     setTimeout(() => dialog?.querySelector("input[name='customerName']")?.focus(), 50);
   }
   if (event.target.closest("[data-close-consultation]")) dialog?.close();
   if (event.target === dialog) dialog.close();
-});
-
-document.addEventListener("keydown", event => {
-  if (event.key !== "Escape") return;
-  const header = document.querySelector(".site-header");
-  header?.classList.remove("nav-open");
-  header?.querySelector(".nav-toggle")?.setAttribute("aria-expanded", "false");
 });
 
 document.addEventListener("submit", event => {
@@ -115,7 +156,7 @@ export function Footer() {
 }
 
 export function VehicleCard(car, { large = false } = {}) {
-  return `<article class="vehicle-card ${large ? "is-featured" : ""}"><div class="vehicle-card__copy"><span class="pill">${esc(car.segment)}</span><h3>${esc(car.name)}</h3><p>${esc(car.tagline)}</p><div class="card-actions"><a href="detail.html?xe=${car.slug}">Tìm hiểu thêm <span>›</span></a><a href="compare.html?xe=${car.slug}">So sánh <span>›</span></a></div></div><a class="vehicle-card__image" href="detail.html?xe=${car.slug}" aria-label="Xem ${esc(car.name)}"><img src="${car.image}" alt="${esc(car.name)}" ${large ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></a></article>`;
+  return `<article class="vehicle-card ${large ? "is-featured" : ""}"><div class="vehicle-card__copy"><span class="pill">${esc(car.segment)}</span><h3>${esc(car.name)}</h3><p>${esc(car.tagline)}</p><div class="vehicle-card__price"><span>Giá từ</span><strong>${money(car.price)}</strong></div><div class="card-actions"><a href="detail.html?xe=${car.slug}">Tìm hiểu thêm <span>›</span></a><a href="compare.html?xe=${car.slug}">So sánh <span>›</span></a></div></div><a class="vehicle-card__image" href="detail.html?xe=${car.slug}" aria-label="Xem ${esc(car.name)}"><img src="${car.image}" alt="${esc(car.name)}" ${large ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></a></article>`;
 }
 
 export function CategorySection(group, index) {

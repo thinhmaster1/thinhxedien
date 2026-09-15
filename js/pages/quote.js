@@ -1,5 +1,5 @@
 import { esc, fail, formatMoneyInput, loadCars, loadPromotions, money, moneyInputValue } from "../core.js";
-import { applySeo, Footer, Header } from "../components.js";
+import { applySeo, mountSiteShell } from "../components.js?v=2026091502";
 
 applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhmaster1.github.io/thinhxedien/quote.html" });
 let robotsMeta = document.head.querySelector('meta[name="robots"]');
@@ -10,8 +10,7 @@ if (!robotsMeta) {
 }
 robotsMeta.content = "noindex,nofollow";
 
-document.querySelector("#header").innerHTML = Header();
-document.querySelector("#footer").innerHTML = Footer();
+mountSiteShell();
 
 const FEES = {
   registration: { province: 140000, city: 14000000 },
@@ -362,7 +361,7 @@ function downloadQuoteImage(car, paymentMode) {
 Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
   const quoteCars = [...cars].sort((a,b) => a.price - b.price);
   const root = document.querySelector("#quote-root");
-  root.innerHTML = `<section class="quote-hero"><span>CÔNG CỤ BÁO GIÁ</span><h1>Báo giá rõ ràng.<br>Chọn xe thật nhanh.</h1><p>Chọn xe, phiên bản, màu sắc và thông tin đăng ký để xem ngay chi phí dự kiến theo hai phương thức thanh toán.</p></section>
+  root.innerHTML = `<section class="quote-hero"><span>CÔNG CỤ BÁO GIÁ</span><h1>Lập báo giá VinFast.</h1><p>Chọn xe, phiên bản, màu sắc và thông tin đăng ký để xem ngay chi phí dự kiến theo hai phương thức thanh toán.</p></section>
     <section class="quote-workspace"><form class="quote-form" id="quote-form">
       <div class="quote-form__heading"><span>THÔNG TIN BÁO GIÁ</span><h2>Lựa chọn của khách hàng</h2></div>
       <div class="customer-fields"><label><span>Tên khách hàng <small>Không bắt buộc</small></span><input id="customer-name" type="text" placeholder="Nhập tên khách hàng"></label><label><span>Số điện thoại <small>Không bắt buộc</small></span><input id="customer-phone" type="tel" placeholder="Nhập số điện thoại"></label></div>

@@ -6,7 +6,7 @@
   --gray: #606e82;
   --soft: #edf2f9;
   --line: #d9e2ef;
-  --blue: #1464f4;
+  --blue: #1057d8;
   --blue-hover: #0b51d5;
   --white: #ffffff;
   --surface: #ffffff;
@@ -42,6 +42,7 @@ body, html[data-theme="dark"] body {
   background: var(--page-bg);
   color: var(--black);
   line-height: 1.5;
+  font-size: 1rem;
 }
 
 button, input, select, textarea { accent-color: var(--blue); }
@@ -81,6 +82,8 @@ input, select, textarea { color: var(--black); }
   box-shadow: 0 7px 18px var(--brand-glow);
 }
 .site-header nav { gap: clamp(12px, 1.6vw, 24px); font-size: 13px; font-weight: 600; }
+.site-header nav a[aria-current="page"] { color: var(--blue); }
+.site-header nav a[aria-current="page"]::after { content: ""; display: block; height: 2px; background: currentColor; border-radius: 2px; }
 .nav-cta, .blue-button, .consult-submit {
   border-radius: 13px;
   background: linear-gradient(135deg, #1464f4, #0a49c6);
@@ -219,7 +222,7 @@ html[data-theme="dark"] :is(.quote-form input, .quote-form select, .consult-fiel
   border-color: var(--line);
   border-radius: 12px;
 }
-.quote-form :is(input, select), .consult-fields :is(input, select) { min-height: 46px; font-size: 16px; }
+.quote-form :is(input:not([type="radio"]):not([type="checkbox"]), select), .consult-fields :is(input, select) { min-height: 46px; font-size: 16px; }
 .payment-switch, html[data-theme="dark"] .payment-switch { padding: 5px; background: var(--soft); border-radius: 14px; }
 .payment-switch button { min-height: 44px; font-size: 14px; border-radius: 10px; }
 .payment-switch button[aria-selected="true"], html[data-theme="dark"] .payment-switch button[aria-selected="true"] {
@@ -305,4 +308,220 @@ html[data-theme="dark"] :is(.quote-form input, .quote-form select, .consult-fiel
   body, html[data-theme="dark"] body { background: #fff; color: #111; }
   .quote-results { position: static; background: #fff; }
   .payment-card, .vehicle-cost { box-shadow: none; background: #fff; color: #111; }
+}
+
+/* Shared page templates: typography, editorial headers and working surfaces. */
+.skip-link { position: fixed; left: 1rem; top: -100px; z-index: 3000; padding: .8rem 1rem; background: var(--surface); border: 2px solid var(--blue); border-radius: 12px; color: var(--black); }
+.skip-link:focus { top: 1rem; }
+.site-breadcrumb { width: var(--page); margin: 1.5rem auto 1rem; display: flex; flex-wrap: wrap; gap: .7rem; font-size: .8125rem; color: var(--gray); }
+.site-breadcrumb a:hover { color: var(--blue); }
+.site-breadcrumb [aria-current] { color: var(--black); font-weight: 600; }
+body[data-page="quote"] .quote-hero, body[data-page="loan"] .loan-hero,
+body[data-page="prices"] .data-hero, body[data-page="compare"] .compare-catalog-hero { padding: 28px 32px; }
+body[data-page="quote"] .quote-hero h1, body[data-page="loan"] .loan-hero h1,
+body[data-page="prices"] .data-hero h1, body[data-page="compare"] .compare-catalog-hero h1 { font-size: clamp(2rem, 3vw, 2.75rem); }
+main { min-width: 0; }
+main:focus { outline: none; }
+section { scroll-margin-top: 110px; }
+h1, h2, h3 { overflow-wrap: break-word; }
+
+body :is(.catalog-hero:not(.premium-hero), .policy-hero, .quote-hero, .loan-hero, .local-hero) {
+  width: var(--page);
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 56px);
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  text-align: left;
+  background: radial-gradient(ellipse at 100% 0, var(--brand-glow), transparent 65%), var(--surface);
+}
+html[data-theme="dark"] body :is(.catalog-hero:not(.premium-hero), .policy-hero, .quote-hero, .loan-hero, .local-hero) {
+  background: radial-gradient(ellipse at 100% 0, var(--brand-glow), transparent 65%), var(--surface);
+}
+body .catalog-hero:not(.premium-hero) > div { width: 100%; max-width: 900px; margin: 0; }
+body :is(.catalog-hero:not(.premium-hero), .policy-hero, .quote-hero, .loan-hero, .local-hero) h1 {
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  line-height: 1.1;
+  letter-spacing: -.045em;
+  margin: 1rem 0;
+}
+body :is(.catalog-hero:not(.premium-hero), .policy-hero, .quote-hero, .loan-hero, .local-hero) p {
+  margin: 0;
+  max-width: 760px;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--gray);
+}
+body :is(.catalog-hero, .policy-hero, .quote-hero, .loan-hero, .local-hero) :is(div > span, section > span) { font-size: .75rem; }
+body :is(.section-title, .category-heading, .policy-heading, .price-data-heading, .loan-schedule__heading, .fuel-saving-heading) h2 {
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -.04em;
+}
+body :is(.section-title, .category-heading, .policy-heading, .local-services, .local-faq, .policy-note) p { font-size: 1rem; line-height: 1.75; }
+body :is(.policy-heading, .section-title, .category-heading) > span { font-size: .75rem; }
+.policy-section, .local-services, .local-models, .local-faq { padding-top: 64px; padding-bottom: 64px; }
+.price-data-section { padding-top: 48px; padding-bottom: 72px; }
+.policy-card { min-height: 280px; padding: 28px; }
+.policy-card h3 { line-height: 1.2; font-size: 1.5rem; }
+.policy-card > span { font-size: .75rem; line-height: 1.5; }
+.policy-card p, .policy-note p, .legacy-list p { font-size: 1rem; line-height: 1.65; }
+.legacy-list { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 0 24px; }
+.legacy-list article:last-child { border-bottom: 0; }
+.vinclub-tier__head > span, .vinclub-tier__discount small, .vinclub-tier__benefits :is(p, b), .vinclub-period p, .vinclub-promo__note :is(b, p) { font-size: .8125rem; }
+.vinclub-tier__head em { font-size: .75rem; }
+.vinclub-tiers article { min-height: 320px; }
+.vinclub-period > span { font-size: .75rem; }
+.vinclub-promo__head > div:first-child > p { font-size: 1rem; }
+.vinclub-promo__note { grid-template-columns: 170px 1fr; }
+.local-service-grid p, .local-faq details p { font-size: 1rem; }
+.local-hero aside { padding: 26px; }
+.local-hero dd { font-size: .8125rem; }
+
+.product-intro {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: 48px;
+  align-items: center;
+  width: var(--page);
+  margin: 0 auto;
+  padding: 32px 0;
+  text-align: left;
+}
+.product-intro h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -.05em; margin: 20px 0; }
+.product-intro__copy p { font-size: 1.125rem; line-height: 1.6; margin: 0 0 18px; }
+.product-intro__copy > strong { display: block; font-size: 1.125rem; }
+.product-intro .hero-actions { justify-content: flex-start; flex-wrap: wrap; }
+.product-intro__visual { margin: 0; height: 390px; }
+.metric-band { margin-top: 16px; margin-bottom: 64px; }
+.metric-card { padding: 24px; min-width: 0; }
+.metric-card > span { font-size: .875rem; }
+.metric-card strong { font-size: clamp(1.5rem, 2.3vw, 2rem); overflow-wrap: anywhere; }
+.metric-card small { font-size: .8125rem; }
+.story-section, .version-section, .color-section, .spec-section, .related-section { padding-top: 64px; padding-bottom: 64px; }
+.version-section .section-title.light { color: var(--black); }
+.version-cards article { padding: 26px; }
+.version-cards :is(span, small, a) { font-size: .875rem; }
+.swatches span { font-size: .875rem; }
+.spec-accordion summary h3 { font-size: 1.25rem; line-height: 1.4; }
+.spec-accordion__content > div { gap: 16px; font-size: .9375rem; line-height: 1.6; }
+.vehicle-card, .vehicle-card.is-featured { min-height: 475px; }
+.vehicle-card__copy, .vehicle-card.is-featured .vehicle-card__copy { padding: 26px 26px 20px; }
+.vehicle-card__price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.vehicle-card__price span { color: var(--gray); font-size: .8125rem; }
+.vehicle-card__price strong { font-size: 1rem; color: var(--black); }
+.vehicle-card__image, .vehicle-card.is-featured .vehicle-card__image { height: 230px; }
+.selector-card { padding: 16px; }
+.selector-card label span { font-size: .8125rem; }
+.selector-card select { font-size: 1.375rem; min-height: 44px; color: var(--black); }
+.selector-card > button { min-height: 36px; min-width: 44px; font-size: .8125rem; }
+.selector-card__image img { object-fit: contain; }
+.selector-section { margin: 36px auto 56px; }
+.quick-compare, .full-comparison { margin-bottom: 56px; border: 1px solid var(--line); border-radius: 24px; padding: 24px; background: var(--surface); }
+.comparison-row > span { font-size: .875rem; }
+.comparison-row > b { font-size: .9375rem; min-width: 0; overflow-wrap: anywhere; }
+.version-price-picker select, html[data-theme="dark"] .version-price-picker select { color: var(--black); background: var(--soft); border-color: var(--line); font-size: .875rem; min-height: 44px; }
+.version-price-picker { min-width: 0; border-color: var(--line); }
+.full-comparison summary h2 { font-size: 1.25rem; }
+.full-comparison summary span { font-size: .8125rem; }
+
+.quote-form, .quote-results, .loan-form, .loan-overview { padding: 28px; border-radius: 26px; }
+.quote-workspace { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: start; }
+.quote-form :is(fieldset, label, .form-grid, .customer-fields), .quote-results { min-width: 0; }
+.quote-form__heading h2, .loan-form h2 { font-size: 1.75rem; line-height: 1.2; }
+.quote-form legend { font-size: .9375rem; }
+.quote-form :is(label > span, .choice-group > span, .quote-promotion-group > span) { font-size: .875rem; line-height: 1.5; }
+.quote-form :is(label > span > small, .choice-group small, .check-option small, .loan-default-control small) { font-size: .8125rem; line-height: 1.55; }
+.choice-group b, .check-option b { font-size: .875rem; }
+.promotion-options label, .vinclub-quote-options label { min-width: 0; }
+.promotion-options :is(b, small), .vinclub-quote-options :is(b, small, em), .vinclub-quote-heading small, .promotion-help { font-size: .8125rem; line-height: 1.5; }
+.vinclub-quote-options strong { font-size: 1.5rem; }
+.quote-form input:is([type="radio"], [type="checkbox"]) { min-height: 0; width: 18px; height: 18px; flex-shrink: 0; }
+.loan-default-control > button { min-height: 40px; font-size: .8125rem; }
+.quote-result-head { padding: 0 0 24px; flex-wrap: wrap; }
+.quote-result-head h2 { font-size: 2rem; line-height: 1.15; }
+.quote-result-head :is(p, small), .quote-contact :is(span, small) { font-size: .8125rem; }
+.quote-actions button { min-height: 44px; font-size: .875rem; border-radius: 12px; }
+.vehicle-cost, .payment-card { padding: 24px; border-radius: 20px; }
+.vehicle-cost > span, .payment-card > span { font-size: .75rem; }
+.vehicle-cost > div, .fee-breakdown > div { font-size: .875rem; line-height: 1.5; gap: 16px; }
+.vehicle-cost small, .fee-breakdown small { font-size: .75rem; line-height: 1.5; }
+.vehicle-cost b, .fee-breakdown b { text-align: right; white-space: normal; overflow-wrap: anywhere; }
+.payment-card h3 { font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.15; overflow-wrap: anywhere; }
+.payment-card > p, .quote-disclaimer { font-size: .8125rem; line-height: 1.6; }
+.loan-note { background: var(--soft); border: 1px solid var(--line); }
+.loan-note :is(span, small, a) { font-size: .8125rem; }
+.loan-note b { font-size: 1.5rem; }
+.loan-workspace { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
+.loan-payment { margin: 26px 0; }
+.loan-stage-payments span, .loan-balance-after-fixed span, .loan-totals span { font-size: .8125rem; line-height: 1.5; }
+.loan-stage-payments strong { font-size: clamp(1.5rem, 2.5vw, 2.5rem); letter-spacing: -.035em; overflow-wrap: anywhere; }
+.loan-balance-after-fixed { grid-template-columns: 1fr; align-items: start; }
+.loan-balance-after-fixed strong { font-size: clamp(1.75rem, 3vw, 3rem); overflow-wrap: anywhere; }
+.loan-balance-after-fixed p { text-align: left; font-size: .8125rem; }
+.loan-totals { margin-top: auto; }
+.loan-totals b { font-size: .9375rem; overflow-wrap: anywhere; }
+.loan-table td:first-child small { font-size: .75rem; }
+.table-note, .data-note, .fuel-disclaimer { font-size: .8125rem; line-height: 1.65; }
+.version-toggle { min-height: 36px; font-size: .875rem; }
+.price-data-tools button { min-height: 44px; font-size: .875rem; border-radius: 12px; }
+.fuel-form label > span, .fuel-toggle span > b, .charge-copy strong { font-size: .875rem; }
+.fuel-toggle span > small, .charge-copy small, .free-charge-note small { font-size: .8125rem; }
+.fuel-result-grid { min-width: 0; }
+.fuel-result-grid b { overflow-wrap: anywhere; }
+.fuel-result-main > strong { font-size: clamp(2.5rem, 5vw, 4rem); overflow-wrap: anywhere; }
+
+.site-footer__cta { padding: 32px; gap: 24px; }
+.site-footer__main { gap: 32px; padding: 48px 0; }
+.site-footer__brand p, .site-footer__column :is(p, a) { font-size: .9375rem; line-height: 1.7; }
+.site-footer__column > span, .site-footer__bottom > small { font-size: .75rem; }
+.site-footer__column h3 { font-size: 1.125rem; }
+.consult-form > p, .consult-fields :is(input, select, textarea) { font-size: 1rem; }
+.consult-form :is(legend, .consult-fields label > span, .consult-choice b) { font-size: .875rem; }
+.consult-form > small { font-size: .8125rem; line-height: 1.6; }
+html[data-theme="dark"] .empty-selector { background: var(--surface); border: 1px dashed var(--line); color: var(--gray); }
+html[data-theme="dark"] .empty-selector span { background: var(--soft); color: var(--blue); }
+html[data-theme="dark"] .comparison-row .is-best { background: #183459; }
+html[data-theme="dark"] .quote-actions button.is-secondary { background: var(--soft); color: var(--black); border-color: var(--line); }
+html[data-theme="dark"] .vehicle-cost .policy-base { background: var(--soft); color: var(--gray) !important; border-color: var(--line); }
+html[data-theme="dark"] :is(.price-table tbody tr:hover, .loan-table tbody tr:hover) { background: var(--soft); }
+html[data-theme="dark"] :is(.price-table th, .price-table td, .car-summary:not(:first-child) td, .comparison-row, .comparison-row > b) { border-color: var(--line); }
+
+@media (max-width: 1000px) {
+  .product-intro { grid-template-columns: 1fr; gap: 28px; }
+  .product-intro__visual { height: 360px; }
+  .quote-workspace, .loan-workspace { grid-template-columns: 1fr; }
+  .quote-results { position: static; }
+  .local-hero { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .site-breadcrumb { margin-top: 1.25rem; }
+  body :is(.catalog-hero:not(.premium-hero), .policy-hero, .quote-hero, .loan-hero, .local-hero) { padding: 26px 22px; border-radius: 24px; }
+  body :is(.catalog-hero:not(.premium-hero), .policy-hero, .quote-hero, .loan-hero, .local-hero) h1 { font-size: clamp(2rem, 8vw, 2.75rem); }
+  .premium-hero dl { flex-wrap: wrap; }
+  .product-intro h1 { font-size: 3rem; }
+  .product-intro__visual { height: 270px; }
+  .quote-form, .quote-results, .loan-form, .loan-overview { padding: 20px; }
+  .quote-result-head { align-items: start; flex-direction: column; }
+  .quote-actions { justify-content: flex-start; }
+  .vehicle-cost, .payment-card { padding: 18px; }
+  .vehicle-cost > div, .fee-breakdown > div { gap: 12px; }
+  .vehicle-cost > div > span, .fee-breakdown > div > span { flex: 1; min-width: 0; }
+  .vehicle-cost > div > b, .fee-breakdown > div > b { max-width: 48%; }
+  .vinclub-promo__note { grid-template-columns: 1fr; gap: 10px; }
+  .quick-compare, .full-comparison { padding: 18px; border-radius: 20px; }
+  .quick-compare > *, .full-comparison details { min-width: 680px; }
+  .site-footer__cta { padding: 24px; }
+  .site-footer__main { gap: 30px 20px; }
+}
+@media (max-width: 380px) {
+  .site-header .brand { font-size: .8125rem; gap: 8px; }
+  .site-header .v-mark { width: 30px; height: 30px; }
+  .form-grid, .customer-fields, .choice-group > div { grid-template-columns: 1fr; }
+  .metric-band { grid-template-columns: 1fr; }
+  .vinclub-quote-options { grid-template-columns: 1fr; }
+  .site-footer__main { grid-template-columns: 1fr; }
+}
+@media print {
+  .skip-link, .site-breadcrumb { display: none !important; }
+  body.printing-all-prices :is(.price-table-wrap, .price-data-section) { display: none !important; }
 }

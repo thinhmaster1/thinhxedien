@@ -1,8 +1,7 @@
 import { fail, loadCars, money, param, specGroups } from "../core.js";
-import { applySeo, Footer, Header, MetricCard, SpecAccordion, VehicleCard } from "../components.js";
+import { applySeo, mountSiteShell, MetricCard, SpecAccordion, VehicleCard } from "../components.js?v=2026091502";
 
-document.querySelector("#header").innerHTML = Header();
-document.querySelector("#footer").innerHTML = Footer();
+mountSiteShell();
 
 const COLOR_TONES = [
   ["Infinity Blanc", "#f4f2ec"], ["Jet Black", "#1c1c1f"],

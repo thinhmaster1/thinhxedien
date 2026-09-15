@@ -1,4 +1,4 @@
-import { applySeo, Footer, Header } from "../components.js";
+import { applySeo, mountSiteShell } from "../components.js?v=2026091502";
 import { formatMoneyInput, money, moneyInputValue } from "../core.js";
 
 applySeo({
@@ -7,8 +7,7 @@ applySeo({
   canonical: "https://thinhmaster1.github.io/thinhxedien/loan.html"
 });
 
-document.querySelector("#header").innerHTML = Header();
-document.querySelector("#footer").innerHTML = Footer();
+mountSiteShell();
 
 const form = document.querySelector("#loan-form");
 const currency = value => money(value);

@@ -1,8 +1,7 @@
 import { fail, loadCars } from "../core.js";
-import { Footer, Header, VehicleCard } from "../components.js";
+import { mountSiteShell, VehicleCard } from "../components.js?v=2026091502";
 
-document.querySelector("#header").innerHTML = Header();
-document.querySelector("#footer").innerHTML = Footer();
+mountSiteShell();
 
 loadCars().then(cars => {
   const preferred = ["vf-3", "vf-5", "vf-7"];

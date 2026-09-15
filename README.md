@@ -78,6 +78,8 @@ public/
 
 Giao diện Premium dùng chung cho các trang qua `css/premium.css`, hỗ trợ sáng/tối và giữ nguyên các control HTML hiện có. Open Props được tải từ CDN với phiên bản cố định; các giá trị dự phòng trong CSS bảo đảm giao diện vẫn hoạt động khi CDN không khả dụng. Trang `theme-demo.html` được giữ riêng để tham khảo thiết kế.
 
+Tám trang chính dùng `mountSiteShell()` trong `js/components.js` để đồng bộ menu, trạng thái trang hiện tại, đường dẫn trang và liên kết bỏ qua menu. Các mẫu tiêu đề, thẻ xe, bảng thông số và công cụ báo giá/vay được chuẩn hóa trong `css/premium.css`. Kết quả kiểm thử trước khi cập nhật được ghi tại `QA_REPORT.md`.
+
 Website sử dụng `fetch()` để đọc JSON nên cần chạy qua một máy chủ tĩnh:
 
 ```bash

@@ -1,5 +1,5 @@
 import { display, esc, fail, loadCars, money, param, specGroups } from "../core.js";
-import { applySeo, CarSelector, CompareValue, Footer, Header, MissingNote } from "../components.js";
+import { applySeo, CarSelector, CompareValue, mountSiteShell, MissingNote } from "../components.js?v=2026091502";
 
 applySeo({
   title: "So sánh xe VinFast 2026 | Giá & thông số",
@@ -7,8 +7,7 @@ applySeo({
   canonical: "https://thinhmaster1.github.io/thinhxedien/compare.html"
 });
 
-document.querySelector("#header").innerHTML = Header();
-document.querySelector("#footer").innerHTML = Footer();
+mountSiteShell();
 
 loadCars().then(cars => {
   const root = document.querySelector("#compare-root");

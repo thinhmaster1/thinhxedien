@@ -1,5 +1,5 @@
 import { categories, fail, loadCars } from "../core.js";
-import { applySeo, CategorySection, Footer, Header } from "../components.js";
+import { applySeo, CategorySection, mountSiteShell } from "../components.js?v=2026091502";
 
 applySeo({
   title: "Thịnh Xe Điện | Giá xe VinFast & khuyến mãi 2026",
@@ -7,8 +7,7 @@ applySeo({
   canonical: "https://thinhmaster1.github.io/thinhxedien/index.html"
 });
 
-document.querySelector("#header").innerHTML = Header();
-document.querySelector("#footer").innerHTML = Footer();
+mountSiteShell();
 
 loadCars().then(cars => {
   const grouped = Object.keys(categories).map(key => ({

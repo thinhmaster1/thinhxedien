@@ -1,5 +1,5 @@
 import { esc, fail, loadPromotions } from "../core.js";
-import { applySeo, Footer, Header } from "../components.js";
+import { applySeo, mountSiteShell } from "../components.js?v=2026091502";
 
 applySeo({
   title: "Khuyến mãi VinFast tháng 9/2026 | Thịnh Xe Điện",
@@ -7,11 +7,11 @@ applySeo({
   canonical: "https://thinhmaster1.github.io/thinhxedien/policies.html"
 });
 
-document.querySelector("#header").innerHTML = Header();
-document.querySelector("#footer").innerHTML = Footer();
+mountSiteShell();
 
 loadPromotions().then(data => {
   document.querySelector("#policy-date").textContent = `BẢN TIN CHÍNH SÁCH · ${data.updated}`;
+  document.querySelector("#policy-note-date").textContent = data.updated;
   const vinclub = data.vinclub;
   document.querySelector("#vinclub-promo").innerHTML = `<div class="vinclub-promo__head"><div><span>${esc(vinclub.label)}</span><h2>Ưu đãi rõ theo<br>từng hạng thành viên.</h2><p>Chọn đúng hạng VinClub để xem phần giảm trực tiếp được trừ vào giá xe và quyền lợi tích điểm đi kèm.</p></div><div class="vinclub-period"><span>THỜI GIAN ÁP DỤNG</span><b>${esc(vinclub.period)}</b><p>${esc(vinclub.condition)}</p></div></div><div class="vinclub-tiers">${vinclub.tiers.map(tier => `<article class="${tier.featured ? "is-featured" : ""}"><div class="vinclub-tier__head"><span>${esc(tier.name)}</span>${tier.featured ? `<em>PHỔ BIẾN</em>` : ""}</div><div class="vinclub-tier__discount"><small>GIẢM TRỰC TIẾP</small><strong>${esc(tier.discount.replace("Giảm trực tiếp ",""))}</strong></div><div class="vinclub-tier__benefits"><p><span>Tích điểm</span><b>${esc(tier.points.replace("Tích điểm chi tiêu ",""))}</b></p><p><span>Tổng quyền lợi</span><b>${esc(tier.total)}</b></p></div></article>`).join("")}</div><div class="vinclub-promo__note"><b>Lưu ý khi báo giá</b><p>${esc(vinclub.note)}</p></div>`;
   document.querySelector("#active-promotions").innerHTML = data.active.map(item => `<article class="policy-card ${item.highlight ? "is-highlight" : ""}"><span>${esc(item.period)}</span><h3>${esc(item.model)}</h3><strong>${esc(item.benefit)}</strong><p>${esc(item.description)}</p></article>`).join("");
