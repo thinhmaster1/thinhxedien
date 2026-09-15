@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="vi" data-demo-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4f7fb" />
+    <meta
+      name="description"
+      content="Bản demo giao diện AI Premium dành riêng cho website Thịnh Xe Điện."
+    />
+    <title>AI Premium Theme Demo | Thịnh Xe Điện</title>
+
+    <!-- Hai thư viện đề xuất; CSS nội bộ bên dưới vẫn bảo đảm trang đẹp nếu CDN chưa tải. -->
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
+    <link rel="preconnect" href="https://ka-f.webawesome.com" crossorigin />
+    <link rel="stylesheet" href="https://unpkg.com/open-props@1.7.23/open-props.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://ka-f.webawesome.com/cdn/v3.12.0/styles/themes/default.css"
+    />
+    <link rel="stylesheet" href="css/theme-demo.css" />
+    <script
+      type="module"
+      src="https://ka-f.webawesome.com/cdn/v3.12.0/webawesome.loader.js"
+    ></script>
+    <script src="js/theme-demo.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient ambient--one" aria-hidden="true"></div>
+    <div class="ambient ambient--two" aria-hidden="true"></div>
+
+    <header class="demo-header">
+      <a class="brand" href="index.html" aria-label="Về trang chủ Thịnh Xe Điện">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" role="img">
+            <path d="M7 10.5 16.8 30h6.4L33 10.5h-6.2L20 25.2l-6.7-14.7H7Z" />
+          </svg>
+        </span>
+        <span>
+          <strong>THỊNH XE ĐIỆN</strong>
+          <small>AI Premium Theme Lab</small>
+        </span>
+      </a>
+
+      <nav class="demo-nav" aria-label="Điều hướng demo">
+        <a href="#overview">Tổng quan</a>
+        <a href="#quote-preview">Báo giá mẫu</a>
+        <span class="demo-pill">BẢN XEM THỬ</span>
+      </nav>
+
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Chuyển chế độ tối">
+        <span class="theme-toggle__sun" aria-hidden="true">☀</span>
+        <span class="theme-toggle__track"><span></span></span>
+        <span class="theme-toggle__moon" aria-hidden="true">☾</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero" id="overview">
+        <div class="hero__copy reveal">
+          <div class="eyebrow">
+            <span class="eyebrow__dot"></span>
+            GIAO DIỆN ĐỀ XUẤT 2026
+          </div>
+          <h1>
+            Công nghệ hiện đại.<br />
+            <span>Trải nghiệm rất VinFast.</span>
+          </h1>
+          <p class="hero__lead">
+            Thiết kế mới làm nổi bật xe, chính sách và báo giá — với chuyển động nhẹ,
+            chiều sâu tinh tế và khả năng đọc rõ ràng trên mọi thiết bị.
+          </p>
+
+          <div class="hero__actions">
+            <a class="primary-action" href="#quote-preview">
+              Xem báo giá mẫu
+              <span aria-hidden="true">↗</span>
+            </a>
+            <wa-button class="wa-demo-button" variant="neutral" appearance="outlined" size="large">
+              Khám phá dòng xe
+            </wa-button>
+          </div>
+
+          <div class="hero__trust" aria-label="Điểm nổi bật">
+            <div><strong>08 năm</strong><span>Kinh nghiệm tư vấn</span></div>
+            <i aria-hidden="true"></i>
+            <div><strong>1:1</strong><span>Hỗ trợ tận tâm</span></div>
+            <i aria-hidden="true"></i>
+            <div><strong>Minh bạch</strong><span>Chi phí lăn bánh</span></div>
+          </div>
+        </div>
+
+        <div class="hero__visual reveal reveal--delay">
+          <div class="vehicle-orbit" aria-hidden="true"></div>
+          <div class="vehicle-card">
+            <div class="vehicle-card__top">
+              <span>VINFAST VF 8</span>
+              <span class="live-status"><i></i> Sẵn sàng tư vấn</span>
+            </div>
+            <img src="public/cars/thumb-vf8-new.png" alt="VinFast VF 8" />
+            <div class="vehicle-card__footer">
+              <div>
+                <small>Giá niêm yết từ</small>
+                <strong>1.019.000.000 ₫</strong>
+              </div>
+              <span class="vehicle-card__arrow" aria-hidden="true">→</span>
+            </div>
+          </div>
+
+          <div class="floating-card floating-card--range">
+            <span class="floating-card__icon">⌁</span>
+            <div><strong>562 km</strong><small>Quãng đường tối đa</small></div>
+          </div>
+          <div class="floating-card floating-card--support">
+            <span class="floating-card__icon">✓</span>
+            <div><strong>Trả góp linh hoạt</strong><small>Tùy chỉnh khoản trả trước</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="experience reveal">
+        <div class="section-heading">
+          <span>NGÔN NGỮ THIẾT KẾ</span>
+          <h2>Hiện đại vừa đủ, tập trung vào quyết định mua xe.</h2>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card feature-card--gradient">
+            <div class="feature-card__number">01</div>
+            <div class="feature-card__visual"><span></span><span></span><span></span></div>
+            <h3>Chiều sâu thông minh</h3>
+            <p>Gradient và ánh sáng được dùng để dẫn mắt, không làm lu mờ thông tin chính.</p>
+          </article>
+          <article class="feature-card feature-card--motion">
+            <div class="feature-card__number">02</div>
+            <div class="motion-demo" aria-hidden="true">
+              <span></span><span></span><span></span><i></i>
+            </div>
+            <h3>Chuyển động có kiểm soát</h3>
+            <p>Phản hồi mượt khi rê chuột và cuộn trang, tự giảm hiệu ứng khi người dùng yêu cầu.</p>
+          </article>
+          <article class="feature-card feature-card--control">
+            <div class="feature-card__number">03</div>
+            <div class="control-demo" aria-hidden="true">
+              <span class="control-demo__label">Phương thức</span>
+              <span class="control-demo__switch"><i></i></span>
+              <strong>Trả góp</strong>
+            </div>
+            <h3>Control đồng nhất</h3>
+            <p>Nút, switch và lựa chọn được chuẩn hóa để thao tác nhanh, rõ trên cả điện thoại.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="quote-showcase reveal" id="quote-preview">
+        <div class="quote-showcase__copy">
+          <div class="eyebrow"><span class="eyebrow__dot"></span>BÁO GIÁ THÔNG MINH</div>
+          <h2>Mọi chi phí quan trọng,<br />được trình bày trong một nhịp nhìn.</h2>
+          <p>
+            Đây là ví dụ cách theme mới làm phần báo giá sáng sủa hơn mà vẫn giữ nguyên
+            logic hiện tại của website.
+          </p>
+          <div class="quote-tabs" role="tablist" aria-label="Phương thức thanh toán">
+            <button type="button" role="tab" data-demo-tab="cash" aria-selected="false">Trả thẳng</button>
+            <button type="button" role="tab" data-demo-tab="loan" aria-selected="true">Trả góp</button>
+          </div>
+        </div>
+
+        <div class="quote-panel">
+          <div class="quote-panel__header">
+            <div>
+              <span class="quote-panel__kicker">DỰ TOÁN CHI PHÍ</span>
+              <h3>VinFast VF 8 Eco</h3>
+            </div>
+            <span class="quote-panel__badge">Tháng 09/2026</span>
+          </div>
+
+          <div class="quote-panel__vehicle">
+            <img src="public/cars/thumb-vf8-new.png" alt="VinFast VF 8 Eco" />
+            <div><small>Màu ngoại thất</small><strong>VinFast Blue</strong></div>
+            <span class="color-dot" aria-label="Màu xanh"></span>
+          </div>
+
+          <div class="quote-panel__rows">
+            <div><span>Giá xe sau ưu đãi</span><strong>939.000.000 ₫</strong></div>
+            <div><span>Chi phí đăng ký xe</span><strong>32.570.000 ₫</strong></div>
+            <div class="quote-panel__subtle"><span>Đã gồm phí dịch vụ mặc định</span><span>3.000.000 ₫</span></div>
+          </div>
+
+          <div class="quote-panel__total">
+            <span data-total-label>TỔNG CHI PHÍ LĂN BÁNH</span>
+            <strong data-total-value>971.570.000 ₫</strong>
+          </div>
+
+          <div class="loan-summary" data-loan-summary>
+            <div><small>Trả trước 15%</small><strong>140.850.000 ₫</strong></div>
+            <div><small>Khoản vay dự kiến</small><strong>798.150.000 ₫</strong></div>
+          </div>
+
+          <button class="quote-panel__cta" type="button">
+            Nhận báo giá chi tiết
+            <span aria-hidden="true">→</span>
+          </button>
+          <p class="quote-panel__note">* Số liệu minh họa cho mục đích xem giao diện.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="demo-footer">
+      <div>
+        <strong>AI Premium Theme Demo</strong>
+        <span>Open Props 1.7.23 + Web Awesome 3.12.0</span>
+      </div>
+      <p>Trang thử nghiệm độc lập — chưa áp dụng vào website chính.</p>
+      <a href="index.html">Quay lại website hiện tại →</a>
+    </footer>
+  </body>
+</html>

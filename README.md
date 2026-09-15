@@ -53,6 +53,7 @@ css/
   components.css
   pages.css
   refinements.css
+  premium.css
 data/
   cars.json
   promotions.json
@@ -74,6 +75,8 @@ public/
 ```
 
 ## Chạy demo trên máy
+
+Giao diện Premium dùng chung cho các trang qua `css/premium.css`, hỗ trợ sáng/tối và giữ nguyên các control HTML hiện có. Open Props được tải từ CDN với phiên bản cố định; các giá trị dự phòng trong CSS bảo đảm giao diện vẫn hoạt động khi CDN không khả dụng. Trang `theme-demo.html` được giữ riêng để tham khảo thiết kế.
 
 Website sử dụng `fetch()` để đọc JSON nên cần chạy qua một máy chủ tĩnh:
 
