@@ -27,3 +27,10 @@ Kiểm thử trong trình duyệt nhúng trên máy local, không thay thế ki�
 - Bổ sung kiểm tra tự động cho cấu trúc dữ liệu, giá phiên bản, nguồn HTTPS, dữ liệu EC Van/VF 2/VF 7/MPV 7, bảo hành và chống chèn HTML.
 - Giá xe và danh sách phiên bản không đổi. VF 2 được cập nhật đúng 3 màu cơ bản (Trắng, Đỏ, Bạc) và 5 màu nâng cao phụ phí 8 triệu đồng.
 - Kiểm thử trực tiếp báo giá VF 2: màu cơ bản có phụ phí 0 đồng; Xanh Urban Mint cộng đúng 8 triệu đồng, đưa giá xe từ 188 triệu lên 196 triệu đồng trước chi phí lăn bánh.
+
+## Công thức vay và bảo hiểm vật chất — 17/09/2026
+
+- Chuyển lịch vay sang dư nợ giảm dần: gốc chia đều theo số kỳ, lãi từng tháng tính trên dư nợ đầu kỳ; lãi suất thả nổi bắt đầu đúng từ tháng sau thời gian ưu đãi.
+- Ca kiểm tra 500 triệu, 60 tháng, ưu đãi 8,5% trong 12 tháng rồi 11,5%: kỳ đầu 11.875.000đ, dư nợ sau ưu đãi 400.000.000đ, kỳ 13 là 12.166.667đ và kỳ cuối về 0đ.
+- VF 2, VF 3 và EC Van dùng bảo hiểm vật chất cố định 4.500.000đ cho cả biển trắng/vàng. Các xe khác giữ nguyên 1,2% cho biển trắng và 1,6% cho biển vàng.
+- Khung thiết lập báo giá chuyển các trường chính và thẻ VinClub sang một cột, tăng bề rộng hợp lý và đã kiểm tra trực quan ở giao diện tối; không còn chữ chồng hoặc thẻ bị ép ngang.

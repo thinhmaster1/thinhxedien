@@ -10,12 +10,12 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/refinements.css">
-  <link rel="stylesheet" href="css/premium.css?v=2026091503"><script src="js/file-protocol.js" defer></script>
+  <link rel="stylesheet" href="css/premium.css?v=2026091701"><script src="js/file-protocol.js" defer></script>
 </head>
 <body>
   <div id="header"></div>
   <main>
-    <section class="loan-hero"><span>CÔNG CỤ TÀI CHÍNH</span><h1>Tính khoản vay mua xe.</h1><p>Ước tính khoản trả hàng tháng, tiền lãi và dư nợ với lãi suất ưu đãi ban đầu rồi chuyển sang lãi suất thả nổi.</p></section>
+    <section class="loan-hero"><span>CÔNG CỤ TÀI CHÍNH</span><h1>Tính khoản vay mua xe.</h1><p>Gốc được chia đều theo thời hạn vay; tiền lãi mỗi tháng tính trên dư nợ thực tế còn lại và áp dụng mức thả nổi sau ưu đãi.</p></section>
     <section class="loan-workspace">
       <form class="loan-form" id="loan-form">
         <div><span>THÔNG TIN KHOẢN VAY</span><h2>Nhập dữ liệu của bạn.</h2></div>
@@ -24,15 +24,15 @@
         <label><span>Thời gian ưu đãi</span><div><input id="loan-fixed-months" type="number" min="1" max="360" step="1" value="12" required><b>tháng</b></div></label>
         <label><span>Lãi suất thả nổi sau ưu đãi</span><div><input id="loan-floating-rate" type="number" min="0" max="100" step="any" value="11.5" required><b>%/năm</b></div></label>
         <label><span>Thời hạn vay</span><div><input id="loan-years" type="number" min="1" max="30" step="1" value="5" required><b>năm</b></div></label>
-        <p>Khoản trả hàng tháng được tính lại khi bắt đầu giai đoạn thả nổi. Lãi tính trên dư nợ thực tế còn lại.</p>
+        <p>Phương pháp dư nợ giảm dần: tiền gốc chia đều cho các kỳ, tiền lãi tính trên dư nợ đầu kỳ. Vì vậy số tiền phải trả thay đổi và thường giảm dần theo tháng.</p>
       </form>
       <div class="loan-overview" aria-live="polite">
         <span>KẾT QUẢ ƯỚC TÍNH</span>
         <div class="loan-payment">
           <small>DIỄN BIẾN KHOẢN VAY</small>
           <div class="loan-stage-payments">
-            <div><span>Trả mỗi tháng · ưu đãi</span><strong id="monthly-payment">—</strong></div>
-            <div><span>Trả mỗi tháng · thả nổi</span><strong id="floating-payment">—</strong></div>
+            <div><span>Kỳ đầu · ưu đãi</span><strong id="monthly-payment">—</strong></div>
+            <div><span>Kỳ đầu · thả nổi</span><strong id="floating-payment">—</strong></div>
           </div>
           <div class="loan-balance-after-fixed">
             <div><span>DƯ NỢ SAU KHI HẾT ƯU ĐÃI</span><strong id="balance-after-fixed">—</strong></div>
@@ -43,9 +43,9 @@
         <div class="loan-totals"><article><span>Tổng tiền lãi</span><b id="total-interest">—</b></article><article><span>Tổng cộng</span><b id="total-payment">—</b></article><article><span>Tiền vay ban đầu</span><b id="principal-total">—</b></article></div>
       </div>
     </section>
-    <section class="loan-schedule"><div class="loan-schedule__heading"><div><span>LỊCH THANH TOÁN</span><h2>Chi tiết từng tháng.</h2></div><p>Mỗi kỳ thể hiện lãi suất đang áp dụng, phần gốc, phần lãi và dư nợ còn lại.</p></div><div class="loan-table-wrap"><table class="loan-table"><thead><tr><th>Tháng</th><th>Lãi suất</th><th>Dư nợ đầu kỳ</th><th>Tiền gốc</th><th>Tiền lãi</th><th>Thanh toán</th><th>Dư nợ còn lại</th></tr></thead><tbody id="loan-schedule-body"></tbody></table></div><p class="loan-note">Lãi suất thả nổi là mức giả định để tham khảo và có thể được ngân hàng điều chỉnh trong thực tế. Số tiền thực tế cũng có thể khác do ngày giải ngân, cách làm tròn, phí và chính sách từng ngân hàng.</p></section>
+    <section class="loan-schedule"><div class="loan-schedule__heading"><div><span>LỊCH THANH TOÁN</span><h2>Chi tiết từng tháng.</h2></div><p>Mỗi kỳ thể hiện tiền gốc chia đều, lãi trên dư nợ đầu kỳ và dư nợ giảm sau thanh toán.</p></div><div class="loan-table-wrap"><table class="loan-table"><thead><tr><th>Tháng</th><th>Lãi suất</th><th>Dư nợ đầu kỳ</th><th>Tiền gốc</th><th>Tiền lãi</th><th>Thanh toán</th><th>Dư nợ còn lại</th></tr></thead><tbody id="loan-schedule-body"></tbody></table></div><p class="loan-note">Lãi suất thả nổi là mức giả định để tham khảo và có thể được ngân hàng điều chỉnh trong thực tế. Số tiền thực tế cũng có thể khác do ngày giải ngân, cách làm tròn, phí và chính sách từng ngân hàng.</p></section>
   </main>
   <div id="footer"></div>
-  <script type="module" src="js/pages/loan.js?v=2026091503"></script>
+  <script type="module" src="js/pages/loan.js?v=2026091701"></script>
 </body>
 </html>

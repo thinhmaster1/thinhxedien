@@ -450,7 +450,11 @@ body :is(.policy-heading, .section-title, .category-heading) > span { font-size:
 .full-comparison summary span { font-size: .8125rem; }
 
 .quote-form, .quote-results, .loan-form, .loan-overview { padding: 28px; border-radius: 26px; }
-.quote-workspace { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: start; }
+.quote-workspace { grid-template-columns: minmax(420px, .92fr) minmax(0, 1.08fr); align-items: start; }
+.quote-form { overflow: hidden; }
+.quote-form :is(.customer-fields, .form-grid, .vinclub-quote-options) { grid-template-columns: 1fr; }
+.quote-form .vinclub-quote-options label, .quote-form .vinclub-quote-options label.is-none { grid-column: auto; min-height: 0; }
+.quote-form label > span > small { display: block; margin: 2px 0 0; }
 .quote-form :is(fieldset, label, .form-grid, .customer-fields), .quote-results { min-width: 0; }
 .quote-form__heading h2, .loan-form h2 { font-size: 1.75rem; line-height: 1.2; }
 .quote-form legend { font-size: .9375rem; }
