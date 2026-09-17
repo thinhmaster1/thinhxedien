@@ -98,7 +98,13 @@ Trang báo giá và trả góp được ẩn mặc định. Nhập passcode tạ
 
 Đây chỉ là lớp kiểm soát truy cập phía trình duyệt, không thay thế cơ chế xác thực phía máy chủ nếu website cần bảo vệ dữ liệu nhạy cảm.
 
-## Lưu ý
+## Dữ liệu thông số xe
+
+`data/cars.json` tách ngày rà soát thông số (`specsUpdated`) khỏi ngày giá/màu/chính sách. Mỗi xe có `sources`, `specsNote` và `summary` để truy xuất nguồn, nêu khác biệt cấu hình và dựng phần tóm tắt đầu trang chi tiết qua `js/detail-content.js`. Không suy diễn trang bị của mẫu xe khác, không tự coi phụ kiện AFS là trang bị tiêu chuẩn.
+
+Chạy kiểm tra dữ liệu: `node tests/car-data.test.mjs`. Nguồn và các điểm cần tiếp tục xác minh được ghi ở `DATA_SOURCES.md`.
+
+## Lưu ý sử dụng
 
 - Giá và ưu đãi có thể thay đổi theo chính sách VinFast tại từng thời điểm.
 - Số liệu NEDC, WLTP và CLTC sử dụng chu trình đo khác nhau, không nên so sánh trực tiếp.

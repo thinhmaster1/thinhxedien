@@ -19,3 +19,11 @@ Tám trang chính: trang chủ, chi tiết xe, bảng giá, so sánh, ưu đãi,
 ## Giới hạn
 
 Kiểm thử trong trình duyệt nhúng trên máy local, không thay thế kiểm tra Safari/Chrome trên thiết bị thật. Trình duyệt nhúng không trả sự kiện tải file cho ảnh data-URL, nên chưa xác nhận file PNG trên ổ đĩa; chỉ xác nhận luồng tạo ảnh và tên file. Không gửi biểu mẫu Zalo, không xác minh chính sách thực tế với đại lý/ngân hàng, không thay đổi công thức tài chính hay dữ liệu giá trong lần cập nhật giao diện này.
+
+## Bổ sung dữ liệu xe — 15/09/2026
+
+- Rà soát 12 mẫu xe bằng trang sản phẩm, brochure và chính sách chính thức; thêm nguồn, ngày kiểm tra, ghi chú chênh lệch và phần tóm tắt đầu trang chi tiết.
+- Kiểm tra trang chi tiết của 12 mẫu ở 1280, 390 và 320 px, cả sáng/tối: 72 cấu hình đều không tràn ngang, không lỗi ảnh và có đủ tóm tắt, nguồn cùng các nhóm thông số thu gọn.
+- Bổ sung kiểm tra tự động cho cấu trúc dữ liệu, giá phiên bản, nguồn HTTPS, dữ liệu EC Van/VF 2/VF 7/MPV 7, bảo hành và chống chèn HTML.
+- Giá xe và danh sách phiên bản không đổi. VF 2 được cập nhật đúng 3 màu cơ bản (Trắng, Đỏ, Bạc) và 5 màu nâng cao phụ phí 8 triệu đồng.
+- Kiểm thử trực tiếp báo giá VF 2: màu cơ bản có phụ phí 0 đồng; Xanh Urban Mint cộng đúng 8 triệu đồng, đưa giá xe từ 188 triệu lên 196 triệu đồng trước chi phí lăn bánh.

@@ -1,5 +1,5 @@
-import { esc, fail, loadPromotions } from "../core.js";
-import { applySeo, mountSiteShell } from "../components.js?v=2026091502";
+import { esc, fail, loadPromotions } from "../core.js?v=2026091503";
+import { applySeo, mountSiteShell } from "../components.js?v=2026091503";
 
 applySeo({
   title: "Khuyến mãi VinFast tháng 9/2026 | Thịnh Xe Điện",

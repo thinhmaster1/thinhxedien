@@ -1,4 +1,4 @@
-import { display, esc, money, UPDATING } from "./core.js";
+import { display, esc, money, UPDATING } from "./core.js?v=2026091503";
 import { grantPrivateAccess, hasPrivateAccess, verifyPrivatePasscode } from "./access.js";
 
 const SITE_URL = "https://thinhmaster1.github.io/thinhxedien";
@@ -170,7 +170,9 @@ export function MetricCard(label, rawValue, note = "") {
 }
 
 export function SpecAccordion(group, specs, index, open = false) {
-  return `<details class="spec-accordion" ${open ? "open" : ""}><summary><h3>${esc(group.title)}</h3><i></i></summary><div class="spec-accordion__content">${group.items.map(([label,key]) => `<div><span>${esc(label)}</span><b class="${specs[key] ? "" : "is-updating"}">${display(specs[key])}</b></div>`).join("")}</div></details>`;
+  const known = group.items.filter(([,key]) => specs[key]);
+  const missing = group.items.filter(([,key]) => !specs[key]).map(([label]) => label);
+  return `<details class="spec-accordion" ${open ? "open" : ""}><summary><h3>${esc(group.title)}</h3><i></i></summary><div class="spec-accordion__content">${known.map(([label,key]) => `<div><span>${esc(label)}</span><b>${esc(display(specs[key]))}</b></div>`).join("")}</div>${missing.length ? `<p class="spec-unverified">Chưa có dữ liệu xác nhận: ${missing.map(esc).join(", ")}.</p>` : ""}</details>`;
 }
 
 export function CarSelector(car, cars, index, selected) {

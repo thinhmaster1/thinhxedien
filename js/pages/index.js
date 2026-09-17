@@ -1,5 +1,5 @@
-import { categories, fail, loadCars } from "../core.js";
-import { applySeo, CategorySection, mountSiteShell } from "../components.js?v=2026091502";
+import { categories, fail, loadCars } from "../core.js?v=2026091503";
+import { applySeo, CategorySection, mountSiteShell } from "../components.js?v=2026091503";
 
 applySeo({
   title: "Thịnh Xe Điện | Giá xe VinFast & khuyến mãi 2026",
