@@ -144,6 +144,14 @@ input, select, textarea { color: var(--black); }
   filter: drop-shadow(0 24px 20px #101f4330);
   transition: transform 650ms var(--premium-ease);
 }
+.premium-hero__visual.is-photo { overflow: hidden; }
+.premium-hero__visual.is-photo img {
+  width: calc(100% + 56px);
+  height: 360px;
+  margin: 22px -28px;
+  object-fit: cover;
+  filter: none;
+}
 .premium-hero__visual:hover img { transform: translateY(-5px) scale(1.02); }
 .premium-hero__visual > a {
   display: flex;
@@ -292,6 +300,7 @@ html[data-theme="dark"] :is(.quote-form input, .quote-form select, .consult-fiel
   .premium-hero__actions { align-items: flex-start; flex-direction: column; gap: 18px; }
   .premium-hero dl > div { padding: 0 12px; }
   .premium-hero > .premium-hero__visual { border-radius: 26px; padding: 20px; }
+  .premium-hero__visual.is-photo img { width: calc(100% + 40px); height: 280px; margin: 18px -20px; }
   .category-heading h2 { font-size: 36px; }
   .category-grid .vehicle-card { min-width: 82vw; }
   .quote-result-head { align-items: flex-start; flex-direction: column; }
