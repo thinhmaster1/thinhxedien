@@ -3,6 +3,7 @@ export const UPDATING = "Dữ liệu đang cập nhật";
 export const specGroups = [
   { title: "Kích thước & không gian", items: [["Kích thước", "dimensions"], ["Chiều dài cơ sở", "wheelbase"], ["Khoảng sáng gầm", "clearance"], ["Khoang hành lý", "trunk"], ["Kích thước khoang hàng", "cargoDimensions"], ["Bán kính quay vòng", "turningRadius"], ["Khối lượng không tải", "curbWeight"], ["Tải trọng", "payload"], ["Số chỗ", "seats"]] },
   { title: "Pin & vận hành", items: [["Quãng đường", "range"], ["Dung lượng pin", "battery"], ["Công suất", "power"], ["Mô-men xoắn", "torque"], ["Tốc độ tối đa", "topSpeed"], ["Chế độ lái", "driveModes"], ["Hệ dẫn động", "drivetrain"], ["Phanh tái sinh", "regenerativeBraking"], ["Sạc nhanh DC", "dcCharge"], ["Sạc AC tối đa", "acCharge"]] },
+  { title: "Hệ thống REEV", items: [["Động cơ mở rộng phạm vi", "engine"], ["Bình nhiên liệu", "fuelTank"], ["Quãng đường kết hợp", "combinedRange"]] },
   { title: "Phiên bản & trang bị", items: [["Loại pin theo phiên bản", "batteryType"], ["Bộ sạc tại nhà tương thích", "homeCharger"], ["Lốp theo phiên bản", "tireType"], ["Tùy chọn trả phí", "paidOptions"], ["Trang bị theo phiên bản", "versionEquipment"], ["Phụ kiện lắp thêm (AFS)", "optionalEquipment"]] },
   { title: "Khung gầm & ngoại thất", items: [["Hệ thống phanh", "brakes"], ["Phanh đỗ xe", "parkingBrake"], ["Mâm", "wheels"], ["Hệ thống treo", "suspension"], ["Đèn", "lights"], ["Gương & ngoại thất", "exteriorFeatures"]] },
   { title: "Nội thất & tiện nghi", items: [["Chất liệu ghế", "upholstery"], ["Ghế & vô-lăng", "seatFeatures"], ["Điều hòa & lọc khí", "climate"], ["Màn hình", "screen"], ["Âm thanh", "speakers"], ["Kết nối", "connectivity"], ["Tiện nghi khác", "convenience"]] },
@@ -15,7 +16,7 @@ export const categories = {
   family: { eyebrow: "RỘNG RÃI. ĐA DỤNG.", title: "SUV gia đình", description: "Không gian thoải mái và hiệu suất cân bằng cho mọi thành viên." },
   premium: { eyebrow: "TINH TẾ. MẠNH MẼ.", title: "SUV cao cấp", description: "Công nghệ, hiệu năng và sự thoải mái trên những hành trình dài." },
   service: { eyebrow: "THỰC DỤNG. HIỆU QUẢ.", title: "MPV & xe dịch vụ", description: "Tối ưu không gian và chi phí vận hành cho gia đình lẫn kinh doanh." },
-  commercial: { eyebrow: "GỌN NHẸ. BỀN BỈ.", title: "Xe thương mại", description: "Giải pháp vận tải điện cho công việc trong đô thị." }
+  commercial: { eyebrow: "MẠNH MẼ. THỰC DỤNG.", title: "Bán tải & xe thương mại", description: "Giải pháp đa dụng cho công việc trong đô thị lẫn những hành trình dài." }
 };
 
 export const formatNumber = input => new Intl.NumberFormat("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 1 }).format(Number(input));

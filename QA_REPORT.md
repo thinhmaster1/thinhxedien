@@ -41,3 +41,11 @@ Kiểm thử trong trình duyệt nhúng trên máy local, không thay thế ki�
 - EC Van hiển thị đồng thời dung tích 2.600 lít và kích thước khoang hàng; các xe du lịch dùng dung tích khoang hành lý theo cấu hình đã công bố.
 - VF 2 chưa có dung tích khoang hành lý được VinFast xác nhận nên hiển thị rõ “Chưa có số liệu hãng công bố”, không suy diễn từ mẫu xe khác.
 - Đã kiểm tra trực quan VF 6 và VF 2; bố cục 4 thẻ hàng đầu, kích thước rộng hai cột và hai thẻ khoang chứa/sạc ở hàng sau hiển thị rõ ràng.
+
+## Bổ sung VF Wild Comfort — 19/09/2026
+
+- Thêm VF Wild Comfort vào trang chủ, bảng giá, so sánh, chi tiết xe, biểu mẫu tư vấn và công cụ báo giá.
+- Giá niêm yết 860 triệu đồng; ưu đãi cọc tiên phong 61 triệu đồng đến 30/06/2027 giúp giá sau ưu đãi còn 799 triệu đồng. Chính sách miễn phí 20 lượt sạc/tháng được ghi rõ đến 10/02/2029.
+- Bổ sung thông số REEV: pin 46,4 kWh, thuần điện trên 250 km, kết hợp trên 1.000 km (NEDC), công suất 160 kW, mô-men xoắn 280 Nm, sạc DC tối đa 90 kW và kích thước 5.376 × 2.069 × 1.873 mm.
+- Tách nhóm “Hệ thống REEV” để hiển thị động cơ xăng 1,5 L, bình nhiên liệu 56 lít và tầm hoạt động kết hợp mà không tạo trường thiếu trên các mẫu xe thuần điện.
+- Không hiển thị công cụ ước tính chi phí thuần điện trên VF Wild vì chưa có dữ liệu tiêu hao xăng của hệ thống REEV; các mục chưa được tài liệu công bố như dung tích thùng hàng được giữ ở trạng thái chờ xác nhận.

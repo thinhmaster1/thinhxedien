@@ -1,5 +1,5 @@
-import { display, esc, fail, loadCars, money, param, specGroups } from "../core.js?v=2026091503";
-import { applySeo, CarSelector, CompareValue, mountSiteShell, MissingNote } from "../components.js?v=2026091503";
+import { display, esc, fail, loadCars, money, param, specGroups } from "../core.js?v=2026091903";
+import { applySeo, CarSelector, CompareValue, mountSiteShell, MissingNote } from "../components.js?v=2026091903";
 
 applySeo({
   title: "So sánh xe VinFast 2026 | Giá & thông số",

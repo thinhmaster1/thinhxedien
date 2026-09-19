@@ -1,6 +1,6 @@
 # Nguồn dữ liệu xe
 
-Dữ liệu kỹ thuật được rà soát ngày 15/09/2026. Ưu tiên trang sản phẩm, brochure và chính sách chính thức của VinFast; nguồn báo chí chỉ dùng để đối chiếu khi cần. Mỗi trang chi tiết xe hiển thị ngày rà soát và liên kết nguồn tương ứng.
+Dữ liệu kỹ thuật được rà soát ngày 19/09/2026. Ưu tiên trang sản phẩm, brochure và chính sách chính thức của VinFast; nguồn báo chí chỉ dùng để đối chiếu khi cần. Mỗi trang chi tiết xe hiển thị ngày rà soát và liên kết nguồn tương ứng.
 
 ## Quy ước
 
@@ -24,6 +24,7 @@ Dữ liệu kỹ thuật được rà soát ngày 15/09/2026. Ưu tiên trang s�
 | Limo Green | Sạc, tiện ích và cấu hình xe dịch vụ | [Trang Limo Green](https://vinfastauto.com/vn_vi/limo-green) |
 | MPV 7 | Chế độ lái, hỗ trợ đỗ, tiện ích và bảo hành | [Trang MPV 7](https://vinfastauto.com/vn_vi/mpv-7) |
 | EC Van | Dùng cấu hình hiện hành 175 km, pin 18,3 kWh và sạc DC 24,2 kW; giữ ghi chú brochure cũ 150 km | [Trang EC Van](https://vinfastauto.com/vn_vi/ec-van) |
+| VF Wild Comfort | Bản bán tải REEV: pin 46,4 kWh, thuần điện trên 250 km, tổng hành trình trên 1.000 km, 160 kW, giá niêm yết 860 triệu đồng và ưu đãi cọc 61 triệu đồng | Bộ tài liệu giới thiệu VinFast ngày 19/09/2026 do người dùng cung cấp; [trang mẫu ý tưởng VF Wild](https://vinfastauto.com/vn_vi/vinfast-gioi-thieu-mau-xe-y-tuong-dong-ban-tai-dien-vf-wild) chỉ dùng làm lịch sử mẫu xe |
 
 ## Lưu ý chênh lệch nguồn
 
@@ -31,5 +32,6 @@ Dữ liệu kỹ thuật được rà soát ngày 15/09/2026. Ưu tiên trang s�
 - VF 7 từng có cấu hình pin CATL 75,3 kWh; cấu hình hiện hành trên trang sản phẩm là 70 kWh.
 - EC Van có brochure cũ 150 km, pin 17 kWh; trang sản phẩm hiện hành công bố 175 km, pin 18,3 kWh.
 - Quãng đường có thể được đo theo NEDC, WLTP hoặc chu trình khác; không so sánh trực tiếp nếu khác chuẩn thử nghiệm.
+- VF Wild Comfort chưa có trang sản phẩm công khai được lập chỉ mục tại thời điểm rà soát. Thông số bản Comfort lấy từ tài liệu ngày 19/09/2026; không trộn với kích thước của mẫu ý tưởng VF Wild năm 2024. Dung tích thùng hàng, số chỗ và danh mục màu thương mại vẫn chờ hãng xác nhận.
 
 Chính sách bảo hành tham chiếu [trang bảo hành ô tô VinFast](https://vinfastauto.com/vn_vi/chinh-sach-bao-hanh-oto). Khi chốt xe thực tế, cần đối chiếu lại phiếu cấu hình, hợp đồng và chính sách bán hàng tại thời điểm giao dịch.

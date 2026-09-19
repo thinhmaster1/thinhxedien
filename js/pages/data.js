@@ -1,5 +1,5 @@
-import { esc, fail, loadCarData, money, UPDATING } from "../core.js?v=2026091503";
-import { applySeo, mountSiteShell } from "../components.js?v=2026091503";
+import { esc, fail, loadCarData, money, UPDATING } from "../core.js?v=2026091903";
+import { applySeo, mountSiteShell } from "../components.js?v=2026091903";
 
 applySeo({
   title: "Bảng giá xe VinFast 2026 | Tất cả phiên bản",

@@ -416,6 +416,7 @@ body :is(.policy-heading, .section-title, .category-heading) > span { font-size:
 .product-intro h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -.05em; margin: 20px 0; }
 .product-intro__copy p { font-size: 1.125rem; line-height: 1.6; margin: 0 0 18px; }
 .product-intro__copy > strong { display: block; font-size: 1.125rem; }
+.product-intro__offer { display: block; margin-top: 8px; color: var(--gray); font-size: .82rem; line-height: 1.55; }
 .product-intro .hero-actions { justify-content: flex-start; flex-wrap: wrap; }
 .product-intro__visual { margin: 0; height: 390px; }
 .metric-band { margin-top: 16px; margin-bottom: 64px; }

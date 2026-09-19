@@ -1,4 +1,4 @@
-import { esc, money } from "./core.js?v=2026091503";
+import { esc, money } from "./core.js?v=2026091903";
 
 const sourceLink = source => {
   try {
@@ -13,7 +13,7 @@ export function CarSummary(car) {
   if (!summary) return "";
   const storage = [car.specs.trunk,car.specs.cargoDimensions].filter(Boolean).join(" · ") || "Chưa có số liệu hãng công bố";
   const facts = [
-    { label:"Giá xe từ", value:money(car.price) },
+    { label:car.offer ? "Giá sau ưu đãi" : "Giá xe từ", value:money(car.offer?.price ?? car.price) },
     { label:"Số chỗ", value:car.specs.seats },
     { label:"Dung lượng pin", value:car.specs.battery },
     { label:"Quãng đường công bố", value:car.specs.range },
