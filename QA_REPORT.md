@@ -34,3 +34,10 @@ Kiểm thử trong trình duyệt nhúng trên máy local, không thay thế ki�
 - Ca kiểm tra 500 triệu, 60 tháng, ưu đãi 8,5% trong 12 tháng rồi 11,5%: kỳ đầu 11.875.000đ, dư nợ sau ưu đãi 400.000.000đ, kỳ 13 là 12.166.667đ và kỳ cuối về 0đ.
 - VF 2, VF 3 và EC Van dùng bảo hiểm vật chất cố định 4.500.000đ cho cả biển trắng/vàng. Các xe khác giữ nguyên 1,2% cho biển trắng và 1,6% cho biển vàng.
 - Khung thiết lập báo giá chuyển các trường chính và thẻ VinClub sang một cột, tăng bề rộng hợp lý và đã kiểm tra trực quan ở giao diện tối; không còn chữ chồng hoặc thẻ bị ép ngang.
+
+## Mở rộng tóm tắt xe — 19/09/2026
+
+- Phần tóm tắt đầu trang chi tiết bổ sung dung lượng pin, kích thước dài × rộng × cao và dung tích khoang hành lý/khoang hàng.
+- EC Van hiển thị đồng thời dung tích 2.600 lít và kích thước khoang hàng; các xe du lịch dùng dung tích khoang hành lý theo cấu hình đã công bố.
+- VF 2 chưa có dung tích khoang hành lý được VinFast xác nhận nên hiển thị rõ “Chưa có số liệu hãng công bố”, không suy diễn từ mẫu xe khác.
+- Đã kiểm tra trực quan VF 6 và VF 2; bố cục 4 thẻ hàng đầu, kích thước rộng hai cột và hai thẻ khoang chứa/sạc ở hàng sau hiển thị rõ ràng.

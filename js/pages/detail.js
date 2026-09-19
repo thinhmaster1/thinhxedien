@@ -1,6 +1,6 @@
 import { fail, loadCars, money, param, specGroups } from "../core.js?v=2026091503";
 import { applySeo, mountSiteShell, SpecAccordion, VehicleCard } from "../components.js?v=2026091503";
-import { CarSummary, CarSources } from "../detail-content.js?v=2026091503";
+import { CarSummary, CarSources } from "../detail-content.js?v=2026091901";
 
 mountSiteShell();
 

@@ -313,6 +313,7 @@ html[data-theme="dark"] :is(.quote-form input, .quote-form select, .consult-fiel
 .car-summary-audience span { color: var(--gray); margin-right: 6px; }
 .car-summary-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0; }
 .car-summary-facts > div { padding: 18px; background: var(--soft); border-radius: 16px; }
+.car-summary-facts > div.is-wide { grid-column: span 2; }
 .car-summary-facts dt { color: var(--gray); font-size: .8125rem; margin-bottom: 8px; }
 .car-summary-facts dd { margin: 0; color: var(--black); font-size: 1rem; font-weight: 750; line-height: 1.5; overflow-wrap: anywhere; }
 .car-summary-highlights { display: flex; flex-wrap: wrap; gap: 12px 28px; margin: 22px 0 0; padding-left: 18px; font-size: .875rem; }
@@ -327,7 +328,7 @@ html[data-theme="dark"] :is(.quote-form input, .quote-form select, .consult-fiel
 .spec-unverified { color: var(--gray); font-size: .8125rem; line-height: 1.6; padding: 0 24px 20px; }
 @media (max-width: 1000px) { .car-summary-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 720px) { .car-summary-section { padding: 22px; margin-top: 24px; margin-bottom: 40px; } .car-summary-heading { align-items: start; flex-direction: column; gap: 12px; } .car-summary-facts > div { padding: 14px; } .car-summary-highlights { display: block; } .car-summary-highlights li + li { margin-top: 8px; } }
-@media (max-width: 380px) { .car-summary-facts { grid-template-columns: 1fr; } }
+@media (max-width: 380px) { .car-summary-facts { grid-template-columns: 1fr; } .car-summary-facts > div.is-wide { grid-column: auto; } }
 @media print {
   #header { display: none !important; }
   body, html[data-theme="dark"] body { background: #fff; color: #111; }

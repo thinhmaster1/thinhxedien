@@ -11,6 +11,11 @@ for (const car of data.cars) {
   assert.equal(car.summary.highlights.length, 3, car.slug);
   assert.ok(car.sources.length > 0 && car.sources.every(source => new URL(source.url).protocol === "https:"), car.slug);
   assert.ok(CarSummary(car).includes('id="overview"'), car.slug);
+  assert.ok(CarSummary(car).includes("Dung lượng pin"), car.slug);
+  assert.ok(CarSummary(car).includes("Kích thước D × R × C"), car.slug);
+  assert.ok(CarSummary(car).includes("Khoang hành lý / hàng"), car.slug);
+  assert.ok(CarSummary(car).includes(car.specs.battery), car.slug);
+  assert.ok(CarSummary(car).includes(car.specs.dimensions), car.slug);
   assert.ok(CarSources(car).includes(car.specsUpdated), car.slug);
 }
 const bySlug = slug => data.cars.find(car => car.slug === slug);
@@ -29,6 +34,9 @@ assert.deepEqual(
 );
 assert.equal(Object.values(bySlug("vf-2").colorPrices).filter(price => price === 8000000).length, 5);
 assert.match(bySlug("vf-2").colorNote, /màu cơ bản/);
+assert.match(CarSummary(bySlug("vf-2")), /Chưa có số liệu hãng công bố/);
+assert.match(CarSummary(bySlug("ec-van")), /2\.600 lít/);
+assert.match(CarSummary(bySlug("ec-van")), /1\.450 × 1\.470 × 1\.220 mm/);
 assert.match(bySlug("vf-7").specs.battery, /70 kWh/);
 assert.match(bySlug("vf-7").specsNote, /75,3/);
 assert.match(bySlug("mpv-7").specs.parkingSupport, /Camera lùi/);
