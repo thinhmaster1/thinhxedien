@@ -1,52 +1,65 @@
 {
-  "updated": "19/09/2026",
-  "vinclub": {
-    "label": "ƯU ĐÃI VINCLUB ĐẶC BIỆT",
-    "title": "Quyền lợi thành viên được nhân ba.",
-    "period": "01/08–31/10/2026",
-    "condition": "Áp dụng cho xe xuất hóa đơn trong thời gian chương trình.",
-    "tiers": [
-      {"name":"MEMBER / CHƯA CÓ HẠNG","total":"1%","discount":"Giảm trực tiếp 0,5%","points":"Tích điểm chi tiêu 0,5%"},
-      {"name":"GOLD","total":"3%","discount":"Giảm trực tiếp 1,5%","points":"Tích điểm chi tiêu 1,5%"},
-      {"name":"PLATINUM","total":"6%","discount":"Giảm trực tiếp 3%","points":"Tích điểm chi tiêu 3%","featured":true},
-      {"name":"DIAMOND","total":"9%","discount":"Giảm trực tiếp 4,5%","points":"Tích điểm chi tiêu 4,5%"}
+  "updated": "20/09/2026",
+  "futureGreen2": {
+    "label": "CHƯƠNG TRÌNH MỚI · VÌ TƯƠNG LAI XANH 2",
+    "title": "Chuyển đổi xanh, ưu đãi đến 9% MSRP.",
+    "period": "19/09/2026–19/12/2026",
+    "summary": "Áp dụng cho khách hàng đủ điều kiện mua ô tô điện VinFast mới tại Việt Nam. Mức giảm được tính trên giá niêm yết MSRP theo từng dòng xe và nhóm khách hàng.",
+    "quoteNote": "Tỷ lệ Vì tương lai xanh 2 tự thay đổi theo dòng xe. Không áp dụng đồng thời với voucher Tri ân khách hàng xe xăng VinFast chuyển đổi xanh.",
+    "groups": [
+      {
+        "id": "owner",
+        "name": "Chủ xe đủ điều kiện",
+        "description": "Khách hàng đang sở hữu ô tô xăng, xe máy xăng, xe máy điện VinFast hoặc ô tô điện VinFast.",
+        "tiers": [
+          {"label":"VF 2, VF 3 và Minio Green","carSlugs":["vf-2","vf-3"],"rate":0.03},
+          {"label":"VF 7, VF 9, VF 8 Thế hệ mới, Lạc Hồng 900 LX, EC Van và VF Wild","carSlugs":["vf-7","vf-9","vf-8-moi","ec-van","vf-wild-comfort"],"rate":0.05},
+          {"label":"Các dòng xe còn lại","default":true,"rate":0.09}
+        ]
+      },
+      {
+        "id": "special",
+        "name": "Công an, Quân đội và nhân sự VNPost",
+        "description": "Áp dụng cho người đang công tác chính thức trong Công an, Quân đội, người thân đủ điều kiện và nhân sự Tổng công ty Bưu điện Việt Nam.",
+        "tiers": [
+          {"label":"VF 2, VF 3 và Minio Green","carSlugs":["vf-2","vf-3"],"rate":0.06},
+          {"label":"VF 7, VF 9, VF 8 Thế hệ mới, Lạc Hồng 900 LX, EC Van và VF Wild","carSlugs":["vf-7","vf-9","vf-8-moi","ec-van","vf-wild-comfort"],"rate":0.07},
+          {"label":"Các dòng xe còn lại","default":true,"rate":0.09}
+        ]
+      }
     ],
-    "note": "Member hoặc khách chưa có hạng được giảm trực tiếp 0,5% và tích điểm 0,5%. Khách Gold, Platinum và Diamond nhận quyền lợi tương ứng theo hạng. Điểm thưởng không phải số tiền trừ ngay vào giá xe. Mức ưu đãi có thể được VinFast điều chỉnh theo từng thời kỳ."
+    "conditions": [
+      "Chủ sở hữu xe hoặc vợ/chồng, con cái, tứ thân phụ mẫu hay công ty do họ sở hữu phần vốn góp lớn nhất có thể đứng tên xe mới.",
+      "Mỗi xe nguồn chỉ được sử dụng một lần để hưởng ưu đãi chuyển đổi sang xe điện VinFast trong toàn bộ chương trình Vì tương lai xanh 2 và Thu xăng đổi điện đã triển khai.",
+      "Khách hàng sở hữu ô tô xăng hoặc xe máy xăng phải cam kết chuyển đổi sang xe điện VinFast.",
+      "Hồ sơ chứng minh đối tượng đặc biệt cần thẻ ngành hoặc giấy tờ nhân sự phù hợp."
+    ],
+    "exclusions": [
+      "Không áp dụng đồng thời với chương trình Tri ân khách hàng xe xăng VinFast chuyển đổi xanh."
+    ],
+    "source": "Thông báo Chính sách thúc đẩy bán hàng ô tô điện VinFast tại thị trường Việt Nam ngày 19/09/2026."
   },
   "quoteOptions": {
     "model": [
-      {"id":"limo-35m","label":"Limo Green · Giảm 35 triệu","carSlugs":["limo-green"],"type":"fixed","value":35000000,"note":"Đến 30/09/2026"},
-      {"id":"ecvan-20m","label":"EC Van Tiêu chuẩn · Giảm 20 triệu","carSlugs":["ec-van"],"type":"fixed","value":20000000,"note":"Đến khi có thông báo mới"},
       {"id":"vf2-8m","label":"Tiên phong VF 2 · Giảm 8 triệu","carSlugs":["vf-2"],"type":"fixed","value":8000000,"note":"Theo điều kiện cọc còn hiệu lực"},
       {"id":"vf8new-51m","label":"VF 8 Thế hệ mới · Giảm 51 triệu","carSlugs":["vf-8-moi"],"type":"fixed","value":51000000,"note":"Theo điều kiện cọc còn hiệu lực"},
       {"id":"vfwild-61m","label":"VF Wild Comfort · Ưu đãi cọc 61 triệu","carSlugs":["vf-wild-comfort"],"type":"fixed","value":61000000,"note":"Cọc tiên phong đến 30/06/2027"}
     ],
-    "vinclub": [
-      {"id":"vinclub-member","label":"VinClub Member / chưa có hạng · Giảm trực tiếp 0,5%","type":"percent","value":0.005,"base":"listPrice"},
-      {"id":"vinclub-gold","label":"VinClub Gold · Giảm trực tiếp 1,5%","type":"percent","value":0.015,"base":"listPrice"},
-      {"id":"vinclub-platinum","label":"VinClub Platinum · Giảm trực tiếp 3%","type":"percent","value":0.03,"base":"listPrice"},
-      {"id":"vinclub-diamond","label":"VinClub Diamond · Giảm trực tiếp 4,5%","type":"percent","value":0.045,"base":"listPrice"}
-    ],
     "customer": [
+      {"id":"future-green-2-owner","label":"Vì tương lai xanh 2 · Chủ xe đủ điều kiện","type":"programPercent","program":"futureGreen2","audience":"owner","base":"listPrice"},
+      {"id":"future-green-2-special","label":"Vì tương lai xanh 2 · Công an/Quân đội/VNPost","type":"programPercent","program":"futureGreen2","audience":"special","base":"listPrice"},
       {"id":"trade-fadil","label":"Đổi xe xăng VinFast · Fadil · Giảm 30 triệu","type":"fixed","value":30000000},
       {"id":"trade-luxa","label":"Đổi xe xăng VinFast · Lux A · Giảm 60 triệu","type":"fixed","value":60000000},
       {"id":"trade-luxsa","label":"Đổi xe xăng VinFast · Lux SA · Giảm 80 triệu","type":"fixed","value":80000000},
-      {"id":"public-service","label":"Xe công vụ · Chiết khấu 5%","type":"percent","value":0.05,"base":"afterModel"},
-      {"id":"police-military","label":"Công an & Quân đội · Giảm 5% MSRP","type":"percent","value":0.05,"base":"listPrice","excludes":["vinclub"]},
-      {"id":"vnpost-staff","label":"CBNV VNPost · Giảm 3% MSRP","type":"percent","value":0.03,"base":"listPrice","excludes":["vinclub"]},
-      {"id":"vnpost-leader","label":"CBLĐ VNPost · Giảm 5% MSRP","type":"percent","value":0.05,"base":"listPrice","excludes":["vinclub"]}
+      {"id":"public-service","label":"Xe công vụ · Chiết khấu 5%","type":"percent","value":0.05,"base":"afterModel"}
     ],
-    "note": "Chỉ chọn ưu đãi khi khách hàng đáp ứng đủ điều kiện. Một số chương trình không được cộng gộp; cần xác nhận lại tại thời điểm xuất hóa đơn. Điểm VinClub không được trừ vào báo giá này."
+    "note": "Chỉ chọn ưu đãi khi khách hàng đáp ứng đủ điều kiện. Một số chương trình không được cộng gộp; cần xác nhận lại tại thời điểm xuất hóa đơn."
   },
   "active": [
     {"period":"ĐẾN 30/06/2027","model":"VF Wild Comfort","benefit":"Giảm 61 triệu đồng + miễn phí sạc","description":"Giá niêm yết 860 triệu, giá sau ưu đãi cọc tiên phong 799 triệu. Miễn phí 20 lượt sạc/tháng đến 10/02/2029.","highlight":true},
-    {"period":"ĐẾN 30/09/2026","model":"Limo Green","benefit":"Giảm 35 triệu đồng/xe","description":"Áp dụng theo ngày xuất hóa đơn.","highlight":true},
     {"period":"ĐẾN KHI CÓ THÔNG BÁO MỚI","model":"VF 3 Eco/Plus","benefit":"Miễn phí màu sơn nâng cao","description":"Dành cho xe VIN 2025 trở về trước."},
-    {"period":"ĐẾN KHI CÓ THÔNG BÁO KHÁC","model":"EC Van Tiêu chuẩn","benefit":"Giảm 20 triệu đồng/xe","description":"Áp dụng theo ngày xuất hóa đơn."},
     {"period":"ĐẾN 31/12/2026","model":"Chủ xe xăng VinFast đổi xanh","benefit":"30–80 triệu đồng","description":"Fadil 30 triệu, Lux A 60 triệu, Lux SA 80 triệu. Mỗi xe điện mới dùng tối đa một voucher."},
-    {"period":"ĐẾN KHI CÓ THÔNG BÁO MỚI","model":"Xe công vụ","benefit":"Chiết khấu 5%","description":"Tính trên giá sau khuyến mãi, áp dụng qua kênh O2O và đại lý."},
-    {"period":"ĐẾN 31/12/2026","model":"Công an & Quân đội","benefit":"Giảm 5% MSRP gồm VAT","description":"Dành cho người đang công tác chính thức và người thân đủ điều kiện; không cộng gộp với một số chính sách khác."},
-    {"period":"ĐẾN 31/12/2026","model":"CBNV & CBLĐ VNPost","benefit":"Giảm 3% hoặc 5% MSRP","description":"CBNV giảm 3%; cán bộ lãnh đạo giảm 5%. Áp dụng cho người lao động và người thân đủ điều kiện."}
+    {"period":"ĐẾN KHI CÓ THÔNG BÁO MỚI","model":"Xe công vụ","benefit":"Chiết khấu 5%","description":"Tính trên giá sau khuyến mãi, áp dụng qua kênh O2O và đại lý."}
   ],
   "legacy": [
     {"name":"Tiên phong VF 2","description":"Ưu đãi 8 triệu đồng. Cọc khách lẻ còn hiệu lực đến 28/02/2027; cọc sỉ đại lý đến 30/04/2027."},

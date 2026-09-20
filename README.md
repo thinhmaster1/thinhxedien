@@ -10,7 +10,7 @@ Website được xây dựng bằng HTML, CSS và JavaScript thuần. Dữ liệ
 - Trang chi tiết từng xe với phiên bản, màu sắc, thông số, tiện nghi, an toàn và ADAS.
 - Công cụ so sánh tối đa ba dòng xe.
 - Bảng giá tất cả dòng xe và phiên bản, hỗ trợ thu gọn và in một trang A4.
-- Trang tổng hợp ưu đãi và quyền lợi VinClub.
+- Trang tổng hợp chính sách và ưu đãi bán hàng.
 - Công cụ báo giá theo xe, phiên bản, màu, khu vực đăng ký, loại biển và bảo hiểm.
 - Công cụ tính khoản vay, tiền trả hàng tháng, tiền lãi và lịch dư nợ.
 - Ước tính chi phí vận hành xe điện so với xe xăng hoặc dầu.
@@ -26,7 +26,7 @@ Website được xây dựng bằng HTML, CSS và JavaScript thuần. Dữ liệ
 | `detail.html?xe=vf-7` | Trang chi tiết theo slug xe |
 | `compare.html?xe=vf-3,vf-7,vf-9` | So sánh các dòng xe |
 | `data.html` | Bảng giá toàn bộ xe và phiên bản |
-| `policies.html` | Khuyến mãi và quyền lợi VinClub |
+| `policies.html` | Chính sách và khuyến mãi đang áp dụng |
 | `quote.html` | Công cụ lập báo giá nội bộ |
 | `loan.html` | Công cụ tính lãi và dư nợ trả góp |
 | `vinfast-thu-dau-mot-binh-duong.html` | Thông tin tư vấn và showroom |
@@ -34,9 +34,7 @@ Website được xây dựng bằng HTML, CSS và JavaScript thuần. Dữ liệ
 ## Dữ liệu
 
 - `data/cars.json`: giá, phiên bản, màu sắc, hình ảnh và thông số xe.
-- `data/promotions.json`: ưu đãi theo dòng xe, khách hàng và VinClub.
-
-Các chương trình VinClub trong báo giá được tách khỏi ưu đãi khách hàng. Ưu đãi Công an & Quân đội hoặc VNPost không được áp dụng đồng thời với VinClub.
+- `data/promotions.json`: ưu đãi theo dòng xe, nhóm khách hàng và các bậc tỷ lệ của chương trình Vì tương lai xanh 2.
 
 Khi cập nhật JSON:
 

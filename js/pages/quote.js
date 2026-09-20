@@ -1,6 +1,6 @@
 import { esc, fail, formatMoneyInput, loadCars, loadPromotions, money, moneyInputValue } from "../core.js?v=2026091903";
 import { applySeo, mountSiteShell } from "../components.js?v=2026091903";
-import { physicalInsuranceQuote } from "../quote-calculator.js?v=2026091701";
+import { percentagePromotionDiscount, physicalInsuranceQuote, tieredPromotionRate } from "../quote-calculator.js?v=2026092003";
 
 applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhmaster1.github.io/thinhxedien/quote.html" });
 let robotsMeta = document.head.querySelector('meta[name="robots"]');
@@ -366,8 +366,7 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
       <div class="quote-form__heading"><span>THÔNG TIN BÁO GIÁ</span><h2>Lựa chọn của khách hàng</h2></div>
       <div class="customer-fields"><label><span>Tên khách hàng <small>Không bắt buộc</small></span><input id="customer-name" type="text" placeholder="Nhập tên khách hàng"></label><label><span>Số điện thoại <small>Không bắt buộc</small></span><input id="customer-phone" type="tel" placeholder="Nhập số điện thoại"></label></div>
       <fieldset><legend>Xe và phiên bản</legend><div class="form-grid"><label><span>Dòng xe · xếp theo giá tăng dần</span><select id="car-select">${quoteCars.map(car => `<option value="${car.slug}">${esc(car.name)}</option>`).join("")}</select></label><label><span>Phiên bản</span><select id="version-select"></select></label></div><label><span>Màu ngoại thất</span><select id="color-select"></select></label></fieldset>
-      <fieldset><legend>Ưu đãi áp dụng</legend><div class="quote-promotion-group"><span>Ưu đãi theo dòng xe</span><div class="promotion-options" id="model-promotions"></div></div><label><span>Ưu đãi theo khách hàng</span><select id="customer-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.customer.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><label><span>Giảm giá thêm <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="text" inputmode="numeric" placeholder="0"><i>₫</i></div></label></fieldset>
-      <fieldset class="vinclub-quote-section" id="vinclub-promotion"><legend>Ưu đãi VinClub</legend><div class="vinclub-quote-heading"><span>Chọn hạng thành viên</span><small>Không áp dụng cùng QĐ hoặc VNPost</small></div><div class="vinclub-quote-options" role="radiogroup" aria-label="Hạng VinClub"><label class="is-none"><input type="radio" name="vinclubPromotion" value="" checked><span><b>Không áp dụng</b><small>Không sử dụng quyền lợi VinClub</small></span><i aria-hidden="true">✓</i></label>${promotions.quoteOptions.vinclub.map(item => { const title = item.label.split(" · ")[0].replace(/^VinClub\s+/i,""); const [name,hint] = title.split(" / "); return `<label><input type="radio" name="vinclubPromotion" value="${esc(item.id)}"><span><b>${esc(name)}</b>${hint ? `<em>${esc(hint)}</em>` : ""}<small>Giảm trực tiếp</small><strong>${String(item.value * 100).replace(".",",")}%</strong></span><i aria-hidden="true">✓</i></label>`; }).join("")}</div><p class="promotion-help" id="promotion-help">${esc(promotions.quoteOptions.note)}</p></fieldset>
+      <fieldset><legend>Ưu đãi áp dụng</legend><div class="quote-promotion-group"><span>Ưu đãi theo dòng xe</span><div class="promotion-options" id="model-promotions"></div></div><label><span>Ưu đãi theo khách hàng</span><select id="customer-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.customer.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><p class="promotion-help">${esc(promotions.futureGreen2.quoteNote)}</p><label><span>Giảm giá thêm <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="text" inputmode="numeric" placeholder="0"><i>₫</i></div></label></fieldset>
       <fieldset><legend>Đăng ký và sử dụng</legend><div class="choice-group"><span>Khu vực đăng ký biển</span><div><label><input type="radio" name="registration" value="province" checked><b>Tỉnh</b><small>140.000 ₫</small></label><label><input type="radio" name="registration" value="city"><b>Thành phố</b><small>14.000.000 ₫</small></label></div></div><div class="choice-group"><span>Loại biển số</span><div><label><input type="radio" name="plate" value="white" checked><b>Biển trắng</b><small>Xe cá nhân</small></label><label><input type="radio" name="plate" value="yellow"><b>Biển vàng</b><small>Xe kinh doanh</small></label></div></div><label class="check-option"><input id="physical-cash" type="checkbox"><span><b>Thêm bảo hiểm vật chất cho thanh toán tiền mặt</b><small>Không bắt buộc khi mua tiền mặt. Phương án vay luôn bắt buộc.</small></span></label></fieldset>
       <fieldset class="loan-quote-options" id="loan-quote-options" hidden><legend>Phương án trả góp</legend><label><span>Số tiền trả trước <small>Mặc định 15% giá xe · vay 85%</small></span><div class="money-input"><input id="loan-down-payment" type="text" inputmode="numeric" aria-describedby="loan-down-payment-note"><i>₫</i></div></label><div class="loan-default-control"><small id="loan-down-payment-note" aria-live="polite"></small><button id="reset-down-payment" type="button">Đặt lại vay 85%</button></div></fieldset>
     </form><aside class="quote-results" id="quote-results"></aside></section>`;
@@ -378,8 +377,6 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
   const colorSelect = document.querySelector("#color-select");
   const modelPromotionsRoot = document.querySelector("#model-promotions");
   const customerPromotionSelect = document.querySelector("#customer-promotion");
-  const vinclubPromotionRoot = document.querySelector("#vinclub-promotion");
-  const promotionHelp = document.querySelector("#promotion-help");
   const discountInput = document.querySelector("#discount");
   const loanOptions = document.querySelector("#loan-quote-options");
   const downPaymentInput = document.querySelector("#loan-down-payment");
@@ -388,17 +385,9 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
   let paymentMode = "cash";
 
   const selectedCar = () => quoteCars.find(car => car.slug === carSelect.value) || quoteCars[0];
-
-  function syncPromotionRules() {
-    const customerPromotion = promotions.quoteOptions.customer.find(item => item.id === customerPromotionSelect.value);
-    const excludesVinClub = customerPromotion?.excludes?.includes("vinclub");
-    if (excludesVinClub) vinclubPromotionRoot.querySelector('[name="vinclubPromotion"][value=""]').checked = true;
-    vinclubPromotionRoot.disabled = Boolean(excludesVinClub);
-    vinclubPromotionRoot.classList.toggle("is-disabled",Boolean(excludesVinClub));
-    promotionHelp.textContent = excludesVinClub
-      ? "Ưu đãi Công an & Quân đội hoặc VNPost không được áp dụng đồng thời với VinClub. VinClub đã được tắt."
-      : promotions.quoteOptions.note;
-  }
+  const customerPromotionRate = (promotion,carSlug) => promotion?.type === "programPercent"
+    ? tieredPromotionRate(promotions[promotion.program],promotion.audience,carSlug)
+    : Number(promotion?.value) || 0;
 
   function updateOptions() {
     const car = selectedCar();
@@ -406,6 +395,13 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     colorSelect.innerHTML = car.colors.map(color => { const fee = car.colorPrices?.[color] || 0; return `<option value="${esc(color)}">${esc(color)}${fee ? ` — thêm ${money(fee)}` : " — tiêu chuẩn"}</option>`; }).join("");
     const applicable = promotions.quoteOptions.model.filter(item => item.carSlugs.includes(car.slug));
     modelPromotionsRoot.innerHTML = applicable.length ? applicable.map(item => `<label><input type="checkbox" name="modelPromotion" value="${esc(item.id)}"><span><b>${esc(item.label)}</b><small>${esc(item.note || "Theo chính sách hiện hành")}</small></span></label>`).join("") : `<p>Chưa có ưu đãi riêng cho dòng xe này.</p>`;
+    [...customerPromotionSelect.options].forEach(option => {
+      if (!option.value) return;
+      const promotion = promotions.quoteOptions.customer.find(item => item.id === option.value);
+      option.textContent = promotion?.type === "programPercent"
+        ? `${promotion.label} · Giảm ${formatPercentage(customerPromotionRate(promotion,car.slug) * 100)}% MSRP`
+        : promotion.label;
+    });
   }
 
   function calculate() {
@@ -416,17 +412,15 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const selectedPromotionIds = [...form.querySelectorAll('[name="modelPromotion"]:checked')].map(input => input.value);
     const modelPromotions = promotions.quoteOptions.model.filter(item => selectedPromotionIds.includes(item.id));
     const customerPromotion = promotions.quoteOptions.customer.find(item => item.id === customerPromotionSelect.value);
-    const selectedVinclubId = form.elements.vinclubPromotion.value;
-    const vinclubPromotion = promotions.quoteOptions.vinclub.find(item => item.id === selectedVinclubId);
     const modelDiscount = Math.min(modelPromotions.filter(item => item.type === "fixed").reduce((total,item) => total + item.value,0),listPrice);
     const customerBase = customerPromotion?.base === "afterModel" ? Math.max(0,listPrice - modelDiscount) : listPrice;
-    const requestedCustomerDiscount = customerPromotion?.type === "percent" ? customerBase * customerPromotion.value : customerPromotion?.type === "fixed" ? customerPromotion.value : 0;
+    const customerRate = customerPromotionRate(customerPromotion,car.slug);
+    const requestedCustomerDiscount = ["percent","programPercent"].includes(customerPromotion?.type) ? percentagePromotionDiscount(customerBase,customerRate) : customerPromotion?.type === "fixed" ? customerPromotion.value : 0;
     const customerDiscount = Math.min(requestedCustomerDiscount,Math.max(0,listPrice - modelDiscount));
+    const customerPromotionNote = customerPromotion?.type === "programPercent" ? `${customerPromotion.label} · ${formatPercentage(customerRate * 100)}% MSRP` : customerPromotion?.label;
     const policyPrice = Math.max(0,listPrice - modelDiscount - customerDiscount);
-    const requestedVinclubDiscount = vinclubPromotion?.type === "percent" ? policyPrice * vinclubPromotion.value : vinclubPromotion?.type === "fixed" ? vinclubPromotion.value : 0;
-    const vinclubDiscount = Math.min(requestedVinclubDiscount,policyPrice);
-    const manualDiscount = Math.min(moneyInputValue(discountInput.value),Math.max(0,policyPrice - vinclubDiscount));
-    const discount = modelDiscount + customerDiscount + vinclubDiscount + manualDiscount;
+    const manualDiscount = Math.min(moneyInputValue(discountInput.value),policyPrice);
+    const discount = modelDiscount + customerDiscount + manualDiscount;
     const colorFee = car.colorPrices?.[color] || 0;
     const vehicleValue = Math.max(0, listPrice - discount + colorFee);
     const registrationType = form.elements.registration.value;
@@ -437,7 +431,7 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const road = FEES.road[plate];
     const liability = FEES.liability[`${plate}${sevenSeats ? 7 : 5}`];
     const liabilityNote = car.liabilityNote || (sevenSeats ? "7 chỗ" : "Tối đa 5 chỗ");
-    const physicalInsurance = physicalInsuranceQuote(car,listPrice,plate);
+    const physicalInsurance = physicalInsuranceQuote(car,vehicleValue,plate);
     const physical = physicalInsurance.amount;
     const fixedFees = registration + registrationService + FEES.inspection + road + liability;
     const cashPhysical = document.querySelector("#physical-cash").checked ? physical : 0;
@@ -457,7 +451,7 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const customerPhone = document.querySelector("#customer-phone").value.trim();
 
     document.querySelector("#quote-results").innerHTML = `<div class="quote-result-head"><div><span>BÁO GIÁ DỰ KIẾN</span><h2>${esc(car.name)}</h2><p>${esc(version.name)} · ${esc(color)}</p>${customer ? `<small>Khách hàng: ${esc(customer)}${customerPhone ? ` · ${esc(customerPhone)}` : ""}</small>` : customerPhone ? `<small>SĐT khách hàng: ${esc(customerPhone)}</small>` : ""}<a class="quote-contact" href="tel:0352978519"><span>Tư vấn bán hàng</span><b>${SALES_ADVISOR}</b><small>${SALES_PHONE}</small></a></div><div class="quote-actions"><button class="is-secondary" type="button" id="download-quote-image">Tải ảnh báo giá</button><small id="quote-export-status" role="status" aria-live="polite"></small></div></div>
-      <section class="vehicle-cost"><h3>Giá trị xe</h3>${feeRow("Giá niêm yết",listPrice)}${modelPromotions.filter(item => item.type === "fixed").map(item => feeRow("Ưu đãi dòng xe",-item.value,item.label)).join("")}${modelPromotions.filter(item => item.type === "gift").map(item => `<div class="promotion-gift"><span>${esc(item.label)}<small>${esc(item.note || "Quà tặng kèm")}</small></span><b>Tặng kèm</b></div>`).join("")}${customerPromotion ? feeRow("Ưu đãi khách hàng",-customerDiscount,customerPromotion.label) : ""}${vinclubPromotion ? `<div class="policy-base"><span>Giá sau chính sách<small>Cơ sở tính ưu đãi VinClub</small></span><b>${money(policyPrice)}</b></div>${feeRow("Ưu đãi VinClub",-vinclubDiscount,`${vinclubPromotion.label} × giá sau chính sách`)}` : ""}${manualDiscount ? feeRow("Giảm giá thêm",-manualDiscount) : ""}${feeRow("Phụ phí màu",colorFee)}<div class="subtotal"><span>Giá xe sau ưu đãi</span><b>${money(vehicleValue)}</b></div></section>
+      <section class="vehicle-cost"><h3>Giá trị xe</h3>${feeRow("Giá niêm yết",listPrice)}${modelPromotions.filter(item => item.type === "fixed").map(item => feeRow("Ưu đãi dòng xe",-item.value,item.label)).join("")}${modelPromotions.filter(item => item.type === "gift").map(item => `<div class="promotion-gift"><span>${esc(item.label)}<small>${esc(item.note || "Quà tặng kèm")}</small></span><b>Tặng kèm</b></div>`).join("")}${customerPromotion ? feeRow("Ưu đãi khách hàng",-customerDiscount,customerPromotionNote) : ""}${manualDiscount ? feeRow("Giảm giá thêm",-manualDiscount) : ""}${feeRow("Phụ phí màu",colorFee)}<div class="subtotal"><span>Giá xe sau ưu đãi</span><b>${money(vehicleValue)}</b></div></section>
       <div class="payment-switch" role="tablist" aria-label="Phương thức thanh toán"><button type="button" role="tab" data-payment-mode="cash" aria-selected="${paymentMode === "cash"}">Trả thẳng</button><button type="button" role="tab" data-payment-mode="loan" aria-selected="${paymentMode === "loan"}">Trả góp</button></div>
       <div class="payment-results"><article class="payment-card cash" data-payment-panel="cash" ${paymentMode === "cash" ? "" : "hidden"}><span>THANH TOÁN TIỀN MẶT</span><h3>${money(cashTotal)}</h3><p>Giá xe cộng tổng chi phí lăn bánh và bảo hiểm tùy chọn.</p><div class="fee-breakdown">${feeRow("Giá xe",vehicleValue)}${feeDivider("Chi phí lăn bánh")}${feeRow("Đăng ký biển",registration,registrationType === "city" ? "Thành phố" : "Tỉnh")}${feeRow("Phí dịch vụ đăng ký xe",registrationService)}${feeRow("Lệ phí đăng kiểm",FEES.inspection)}${feeRow("Bảo trì đường bộ",road,plate === "white" ? "Biển trắng" : "Biển vàng")}${feeRow("Bảo hiểm TNDS",liability,liabilityNote)}${feeSubtotal("Tổng chi phí lăn bánh",fixedFees)}${document.querySelector("#physical-cash").checked ? feeRow("Bảo hiểm vật chất",physical,physicalInsurance.note) : ""}</div></article>
       <article class="payment-card loan" data-payment-panel="loan" ${paymentMode === "loan" ? "" : "hidden"}><span>THANH TOÁN VAY</span><h3>${money(loanTotal)}</h3><p>Trả trước cộng tổng chi phí lăn bánh và bảo hiểm vật chất.</p><div class="fee-breakdown">${feeRow("Số tiền trả trước",downPayment,`${downPaymentPercentageText}% giá trị xe`)}${feeDivider("Chi phí lăn bánh")}${feeRow("Đăng ký biển",registration,registrationType === "city" ? "Thành phố" : "Tỉnh")}${feeRow("Phí dịch vụ đăng ký xe",registrationService)}${feeRow("Lệ phí đăng kiểm",FEES.inspection)}${feeRow("Bảo trì đường bộ",road,plate === "white" ? "Biển trắng" : "Biển vàng")}${feeRow("Bảo hiểm TNDS",liability,liabilityNote)}${feeSubtotal("Tổng chi phí lăn bánh",fixedFees)}${feeRow("Bảo hiểm vật chất bắt buộc",physical,physicalInsurance.note)}</div><div class="loan-note"><span>Dư nợ dự kiến ${loanPercentageText}%</span><b>${money(remainingLoan)}</b><small>Chưa bao gồm lãi vay ngân hàng.</small><a href="loan.html?amount=${Math.ceil(remainingLoan)}">Tính lãi và lịch trả góp <span>›</span></a></div></article></div>
@@ -473,7 +467,6 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
   }
 
   carSelect.addEventListener("change", () => { updateOptions(); calculate(); });
-  customerPromotionSelect.addEventListener("change", syncPromotionRules);
   discountInput.addEventListener("input", () => formatMoneyInput(discountInput));
   downPaymentInput.addEventListener("input", () => {
     downPaymentInput.dataset.customized = "true";
@@ -492,6 +485,5 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
   form.addEventListener("input", calculate);
   form.addEventListener("change", calculate);
   updateOptions();
-  syncPromotionRules();
   calculate();
 }).catch(fail);

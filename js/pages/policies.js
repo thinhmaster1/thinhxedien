@@ -3,17 +3,18 @@ import { applySeo, mountSiteShell } from "../components.js?v=2026091903";
 
 applySeo({
   title: "Khuyến mãi VinFast tháng 9/2026 | Thịnh Xe Điện",
-  description: "Tổng hợp ưu đãi VinFast và quyền lợi VinClub đang áp dụng. Liên hệ tư vấn tại Thủ Dầu Một, Bình Dương: 0352 978 519.",
+  description: "Chương trình Vì tương lai xanh 2 và các ưu đãi VinFast đang áp dụng. Liên hệ tư vấn tại Thủ Dầu Một, Bình Dương: 0352 978 519.",
   canonical: "https://thinhmaster1.github.io/thinhxedien/policies.html"
 });
 
 mountSiteShell();
+const percent = rate => `${new Intl.NumberFormat("vi-VN",{ maximumFractionDigits:1 }).format(Number(rate) * 100)}%`;
 
 loadPromotions().then(data => {
   document.querySelector("#policy-date").textContent = `BẢN TIN CHÍNH SÁCH · ${data.updated}`;
   document.querySelector("#policy-note-date").textContent = data.updated;
-  const vinclub = data.vinclub;
-  document.querySelector("#vinclub-promo").innerHTML = `<div class="vinclub-promo__head"><div><span>${esc(vinclub.label)}</span><h2>Ưu đãi rõ theo<br>từng hạng thành viên.</h2><p>Chọn đúng hạng VinClub để xem phần giảm trực tiếp được trừ vào giá xe và quyền lợi tích điểm đi kèm.</p></div><div class="vinclub-period"><span>THỜI GIAN ÁP DỤNG</span><b>${esc(vinclub.period)}</b><p>${esc(vinclub.condition)}</p></div></div><div class="vinclub-tiers">${vinclub.tiers.map(tier => `<article class="${tier.featured ? "is-featured" : ""}"><div class="vinclub-tier__head"><span>${esc(tier.name)}</span>${tier.featured ? `<em>PHỔ BIẾN</em>` : ""}</div><div class="vinclub-tier__discount"><small>GIẢM TRỰC TIẾP</small><strong>${esc(tier.discount.replace("Giảm trực tiếp ",""))}</strong></div><div class="vinclub-tier__benefits"><p><span>Tích điểm</span><b>${esc(tier.points.replace("Tích điểm chi tiêu ",""))}</b></p><p><span>Tổng quyền lợi</span><b>${esc(tier.total)}</b></p></div></article>`).join("")}</div><div class="vinclub-promo__note"><b>Lưu ý khi báo giá</b><p>${esc(vinclub.note)}</p></div>`;
+  const futureGreen = data.futureGreen2;
+  document.querySelector("#future-green-2").innerHTML = `<div class="future-green-policy__head"><div><span>${esc(futureGreen.label)}</span><h2>${esc(futureGreen.title)}</h2><p>${esc(futureGreen.summary)}</p></div><aside><span>THỜI GIAN ÁP DỤNG</span><strong>${esc(futureGreen.period)}</strong><p>Tính theo ngày xuất hóa đơn.</p></aside></div><div class="future-green-groups">${futureGreen.groups.map(group => `<article><div><span>NHÓM KHÁCH HÀNG</span><h3>${esc(group.name)}</h3><p>${esc(group.description)}</p></div><div class="future-green-tiers">${group.tiers.map(tier => `<div><strong>${esc(percent(tier.rate))}</strong><span>${esc(tier.label)}</span></div>`).join("")}</div></article>`).join("")}</div><div class="future-green-conditions"><div><h3>Điều kiện chính</h3><ul>${futureGreen.conditions.map(item => `<li>${esc(item)}</li>`).join("")}</ul></div><div><h3>Không áp dụng đồng thời</h3><ul>${futureGreen.exclusions.map(item => `<li>${esc(item)}</li>`).join("")}</ul><small>${esc(futureGreen.source)}</small></div></div>`;
   document.querySelector("#active-promotions").innerHTML = data.active.map(item => `<article class="policy-card ${item.highlight ? "is-highlight" : ""}"><span>${esc(item.period)}</span><h3>${esc(item.model)}</h3><strong>${esc(item.benefit)}</strong><p>${esc(item.description)}</p></article>`).join("");
   document.querySelector("#legacy-promotions").innerHTML = data.legacy.map(item => `<article><div><h3>${esc(item.name)}</h3></div><p>${esc(item.description)}</p></article>`).join("");
 }).catch(fail);

@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { calculateDecliningBalanceSchedule } from "../js/loan-calculator.js";
-import { FIXED_PHYSICAL_INSURANCE, physicalInsuranceQuote } from "../js/quote-calculator.js";
+import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, tieredPromotionRate } from "../js/quote-calculator.js";
+
+const promotions = JSON.parse(readFileSync(new URL("../data/promotions.json", import.meta.url), "utf8"));
 
 const schedule = calculateDecliningBalanceSchedule({
   principal: 500000000,
@@ -29,7 +32,26 @@ for (const slug of ["vf-2", "vf-3", "ec-van"]) {
   assert.equal(physicalInsuranceQuote({ slug },999000000,"white").amount,FIXED_PHYSICAL_INSURANCE);
   assert.equal(physicalInsuranceQuote({ slug },999000000,"yellow").amount,FIXED_PHYSICAL_INSURANCE);
 }
-assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"white"),{ amount:6000000,note:"1,2% giá niêm yết" });
-assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"yellow"),{ amount:8000000,note:"1,6% giá niêm yết" });
+assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"white"),{ amount:6000000,note:"1,2% giá xe sau ưu đãi" });
+assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"yellow"),{ amount:8000000,note:"1,6% giá xe sau ưu đãi" });
+assert.deepEqual(physicalInsuranceQuote({ slug:"vf-7" },688200000,"white"),{ amount:8258400,note:"1,2% giá xe sau ưu đãi" });
+assert.deepEqual(physicalInsuranceQuote({ slug:"limo-green" },636090000,"yellow"),{ amount:10177440,note:"1,6% giá xe sau ưu đãi" });
 
-console.log("PASS: declining-balance loan schedule and physical insurance rules.");
+const futureGreen = promotions.futureGreen2;
+for (const slug of ["vf-2", "vf-3"]) {
+  assert.equal(tieredPromotionRate(futureGreen,"owner",slug),.03);
+  assert.equal(tieredPromotionRate(futureGreen,"special",slug),.06);
+}
+for (const slug of ["vf-7", "vf-9", "vf-8-moi", "ec-van", "vf-wild-comfort"]) {
+  assert.equal(tieredPromotionRate(futureGreen,"owner",slug),.05);
+  assert.equal(tieredPromotionRate(futureGreen,"special",slug),.07);
+}
+for (const slug of ["herio-green", "vf-5", "vf-6", "vf-8", "limo-green", "mpv-7"]) {
+  assert.equal(tieredPromotionRate(futureGreen,"owner",slug),.09);
+  assert.equal(tieredPromotionRate(futureGreen,"special",slug),.09);
+}
+assert.equal(percentagePromotionDiscount(188000000,.03),5640000);
+assert.equal(percentagePromotionDiscount(699000000,.09),62910000);
+assert.equal(tieredPromotionRate(futureGreen,"missing","vf-2"),0);
+
+console.log("PASS: loan schedule, physical insurance and Vì tương lai xanh 2 tiered discounts.");
