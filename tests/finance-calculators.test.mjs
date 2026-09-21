@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { calculateDecliningBalanceSchedule } from "../js/loan-calculator.js";
-import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, tieredPromotionRate } from "../js/quote-calculator.js";
+import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate } from "../js/quote-calculator.js";
 
 const promotions = JSON.parse(readFileSync(new URL("../data/promotions.json", import.meta.url), "utf8"));
 
@@ -36,6 +36,8 @@ assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"white"),{ amo
 assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"yellow"),{ amount:8000000,note:"1,6% giá xe sau ưu đãi" });
 assert.deepEqual(physicalInsuranceQuote({ slug:"vf-7" },688200000,"white"),{ amount:8258400,note:"1,2% giá xe sau ưu đãi" });
 assert.deepEqual(physicalInsuranceQuote({ slug:"limo-green" },636090000,"yellow"),{ amount:10177440,note:"1,6% giá xe sau ưu đãi" });
+assert.equal(rollingCostsTotal(5675000,7633080),13308080);
+assert.equal(rollingCostsTotal(5325000,0),5325000);
 
 const futureGreen = promotions.futureGreen2;
 for (const slug of ["vf-2", "vf-3"]) {
