@@ -43,6 +43,7 @@ Kiểm thử trong trình duyệt nhúng trên máy local, không thay thế ki�
 - Ca kiểm tra 500 triệu, 60 tháng, ưu đãi 8,5% trong 12 tháng rồi 11,5%: kỳ đầu 11.875.000đ, dư nợ sau ưu đãi 400.000.000đ, kỳ 13 là 12.166.667đ và kỳ cuối về 0đ.
 - VF 2, VF 3 và EC Van dùng bảo hiểm vật chất cố định 4.500.000đ cho cả biển trắng/vàng. Các xe khác dùng 1,2% cho biển trắng và 1,6% cho biển vàng, tính trên giá xe sau ưu đãi và phụ phí màu.
 - Bảo hiểm vật chất được đặt trước dòng tổng và cộng vào “Tổng chi phí lăn bánh”: luôn cộng ở phương án vay, chỉ cộng ở phương án trả thẳng khi người dùng bật lựa chọn bảo hiểm.
+- Bảo hiểm vật chất tính theo tỷ lệ được làm tròn lên bội số 1.000đ gần nhất; mức cố định 4.500.000đ không thay đổi.
 - Khung thiết lập báo giá chuyển các trường chính sang một cột, tăng bề rộng hợp lý và đã kiểm tra trực quan ở giao diện tối; không còn chữ chồng hoặc thẻ bị ép ngang.
 
 ## Mở rộng tóm tắt xe — 19/09/2026

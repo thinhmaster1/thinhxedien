@@ -18,13 +18,17 @@ export function rollingCostsTotal(registrationCosts, physicalInsurance = 0) {
   return Math.max(0,Number(registrationCosts) || 0) + Math.max(0,Number(physicalInsurance) || 0);
 }
 
+export function roundUpToThousand(value) {
+  return Math.ceil(Math.max(0,Number(value) || 0) / 1000) * 1000;
+}
+
 export function physicalInsuranceQuote(car, vehicleValue, plate = "white") {
   if (FIXED_PHYSICAL_INSURANCE_SLUGS.includes(car?.slug)) {
     return { amount: FIXED_PHYSICAL_INSURANCE, note: "Mức cố định theo dòng xe" };
   }
   const rate = PHYSICAL_INSURANCE_RATES[plate] ?? PHYSICAL_INSURANCE_RATES.white;
   return {
-    amount: Math.round(Math.max(0,Number(vehicleValue) || 0) * rate),
-    note: `${new Intl.NumberFormat("vi-VN",{ maximumFractionDigits:1 }).format(rate * 100)}% giá xe sau ưu đãi`
+    amount: roundUpToThousand(Math.max(0,Number(vehicleValue) || 0) * rate),
+    note: `${new Intl.NumberFormat("vi-VN",{ maximumFractionDigits:1 }).format(rate * 100)}% giá xe sau ưu đãi · làm tròn lên 1.000đ`
   };
 }

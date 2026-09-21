@@ -1,6 +1,6 @@
 import { esc, fail, formatMoneyInput, loadCars, loadPromotions, money, moneyInputValue } from "../core.js?v=2026091903";
 import { applySeo, mountSiteShell } from "../components.js?v=2026091903";
-import { percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate } from "../quote-calculator.js?v=2026092004";
+import { percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate } from "../quote-calculator.js?v=2026092101";
 
 applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhmaster1.github.io/thinhxedien/quote.html" });
 let robotsMeta = document.head.querySelector('meta[name="robots"]');

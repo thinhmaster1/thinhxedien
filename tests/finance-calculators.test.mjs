@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { calculateDecliningBalanceSchedule } from "../js/loan-calculator.js";
-import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate } from "../js/quote-calculator.js";
+import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, roundUpToThousand, tieredPromotionRate } from "../js/quote-calculator.js";
 
 const promotions = JSON.parse(readFileSync(new URL("../data/promotions.json", import.meta.url), "utf8"));
 
@@ -32,11 +32,13 @@ for (const slug of ["vf-2", "vf-3", "ec-van"]) {
   assert.equal(physicalInsuranceQuote({ slug },999000000,"white").amount,FIXED_PHYSICAL_INSURANCE);
   assert.equal(physicalInsuranceQuote({ slug },999000000,"yellow").amount,FIXED_PHYSICAL_INSURANCE);
 }
-assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"white"),{ amount:6000000,note:"1,2% giá xe sau ưu đãi" });
-assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"yellow"),{ amount:8000000,note:"1,6% giá xe sau ưu đãi" });
-assert.deepEqual(physicalInsuranceQuote({ slug:"vf-7" },688200000,"white"),{ amount:8258400,note:"1,2% giá xe sau ưu đãi" });
-assert.deepEqual(physicalInsuranceQuote({ slug:"limo-green" },636090000,"yellow"),{ amount:10177440,note:"1,6% giá xe sau ưu đãi" });
-assert.equal(rollingCostsTotal(5675000,7633080),13308080);
+assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"white"),{ amount:6000000,note:"1,2% giá xe sau ưu đãi · làm tròn lên 1.000đ" });
+assert.deepEqual(physicalInsuranceQuote({ slug:"vf-5" },500000000,"yellow"),{ amount:8000000,note:"1,6% giá xe sau ưu đãi · làm tròn lên 1.000đ" });
+assert.deepEqual(physicalInsuranceQuote({ slug:"vf-7" },688200000,"white"),{ amount:8259000,note:"1,2% giá xe sau ưu đãi · làm tròn lên 1.000đ" });
+assert.deepEqual(physicalInsuranceQuote({ slug:"limo-green" },636090000,"yellow"),{ amount:10178000,note:"1,6% giá xe sau ưu đãi · làm tròn lên 1.000đ" });
+assert.equal(roundUpToThousand(7633080),7634000);
+assert.equal(roundUpToThousand(4500000),4500000);
+assert.equal(rollingCostsTotal(5675000,7634000),13309000);
 assert.equal(rollingCostsTotal(5325000,0),5325000);
 
 const futureGreen = promotions.futureGreen2;
