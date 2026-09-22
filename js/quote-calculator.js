@@ -14,6 +14,10 @@ export function percentagePromotionDiscount(basePrice, rate) {
   return Math.round(Math.max(0,Number(basePrice) || 0) * Math.max(0,Number(rate) || 0));
 }
 
+export function vehiclePriceBeforePromotions(listPrice, colorFee = 0) {
+  return Math.max(0,Number(listPrice) || 0) + Math.max(0,Number(colorFee) || 0);
+}
+
 export function rollingCostsTotal(registrationCosts, physicalInsurance = 0) {
   return Math.max(0,Number(registrationCosts) || 0) + Math.max(0,Number(physicalInsurance) || 0);
 }

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { calculateDecliningBalanceSchedule } from "../js/loan-calculator.js";
-import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, roundUpToThousand, tieredPromotionRate } from "../js/quote-calculator.js";
+import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, roundUpToThousand, tieredPromotionRate, vehiclePriceBeforePromotions } from "../js/quote-calculator.js";
 
 const promotions = JSON.parse(readFileSync(new URL("../data/promotions.json", import.meta.url), "utf8"));
 
@@ -55,6 +55,8 @@ for (const slug of ["herio-green", "vf-5", "vf-6", "vf-8", "limo-green", "mpv-7"
   assert.equal(tieredPromotionRate(futureGreen,"special",slug),.09);
 }
 assert.equal(percentagePromotionDiscount(188000000,.03),5640000);
+assert.equal(vehiclePriceBeforePromotions(188000000,8000000),196000000);
+assert.equal(percentagePromotionDiscount(vehiclePriceBeforePromotions(188000000,8000000),.03),5880000);
 assert.equal(percentagePromotionDiscount(699000000,.09),62910000);
 assert.equal(tieredPromotionRate(futureGreen,"missing","vf-2"),0);
 

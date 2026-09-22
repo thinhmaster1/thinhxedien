@@ -35,7 +35,7 @@ Kiểm thử trong trình duyệt nhúng trên máy local, không thay thế ki�
 - Kiểm tra trang chi tiết của 12 mẫu ở 1280, 390 và 320 px, cả sáng/tối: 72 cấu hình đều không tràn ngang, không lỗi ảnh và có đủ tóm tắt, nguồn cùng các nhóm thông số thu gọn.
 - Bổ sung kiểm tra tự động cho cấu trúc dữ liệu, giá phiên bản, nguồn HTTPS, dữ liệu EC Van/VF 2/VF 7/MPV 7, bảo hành và chống chèn HTML.
 - Giá xe và danh sách phiên bản không đổi. VF 2 được cập nhật đúng 3 màu cơ bản (Trắng, Đỏ, Bạc) và 5 màu nâng cao phụ phí 8 triệu đồng.
-- Kiểm thử trực tiếp báo giá VF 2: màu cơ bản có phụ phí 0 đồng; Xanh Urban Mint cộng đúng 8 triệu đồng, đưa giá xe từ 188 triệu lên 196 triệu đồng trước chi phí lăn bánh.
+- Kiểm thử trực tiếp báo giá VF 2: màu cơ bản có phụ phí 0 đồng; Xanh Urban Mint được cộng 8 triệu vào giá xe trước khi áp ưu đãi. Với ưu đãi 3%, cơ sở tính là 196 triệu, mức giảm 5,88 triệu và giá xe sau ưu đãi là 190,12 triệu đồng.
 
 ## Công thức vay và bảo hiểm vật chất — 17/09/2026
 

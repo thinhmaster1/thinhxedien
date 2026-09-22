@@ -1,6 +1,6 @@
 import { esc, fail, formatMoneyInput, loadCars, loadPromotions, money, moneyInputValue } from "../core.js?v=2026091903";
 import { applySeo, mountSiteShell } from "../components.js?v=2026091903";
-import { percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate } from "../quote-calculator.js?v=2026092101";
+import { percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate, vehiclePriceBeforePromotions } from "../quote-calculator.js?v=2026092201";
 
 applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhmaster1.github.io/thinhxedien/quote.html" });
 let robotsMeta = document.head.querySelector('meta[name="robots"]');
@@ -409,20 +409,21 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const version = car.versions[Number(versionSelect.value) || 0];
     const color = colorSelect.value || car.colors[0];
     const listPrice = version.price;
+    const colorFee = car.colorPrices?.[color] || 0;
+    const promotionBase = vehiclePriceBeforePromotions(listPrice,colorFee);
     const selectedPromotionIds = [...form.querySelectorAll('[name="modelPromotion"]:checked')].map(input => input.value);
     const modelPromotions = promotions.quoteOptions.model.filter(item => selectedPromotionIds.includes(item.id));
     const customerPromotion = promotions.quoteOptions.customer.find(item => item.id === customerPromotionSelect.value);
-    const modelDiscount = Math.min(modelPromotions.filter(item => item.type === "fixed").reduce((total,item) => total + item.value,0),listPrice);
-    const customerBase = customerPromotion?.base === "afterModel" ? Math.max(0,listPrice - modelDiscount) : listPrice;
+    const modelDiscount = Math.min(modelPromotions.filter(item => item.type === "fixed").reduce((total,item) => total + item.value,0),promotionBase);
+    const customerBase = customerPromotion?.base === "afterModel" ? Math.max(0,promotionBase - modelDiscount) : promotionBase;
     const customerRate = customerPromotionRate(customerPromotion,car.slug);
     const requestedCustomerDiscount = ["percent","programPercent"].includes(customerPromotion?.type) ? percentagePromotionDiscount(customerBase,customerRate) : customerPromotion?.type === "fixed" ? customerPromotion.value : 0;
-    const customerDiscount = Math.min(requestedCustomerDiscount,Math.max(0,listPrice - modelDiscount));
+    const customerDiscount = Math.min(requestedCustomerDiscount,Math.max(0,promotionBase - modelDiscount));
     const customerPromotionNote = customerPromotion?.type === "programPercent" ? `${customerPromotion.label} · ${formatPercentage(customerRate * 100)}% MSRP` : customerPromotion?.label;
-    const policyPrice = Math.max(0,listPrice - modelDiscount - customerDiscount);
+    const policyPrice = Math.max(0,promotionBase - modelDiscount - customerDiscount);
     const manualDiscount = Math.min(moneyInputValue(discountInput.value),policyPrice);
     const discount = modelDiscount + customerDiscount + manualDiscount;
-    const colorFee = car.colorPrices?.[color] || 0;
-    const vehicleValue = Math.max(0, listPrice - discount + colorFee);
+    const vehicleValue = Math.max(0,promotionBase - discount);
     const registrationType = form.elements.registration.value;
     const registrationService = REGISTRATION_SERVICE_FEE;
     const plate = form.elements.plate.value;
@@ -453,7 +454,7 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const customerPhone = document.querySelector("#customer-phone").value.trim();
 
     document.querySelector("#quote-results").innerHTML = `<div class="quote-result-head"><div><span>BÁO GIÁ DỰ KIẾN</span><h2>${esc(car.name)}</h2><p>${esc(version.name)} · ${esc(color)}</p>${customer ? `<small>Khách hàng: ${esc(customer)}${customerPhone ? ` · ${esc(customerPhone)}` : ""}</small>` : customerPhone ? `<small>SĐT khách hàng: ${esc(customerPhone)}</small>` : ""}<a class="quote-contact" href="tel:0352978519"><span>Tư vấn bán hàng</span><b>${SALES_ADVISOR}</b><small>${SALES_PHONE}</small></a></div><div class="quote-actions"><button class="is-secondary" type="button" id="download-quote-image">Tải ảnh báo giá</button><small id="quote-export-status" role="status" aria-live="polite"></small></div></div>
-      <section class="vehicle-cost"><h3>Giá trị xe</h3>${feeRow("Giá niêm yết",listPrice)}${modelPromotions.filter(item => item.type === "fixed").map(item => feeRow("Ưu đãi dòng xe",-item.value,item.label)).join("")}${modelPromotions.filter(item => item.type === "gift").map(item => `<div class="promotion-gift"><span>${esc(item.label)}<small>${esc(item.note || "Quà tặng kèm")}</small></span><b>Tặng kèm</b></div>`).join("")}${customerPromotion ? feeRow("Ưu đãi khách hàng",-customerDiscount,customerPromotionNote) : ""}${manualDiscount ? feeRow("Giảm giá thêm",-manualDiscount) : ""}${feeRow("Phụ phí màu",colorFee)}<div class="subtotal"><span>Giá xe sau ưu đãi</span><b>${money(vehicleValue)}</b></div></section>
+      <section class="vehicle-cost"><h3>Giá trị xe</h3>${feeRow("Giá niêm yết",listPrice)}${feeRow("Phụ phí màu",colorFee)}${modelPromotions.filter(item => item.type === "fixed").map(item => feeRow("Ưu đãi dòng xe",-item.value,item.label)).join("")}${modelPromotions.filter(item => item.type === "gift").map(item => `<div class="promotion-gift"><span>${esc(item.label)}<small>${esc(item.note || "Quà tặng kèm")}</small></span><b>Tặng kèm</b></div>`).join("")}${customerPromotion ? feeRow("Ưu đãi khách hàng",-customerDiscount,customerPromotionNote) : ""}${manualDiscount ? feeRow("Giảm giá thêm",-manualDiscount) : ""}<div class="subtotal"><span>Giá xe sau ưu đãi</span><b>${money(vehicleValue)}</b></div></section>
       <div class="payment-switch" role="tablist" aria-label="Phương thức thanh toán"><button type="button" role="tab" data-payment-mode="cash" aria-selected="${paymentMode === "cash"}">Trả thẳng</button><button type="button" role="tab" data-payment-mode="loan" aria-selected="${paymentMode === "loan"}">Trả góp</button></div>
       <div class="payment-results"><article class="payment-card cash" data-payment-panel="cash" ${paymentMode === "cash" ? "" : "hidden"}><span>THANH TOÁN TIỀN MẶT</span><h3>${money(cashTotal)}</h3><p>Giá xe cộng tổng chi phí lăn bánh và bảo hiểm tùy chọn.</p><div class="fee-breakdown">${feeRow("Giá xe",vehicleValue)}${feeDivider("Chi phí lăn bánh")}${feeRow("Đăng ký biển",registration,registrationType === "city" ? "Thành phố" : "Tỉnh")}${feeRow("Phí dịch vụ đăng ký xe",registrationService)}${feeRow("Lệ phí đăng kiểm",FEES.inspection)}${feeRow("Bảo trì đường bộ",road,plate === "white" ? "Biển trắng" : "Biển vàng")}${feeRow("Bảo hiểm TNDS",liability,liabilityNote)}${document.querySelector("#physical-cash").checked ? feeRow("Bảo hiểm vật chất",physical,physicalInsurance.note) : ""}${feeSubtotal("Tổng chi phí lăn bánh",cashRollingCosts)}</div></article>
       <article class="payment-card loan" data-payment-panel="loan" ${paymentMode === "loan" ? "" : "hidden"}><span>THANH TOÁN VAY</span><h3>${money(loanTotal)}</h3><p>Trả trước cộng tổng chi phí lăn bánh, đã gồm bảo hiểm vật chất.</p><div class="fee-breakdown">${feeRow("Số tiền trả trước",downPayment,`${downPaymentPercentageText}% giá trị xe`)}${feeDivider("Chi phí lăn bánh")}${feeRow("Đăng ký biển",registration,registrationType === "city" ? "Thành phố" : "Tỉnh")}${feeRow("Phí dịch vụ đăng ký xe",registrationService)}${feeRow("Lệ phí đăng kiểm",FEES.inspection)}${feeRow("Bảo trì đường bộ",road,plate === "white" ? "Biển trắng" : "Biển vàng")}${feeRow("Bảo hiểm TNDS",liability,liabilityNote)}${feeRow("Bảo hiểm vật chất bắt buộc",physical,physicalInsurance.note)}${feeSubtotal("Tổng chi phí lăn bánh",loanRollingCosts)}</div><div class="loan-note"><span>Dư nợ dự kiến ${loanPercentageText}%</span><b>${money(remainingLoan)}</b><small>Chưa bao gồm lãi vay ngân hàng.</small><a href="loan.html?amount=${Math.ceil(remainingLoan)}">Tính lãi và lịch trả góp <span>›</span></a></div></article></div>
