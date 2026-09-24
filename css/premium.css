@@ -465,7 +465,8 @@ body :is(.policy-heading, .section-title, .category-heading) > span { font-size:
 .promotion-options label { min-width: 0; }
 .promotion-options :is(b, small) { font-size: .8125rem; line-height: 1.5; }
 .quote-form input:is([type="radio"], [type="checkbox"]) { min-height: 0; width: 18px; height: 18px; flex-shrink: 0; }
-.loan-default-control > button { min-height: 40px; font-size: .8125rem; }
+.loan-percentage-presets > span, .loan-percentage-presets button b { font-size: .8125rem; }
+.loan-percentage-presets button small { font-size: .6875rem; }
 .quote-result-head { padding: 0 0 24px; flex-wrap: wrap; }
 .quote-result-head h2 { font-size: 2rem; line-height: 1.15; }
 .quote-result-head :is(p, small), .quote-contact :is(span, small) { font-size: .8125rem; }

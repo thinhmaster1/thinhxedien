@@ -1,6 +1,6 @@
 import { esc, fail, formatMoneyInput, loadCars, loadPromotions, money, moneyInputValue } from "../core.js?v=2026091903";
 import { applySeo, mountSiteShell } from "../components.js?v=2026091903";
-import { percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../quote-calculator.js?v=2026092401";
+import { downPaymentForLoanPercentage, manualDiscountLimit, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../quote-calculator.js?v=2026092403";
 
 applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhmaster1.github.io/thinhxedien/quote.html" });
 let robotsMeta = document.head.querySelector('meta[name="robots"]');
@@ -56,9 +56,9 @@ const feeDivider = label => `<div class="fee-divider"><span>${esc(label)}</span>
 const feeSubtotal = (label, value) => `<div class="fee-subtotal"><span>${esc(label)}</span><b>${money(value)}</b></div>`;
 const formatPercentage = value => new Intl.NumberFormat("vi-VN",{ maximumFractionDigits:1 }).format(value);
 
-export function quoteLoanBreakdown(vehicleValue, requestedDownPayment = null) {
+export function quoteLoanBreakdown(vehicleValue, requestedDownPayment = null, defaultLoanPercentage = 85) {
   const safeVehicleValue = Math.max(0,Number(vehicleValue) || 0);
-  const defaultDownPayment = Math.round(safeVehicleValue * .15);
+  const defaultDownPayment = downPaymentForLoanPercentage(safeVehicleValue,defaultLoanPercentage);
   const customDownPayment = requestedDownPayment == null ? null : Math.max(0,Number(requestedDownPayment) || 0);
   const downPayment = customDownPayment == null ? defaultDownPayment : Math.min(customDownPayment,safeVehicleValue);
   const remainingLoan = Math.max(0,safeVehicleValue - downPayment);
@@ -366,9 +366,9 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
       <div class="quote-form__heading"><span>THÔNG TIN BÁO GIÁ</span><h2>Lựa chọn của khách hàng</h2></div>
       <div class="customer-fields"><label><span>Tên khách hàng <small>Không bắt buộc</small></span><input id="customer-name" type="text" placeholder="Nhập tên khách hàng"></label><label><span>Số điện thoại <small>Không bắt buộc</small></span><input id="customer-phone" type="tel" placeholder="Nhập số điện thoại"></label></div>
       <fieldset><legend>Xe và phiên bản</legend><div class="form-grid"><label><span>Dòng xe · xếp theo giá tăng dần</span><select id="car-select">${quoteCars.map(car => `<option value="${car.slug}">${esc(car.name)}</option>`).join("")}</select></label><label><span>Phiên bản</span><select id="version-select"></select></label></div><label><span>Màu ngoại thất</span><select id="color-select"></select></label></fieldset>
-      <fieldset><legend>Ưu đãi áp dụng</legend><div class="quote-promotion-group"><span>Ưu đãi theo dòng xe</span><div class="promotion-options" id="model-promotions"></div></div><label><span>Ưu đãi theo khách hàng</span><select id="customer-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.customer.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><p class="promotion-help">${esc(promotions.futureGreen2.quoteNote)}</p><label><span>Giảm giá thêm <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="text" inputmode="numeric" placeholder="0" aria-describedby="discount-note"><i>₫</i></div><small class="field-validation" id="discount-note" role="status" aria-live="polite"></small></label></fieldset>
+      <fieldset><legend>Ưu đãi áp dụng</legend><div class="quote-promotion-group"><span>Ưu đãi theo dòng xe</span><div class="promotion-options" id="model-promotions"></div></div><label><span>Ưu đãi theo khách hàng</span><select id="customer-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.customer.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><p class="promotion-help">${esc(promotions.futureGreen2.quoteNote)}</p><label><span>Giảm giá thêm <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="text" inputmode="numeric" placeholder="0" aria-describedby="discount-limit discount-note"><i>₫</i></div><small class="field-guidance" id="discount-limit"></small><small class="field-validation" id="discount-note" role="status" aria-live="polite"></small></label></fieldset>
       <fieldset><legend>Đăng ký và sử dụng</legend><div class="choice-group"><span>Khu vực đăng ký biển</span><div><label><input type="radio" name="registration" value="province" checked><b>Tỉnh</b><small>140.000 ₫</small></label><label><input type="radio" name="registration" value="city"><b>Thành phố</b><small>14.000.000 ₫</small></label></div></div><div class="choice-group"><span>Loại biển số</span><div><label><input type="radio" name="plate" value="white" checked><b>Biển trắng</b><small>Xe cá nhân</small></label><label><input type="radio" name="plate" value="yellow"><b>Biển vàng</b><small>Xe kinh doanh</small></label></div></div><label class="check-option"><input id="physical-cash" type="checkbox"><span><b>Thêm bảo hiểm vật chất cho thanh toán tiền mặt</b><small>Không bắt buộc khi mua tiền mặt. Phương án vay luôn bắt buộc.</small></span></label></fieldset>
-      <fieldset class="loan-quote-options" id="loan-quote-options" hidden><legend>Phương án trả góp</legend><label><span>Số tiền trả trước <small>Mặc định 15% giá xe · vay 85%</small></span><div class="money-input"><input id="loan-down-payment" type="text" inputmode="numeric" aria-describedby="loan-down-payment-note"><i>₫</i></div></label><div class="loan-default-control"><small id="loan-down-payment-note" aria-live="polite"></small><button id="reset-down-payment" type="button">Đặt lại vay 85%</button></div></fieldset>
+      <fieldset class="loan-quote-options" id="loan-quote-options" hidden><legend>Phương án trả góp</legend><div class="loan-percentage-presets"><span>Chọn tỷ lệ vay</span><div role="group" aria-label="Chọn tỷ lệ vay"><button type="button" data-loan-percentage="75" aria-pressed="false"><b>Vay 75%</b><small>Trả trước 25%</small></button><button type="button" data-loan-percentage="80" aria-pressed="false"><b>Vay 80%</b><small>Trả trước 20%</small></button><button type="button" data-loan-percentage="85" aria-pressed="true"><b>Vay 85%</b><small>Trả trước 15%</small></button></div></div><label><span>Số tiền trả trước <small>Có thể nhập số tiền khác</small></span><div class="money-input"><input id="loan-down-payment" type="text" inputmode="numeric" aria-describedby="loan-down-payment-note"><i>₫</i></div></label><div class="loan-default-control"><small id="loan-down-payment-note" aria-live="polite"></small></div></fieldset>
     </form><aside class="quote-results" id="quote-results"></aside></section>`;
 
   const form = document.querySelector("#quote-form");
@@ -378,12 +378,14 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
   const modelPromotionsRoot = document.querySelector("#model-promotions");
   const customerPromotionSelect = document.querySelector("#customer-promotion");
   const discountInput = document.querySelector("#discount");
+  const discountLimitNote = document.querySelector("#discount-limit");
   const discountNote = document.querySelector("#discount-note");
   const loanOptions = document.querySelector("#loan-quote-options");
   const downPaymentInput = document.querySelector("#loan-down-payment");
   const downPaymentNote = document.querySelector("#loan-down-payment-note");
-  const resetDownPayment = document.querySelector("#reset-down-payment");
+  const loanPercentageButtons = [...document.querySelectorAll("[data-loan-percentage]")];
   let paymentMode = "cash";
+  let selectedLoanPercentage = 85;
 
   const selectedCar = () => quoteCars.find(car => car.slug === carSelect.value) || quoteCars[0];
   const customerPromotionRate = (promotion,carSlug) => promotion?.type === "programPercent"
@@ -423,7 +425,12 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const customerDiscount = Math.min(requestedCustomerDiscount,Math.max(0,promotionBase - modelDiscount));
     const customerPromotionNote = customerPromotion?.type === "programPercent" ? `${customerPromotion.label} · ${formatPercentage(customerRate * 100)}% MSRP` : customerPromotion?.label;
     const policyPrice = Math.max(0,promotionBase - modelDiscount - customerDiscount);
-    const manualDiscountValidation = validateManualDiscount(discountInput.value,policyPrice);
+    const configuredDiscountLimit = manualDiscountLimit(car.slug);
+    const manualDiscountMaximum = configuredDiscountLimit == null ? policyPrice : Math.min(policyPrice,configuredDiscountLimit);
+    discountLimitNote.textContent = configuredDiscountLimit == null
+      ? "Chưa có gợi ý mức giảm thêm tối đa cho dòng xe này."
+      : `Gợi ý giảm thêm tối đa: ${money(configuredDiscountLimit)}.`;
+    const manualDiscountValidation = validateManualDiscount(discountInput.value,manualDiscountMaximum);
     const manualDiscount = manualDiscountValidation.value;
     discountInput.setCustomValidity(manualDiscountValidation.error);
     discountInput.setAttribute("aria-invalid",String(Boolean(manualDiscountValidation.error)));
@@ -447,7 +454,7 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const cashTotal = vehicleValue + cashRollingCosts;
     const customDownPayment = downPaymentInput.dataset.customized === "true";
     const requestedDownPayment = moneyInputValue(downPaymentInput.value);
-    const { downPayment,remainingLoan,downPaymentPercentage,loanPercentage } = quoteLoanBreakdown(vehicleValue,customDownPayment ? requestedDownPayment : null);
+    const { downPayment,remainingLoan,downPaymentPercentage,loanPercentage } = quoteLoanBreakdown(vehicleValue,customDownPayment ? requestedDownPayment : null,selectedLoanPercentage ?? 85);
     if (!customDownPayment || requestedDownPayment > vehicleValue) {
       downPaymentInput.value = String(downPayment);
       formatMoneyInput(downPaymentInput);
@@ -456,6 +463,7 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const downPaymentPercentageText = formatPercentage(downPaymentPercentage);
     const loanPercentageText = formatPercentage(loanPercentage);
     downPaymentNote.textContent = `Trả trước ${downPaymentPercentageText}% · khoản vay dự kiến ${loanPercentageText}% giá trị xe.`;
+    loanPercentageButtons.forEach(button => button.setAttribute("aria-pressed",String(!customDownPayment && Number(button.dataset.loanPercentage) === selectedLoanPercentage)));
     const customer = document.querySelector("#customer-name").value.trim();
     const customerPhone = document.querySelector("#customer-phone").value.trim();
 
@@ -486,19 +494,21 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     if (!discountInput.value.includes("-")) formatMoneyInput(discountInput);
   });
   downPaymentInput.addEventListener("input", () => {
+    selectedLoanPercentage = null;
     downPaymentInput.dataset.customized = "true";
     formatMoneyInput(downPaymentInput);
   });
   downPaymentInput.addEventListener("blur", () => {
     if (downPaymentInput.value) return;
+    selectedLoanPercentage = 85;
     delete downPaymentInput.dataset.customized;
     calculate();
   });
-  resetDownPayment.addEventListener("click", () => {
+  loanPercentageButtons.forEach(button => button.addEventListener("click", () => {
+    selectedLoanPercentage = Number(button.dataset.loanPercentage);
     delete downPaymentInput.dataset.customized;
     calculate();
-    downPaymentInput.focus();
-  });
+  }));
   form.addEventListener("input", calculate);
   form.addEventListener("change", calculate);
   updateOptions();

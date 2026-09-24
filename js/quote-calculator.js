@@ -1,6 +1,24 @@
 export const PHYSICAL_INSURANCE_RATES = Object.freeze({ white: .012, yellow: .016 });
 export const FIXED_PHYSICAL_INSURANCE = 4500000;
 export const FIXED_PHYSICAL_INSURANCE_SLUGS = Object.freeze(["vf-2", "vf-3", "ec-van"]);
+export const MANUAL_DISCOUNT_LIMITS = Object.freeze({
+  "vf-2": 6000000,
+  "minio-green": 6000000,
+  "ec-van": 6000000,
+  "vf-3": 6000000,
+  "vf-5": 10000000,
+  "vf-6": 12000000,
+  "limo-green": 12000000,
+  "vf-7": 15000000,
+  "mpv-7": 15000000,
+  "vf-8": 20000000,
+  "vf-8-moi": 20000000,
+  "vf-9": 25000000
+});
+
+export function manualDiscountLimit(carSlug) {
+  return MANUAL_DISCOUNT_LIMITS[carSlug] ?? null;
+}
 
 export function tieredPromotionRate(program, audience, carSlug) {
   const group = program?.groups?.find(item => item.id === audience);
@@ -16,6 +34,13 @@ export function percentagePromotionDiscount(basePrice, rate) {
 
 export function vehiclePriceBeforePromotions(listPrice, colorFee = 0) {
   return Math.max(0,Number(listPrice) || 0) + Math.max(0,Number(colorFee) || 0);
+}
+
+export function downPaymentForLoanPercentage(vehicleValue, loanPercentage = 85) {
+  const safeVehicleValue = Math.max(0,Number(vehicleValue) || 0);
+  const numericPercentage = Number(loanPercentage);
+  const safeLoanPercentage = Number.isFinite(numericPercentage) ? Math.min(100,Math.max(0,numericPercentage)) : 85;
+  return Math.round(safeVehicleValue * (100 - safeLoanPercentage) / 100);
 }
 
 export function validateManualDiscount(input, maximumDiscount) {

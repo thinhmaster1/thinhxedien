@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { calculateDecliningBalanceSchedule } from "../js/loan-calculator.js";
-import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, roundUpToThousand, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../js/quote-calculator.js";
+import { FIXED_PHYSICAL_INSURANCE, downPaymentForLoanPercentage, manualDiscountLimit, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, roundUpToThousand, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../js/quote-calculator.js";
 
 const promotions = JSON.parse(readFileSync(new URL("../data/promotions.json", import.meta.url), "utf8"));
 
@@ -40,6 +40,10 @@ assert.equal(roundUpToThousand(7633080),7634000);
 assert.equal(roundUpToThousand(4500000),4500000);
 assert.equal(rollingCostsTotal(5675000,7634000),13309000);
 assert.equal(rollingCostsTotal(5325000,0),5325000);
+assert.equal(downPaymentForLoanPercentage(188000000,75),47000000);
+assert.equal(downPaymentForLoanPercentage(188000000,80),37600000);
+assert.equal(downPaymentForLoanPercentage(188000000,85),28200000);
+assert.equal(downPaymentForLoanPercentage(188000000),28200000);
 
 const futureGreen = promotions.futureGreen2;
 for (const slug of ["vf-2", "vf-3"]) {
@@ -62,5 +66,13 @@ assert.equal(tieredPromotionRate(futureGreen,"missing","vf-2"),0);
 assert.deepEqual(validateManualDiscount("10,000,000",188000000),{ value:10000000,error:"" });
 assert.deepEqual(validateManualDiscount("-10,000,000",188000000),{ value:0,error:"Giảm giá thêm không được là số âm." });
 assert.match(validateManualDiscount("999,999,999",188000000).error,/không được vượt quá/);
+assert.equal(manualDiscountLimit("vf-2"),6000000);
+assert.equal(manualDiscountLimit("vf-5"),10000000);
+assert.equal(manualDiscountLimit("vf-6"),12000000);
+assert.equal(manualDiscountLimit("mpv-7"),15000000);
+assert.equal(manualDiscountLimit("vf-8-moi"),20000000);
+assert.equal(manualDiscountLimit("vf-9"),25000000);
+assert.equal(manualDiscountLimit("vf-wild-comfort"),null);
+assert.match(validateManualDiscount("7,000,000",manualDiscountLimit("vf-2")).error,/6,000,000/);
 
 console.log("PASS: loan schedule, physical insurance and Vì tương lai xanh 2 tiered discounts.");
