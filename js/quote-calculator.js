@@ -18,6 +18,15 @@ export function vehiclePriceBeforePromotions(listPrice, colorFee = 0) {
   return Math.max(0,Number(listPrice) || 0) + Math.max(0,Number(colorFee) || 0);
 }
 
+export function validateManualDiscount(input, maximumDiscount) {
+  const raw = String(input ?? "").trim();
+  const maximum = Math.max(0,Number(maximumDiscount) || 0);
+  if (raw.includes("-")) return { value:0, error:"Giảm giá thêm không được là số âm." };
+  const value = Math.max(0,Number(raw.replace(/[^\d]/g,"")) || 0);
+  if (value > maximum) return { value:0, error:`Giảm giá thêm không được vượt quá ${new Intl.NumberFormat("en-US").format(maximum)} ₫.` };
+  return { value, error:"" };
+}
+
 export function rollingCostsTotal(registrationCosts, physicalInsurance = 0) {
   return Math.max(0,Number(registrationCosts) || 0) + Math.max(0,Number(physicalInsurance) || 0);
 }

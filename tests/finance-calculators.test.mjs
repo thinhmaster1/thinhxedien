@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { calculateDecliningBalanceSchedule } from "../js/loan-calculator.js";
-import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, roundUpToThousand, tieredPromotionRate, vehiclePriceBeforePromotions } from "../js/quote-calculator.js";
+import { FIXED_PHYSICAL_INSURANCE, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, roundUpToThousand, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../js/quote-calculator.js";
 
 const promotions = JSON.parse(readFileSync(new URL("../data/promotions.json", import.meta.url), "utf8"));
 
@@ -59,5 +59,8 @@ assert.equal(vehiclePriceBeforePromotions(188000000,8000000),196000000);
 assert.equal(percentagePromotionDiscount(vehiclePriceBeforePromotions(188000000,8000000),.03),5880000);
 assert.equal(percentagePromotionDiscount(699000000,.09),62910000);
 assert.equal(tieredPromotionRate(futureGreen,"missing","vf-2"),0);
+assert.deepEqual(validateManualDiscount("10,000,000",188000000),{ value:10000000,error:"" });
+assert.deepEqual(validateManualDiscount("-10,000,000",188000000),{ value:0,error:"Giảm giá thêm không được là số âm." });
+assert.match(validateManualDiscount("999,999,999",188000000).error,/không được vượt quá/);
 
 console.log("PASS: loan schedule, physical insurance and Vì tương lai xanh 2 tiered discounts.");

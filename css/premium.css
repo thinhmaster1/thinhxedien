@@ -547,6 +547,16 @@ html[data-theme="dark"] :is(.price-table th, .price-table td, .car-summary:not(:
   .form-grid, .customer-fields, .choice-group > div { grid-template-columns: 1fr; }
   .metric-band { grid-template-columns: 1fr; }
   .site-footer__main { grid-template-columns: 1fr; }
+  .vehicle-cost > div, .fee-breakdown > div, .subtotal { gap: 8px !important; }
+  .vehicle-cost b, .fee-breakdown b, .subtotal b, .payment-card > h3, .loan-note b {
+    max-width: none !important;
+    white-space: nowrap !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+  .subtotal b { font-size: 15px; }
+  .payment-card > h3 { font-size: 28px; }
+  .loan-note b { font-size: 1.25rem; }
 }
 @media print {
   .skip-link, .site-breadcrumb { display: none !important; }
