@@ -1,4 +1,4 @@
-import { fail, loadCars, money, param, specGroups } from "../core.js?v=2026091903";
+import { fail, loadCars, money, param, specGroups } from "../core.js?v=2026092301";
 import { applySeo, mountSiteShell, SpecAccordion, VehicleCard } from "../components.js?v=2026091903";
 import { CarSummary, CarSources } from "../detail-content.js?v=2026091903";
 
@@ -30,6 +30,7 @@ const swatchStyle = name => {
   return `linear-gradient(135deg, ${colorTone(body)} 0 58%, ${colorTone(roof)} 58% 100%)`;
 };
 const colorPrice = (car, color) => {
+  if (car.pendingColorPrices?.includes(color)) return "Nâng cao · Chưa công bố phụ phí";
   const fee = car.colorPrices?.[color];
   if (fee === 0) return "Tiêu chuẩn";
   return fee ? `Thêm ${money(fee)}` : "";

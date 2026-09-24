@@ -139,14 +139,33 @@
     },
     {
       "slug": "vf-wild-comfort", "name": "VF Wild Comfort", "segment": "Bán tải REEV", "use": "Đa dụng", "category": "commercial", "categoryOrder": 5, "displayOrder": 2, "featured": true, "powertrain": "REEV", "liabilityNote": "Tạm tính tối đa 5 chỗ; cần xác nhận", "registrationNote": "Phí đăng ký, bảo trì đường bộ và TNDS đang tạm tính theo xe cá nhân tối đa 5 chỗ; cần xác nhận theo hồ sơ phân loại chính thức của bản thương mại.", "price": 860000000, "image": "public/cars/vf-wild-comfort.jpg", "detailImage": "public/cars/vf-wild-comfort.jpg", "imageSource": "Tài liệu giới thiệu VinFast ngày 19/09/2026 do người dùng cung cấp", "tagline": "Bán tải REEV thân liền khối, mạnh mẽ và linh hoạt cho hành trình dài.",
-      "versions": [{"name":"Comfort","price":860000000}], "offer": {"price":799000000,"discount":61000000,"label":"Giá sau ưu đãi cọc tiên phong","validThrough":"30/06/2027","charging":"Miễn phí 20 lượt sạc/tháng đến 10/02/2029"}, "colors": ["Bạc", "Đỏ"],
-      "colorNote": "Bạc và Đỏ là hai màu xuất hiện trong tài liệu giới thiệu; danh mục màu thương mại và phụ phí cần xác nhận khi đặt cọc.",
-      "specsUpdated": "19/09/2026",
-      "specsSource": "Tài liệu giới thiệu VF Wild Comfort ngày 19/09/2026 do người dùng cung cấp",
-      "specsNote": "Thông số, giá và chính sách của bản Comfort được nhập từ bộ tài liệu VinFast ngày 19/09/2026 do người dùng cung cấp. Chưa tìm thấy trang sản phẩm VF Wild Comfort công khai được lập chỉ mục; không dùng kích thước của mẫu ý tưởng VF Wild năm 2024 để thay thế dữ liệu bản thương mại.",
-      "summary": {"audience":"Gia đình, công việc và hành trình đường dài","description":"Bán tải REEV thân liền khối dùng mô-tơ điện để vận hành, kết hợp động cơ xăng 1,5 L nhằm mở rộng phạm vi di chuyển.","highlights":["Trên 1.000 km kết hợp xăng và điện (NEDC)","Mâm 18 inch, lốp 255/70 R18","Camera sau và Cruise Control"],"charging":"Dưới 32 phút · 10–70%"},
+      "versions": [{"name":"Comfort","price":860000000}], "offer": {"price":799000000,"discount":61000000,"label":"Giá sau ưu đãi cọc tiên phong","validThrough":"30/06/2027","charging":"Miễn phí 20 lượt sạc/tháng đến 10/02/2029"}, "colors": ["Trắng", "Đen", "Đỏ", "Bạc"],
+      "colorPrices": {"Trắng":0,"Đen":0,"Đỏ":0}, "pendingColorPrices": ["Bạc"],
+      "colorNote": "Theo tài liệu ngày 21/09/2026: Trắng, Đen và Đỏ là màu tiêu chuẩn (TC); Bạc là màu nâng cao (NC), chưa có mức phụ phí. Tên màu mô tả theo hình minh họa, màu xe thương mại có thể khác biệt.",
+      "specsUpdated": "23/09/2026",
+      "specsSource": "Tài liệu VF WILD ngày 21/09/2026 do người dùng cung cấp; giá, ưu đãi và bảo hành theo tài liệu ngày 19/09/2026",
+      "specsNote": "Thông số và trang bị cập nhật từ tài liệu VF WILD ngày 21/09/2026. Giá, ưu đãi, camera sau và bảo hành giữ theo tài liệu Comfort ngày 19/09/2026 vì tài liệu mới không cập nhật các mục này. Hình ảnh, màu sắc chỉ mang tính minh họa; thông số và trang bị có thể thay đổi trên phiên bản thương mại. Một số tính năng thông minh nâng cao thuộc gói VF eStore có thu phí.",
+      "summary": {"audience":"Gia đình, công việc và hành trình đường dài","description":"Bán tải REEV thân liền khối 5 chỗ, pin LFP 46,4 kWh khả dụng. Mô-tơ điện dẫn động xe; động cơ xăng 1,5 L phát điện để sạc pin hoặc cấp điện cho mô-tơ khi cần.","highlights":["Thùng hàng 1.574 × 1.512 × 509 mm · tải trọng ≤750 kg","Trên 250 km thuần điện / trên 1.000 km hỗn hợp (NEDC)","V2L cấp điện thiết bị ngoài · Apple CarPlay / Android Auto không dây"],"charging":"≤32 phút · 10–70%"},
       "sources": [{"title":"Lịch sử mẫu ý tưởng VF Wild · VinFast","url":"https://vinfastauto.com/vn_vi/vinfast-gioi-thieu-mau-xe-y-tuong-dong-ban-tai-dien-vf-wild"},{"title":"Chính sách bảo hành ô tô · VinFast","url":"https://vinfastauto.com/vn_vi/chinh-sach-bao-hanh-oto"}],
-      "specs": {"seats":"Chưa công bố trong tài liệu","range":"Trên 250 km thuần điện / trên 1.000 km kết hợp (NEDC)","combinedRange":"Trên 1.000 km xăng + điện (NEDC)","power":"160 kW","torque":"280 Nm","battery":"46,4 kWh","dimensions":"5.376 × 2.069 × 1.873 mm","wheelbase":"3.258 mm","clearance":"222 mm","engine":"Động cơ xăng 1,5 L mở rộng phạm vi","fuelTank":"56 lít","dcCharge":"Tối đa 90 kW; sạc 10–70% dưới 32 phút","acCharge":"Tối đa 6,6 kW","drivetrain":"Cầu trước (FWD)","brakes":"Đĩa / Đĩa","wheels":"Mâm 18 inch; lốp 255/70 R18","suspension":"Trước độc lập, tay đòn kép / Sau đa liên kết","exteriorFeatures":"Thân xe liền khối; ốp khí động học","convenience":"Cruise Control","safetySystems":"ABS / ESC","parkingSupport":"Camera sau","vehicleWarranty":"6 năm / 150.000 km","batteryWarranty":"8 năm / 160.000 km","warrantyConditions":"Tùy điều kiện nào đến trước, theo tài liệu ngày 19/09/2026."}
+      "specs": {
+        "seats":"5 chỗ", "range":"Trên 250 km thuần điện / trên 1.000 km kết hợp (NEDC)", "combinedRange":"Trên 1.000 km xăng + điện (NEDC)",
+        "power":"160 kW", "torque":"280 Nm", "battery":"46,4 kWh khả dụng", "batteryType":"LFP",
+        "dimensions":"5.376 × 2.069 × 1.873 mm", "wheelbase":"3.258 mm", "clearance":"222 mm (không tải)",
+        "cargoDimensions":"1.574 × 1.512 × 509 mm (thùng xe)", "curbWeight":"2.390 kg", "payload":"≤750 kg", "roofLoad":"100 kg", "turningDiameter":"≤13 m", "wadingDepth":"500 mm",
+        "engine":"Động cơ xăng 1,5 L phát điện; điện được phân bổ để sạc pin hoặc cấp trực tiếp cho mô-tơ", "fuelTank":"56 lít",
+        "dcCharge":"Tối đa 90 kW; sạc 10–70% trong ≤32 phút", "acCharge":"Tối đa 6,6 kW", "optionalEquipment":"Bộ sạc AFS: dây sạc di động 3,5 kW; bộ sạc tại nhà 7,4 kW (công suất nhận AC của xe tối đa 6,6 kW)",
+        "drivetrain":"Cầu trước (FWD)", "acceleration":"0–100 km/h trong ≤10 giây", "topSpeed":"170 km/h", "driveModes":"Eco / Normal / Sport", "regenerativeBraking":"Tắt / Thấp / Trung bình / Cao",
+        "brakes":"Đĩa / Đĩa", "parkingBrake":"Phanh đỗ điện tử / Tự động giữ phanh", "wheels":"Mâm 18 inch; lốp 255/70 R18", "tireType":"Lốp 4 mùa", "suspension":"Trước độc lập, tay đòn kép / Sau đa liên kết",
+        "lights":"Đèn pha và đèn hậu LED; đèn ban ngày, định vị, báo rẽ; đèn chờ dẫn đường; chỉnh góc chiếu không tự động",
+        "exteriorFeatures":"Thân xe liền khối; gương chỉnh điện tích hợp báo rẽ; kính chắn gió chống UV; tay nắm cửa ẩn bán phần; bậc lên xuống cabin và bậc bên thùng xe; cửa thùng khóa điện, giảm chấn khí nén",
+        "upholstery":"Nỉ kết hợp da nhân tạo", "seatFeatures":"Ghế lái chỉnh cơ 6 hướng, ghế phụ chỉnh cơ 4 hướng, tích hợp tựa đầu; vô-lăng giả da chỉnh cơ 4 hướng, nút Cruise Control; cần số điện tử sau vô-lăng",
+        "climate":"Chỉnh cơ 1 vùng; cửa gió hàng ghế thứ 2; bật/tắt tan sương thủ công", "screen":"Màn hình giải trí trung tâm 10 inch", "speakers":"2 loa",
+        "connectivity":"Android Auto / Apple CarPlay không dây; 1 USB-C dữ liệu và sạc 27 W, 1 USB-C sạc 60 W; 1 cổng 12 V",
+        "convenience":"Cruise Control; V2L cấp điện cho thiết bị ngoài; chế độ cắm trại, thú cưng, rửa xe, người lạ; gạt mưa thủ công",
+        "smartFeatures":"ViVi 3.0; quản lý, giám sát và điều khiển xe qua smartphone / smartwatch; cập nhật FOTA; Battery Care theo dõi sức khỏe pin; Safe Driving đánh giá thói quen lái. Một số tính năng nâng cao thuộc gói VF eStore có thu phí.",
+        "airbags":"2 túi khí", "safetySystems":"ABS / EBD / BA / ESC / TCS / HAS / ROM / HDC / ESS; giám sát áp suất lốp dTPMS; 2 chìa khóa điện tử; cảnh báo chống trộm", "parkingSupport":"Camera sau (theo tài liệu Comfort ngày 19/09/2026)",
+        "vehicleWarranty":"6 năm / 150.000 km", "batteryWarranty":"8 năm / 160.000 km", "warrantyConditions":"Tùy điều kiện nào đến trước, theo tài liệu ngày 19/09/2026."
+      }
     }
   ]
 }
