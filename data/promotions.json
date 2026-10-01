@@ -13,7 +13,7 @@
         "description": "Khách hàng đang sở hữu ô tô xăng, xe máy xăng, xe máy điện VinFast hoặc ô tô điện VinFast.",
         "tiers": [
           {"label":"VF 2, VF 3 và Minio Green","carSlugs":["vf-2","vf-3"],"rate":0.03},
-          {"label":"VF 7, VF 9, VF 8 Thế hệ mới, Lạc Hồng 900 LX, EC Van và VF Wild","carSlugs":["vf-7","vf-9","vf-8-moi","ec-van","vf-wild-comfort"],"rate":0.05},
+          {"label":"VF 9, VF 8 Thế hệ mới, Lạc Hồng 900 LX, EC Van và VF Wild","carSlugs":["vf-9","vf-8-moi","ec-van","vf-wild-comfort"],"rate":0.05},
           {"label":"Các dòng xe còn lại","default":true,"rate":0.09}
         ]
       },
@@ -23,7 +23,7 @@
         "description": "Áp dụng cho người đang công tác chính thức trong Công an, Quân đội, người thân đủ điều kiện và nhân sự Tổng công ty Bưu điện Việt Nam.",
         "tiers": [
           {"label":"VF 2, VF 3 và Minio Green","carSlugs":["vf-2","vf-3"],"rate":0.06},
-          {"label":"VF 7, VF 9, VF 8 Thế hệ mới, Lạc Hồng 900 LX, EC Van và VF Wild","carSlugs":["vf-7","vf-9","vf-8-moi","ec-van","vf-wild-comfort"],"rate":0.07},
+          {"label":"VF 9, VF 8 Thế hệ mới, Lạc Hồng 900 LX, EC Van và VF Wild","carSlugs":["vf-9","vf-8-moi","ec-van","vf-wild-comfort"],"rate":0.07},
           {"label":"Các dòng xe còn lại","default":true,"rate":0.09}
         ]
       }

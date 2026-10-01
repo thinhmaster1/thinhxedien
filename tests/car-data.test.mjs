@@ -20,6 +20,8 @@ for (const car of data.cars) {
   assert.ok(CarSources(car).includes(car.specsUpdated), car.slug);
 }
 const bySlug = slug => data.cars.find(car => car.slug === slug);
+assert.equal(bySlug("ec-van").price,248000000);
+assert.equal(bySlug("ec-van").versions.find(version => version.name.startsWith("Tiêu chuẩn")).price,248000000);
 assert.match(bySlug("ec-van").specs.range, /175/);
 assert.match(bySlug("ec-van").specs.battery, /18,3/);
 assert.match(bySlug("ec-van").specs.dcCharge, /24,2/);

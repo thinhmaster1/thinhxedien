@@ -50,11 +50,11 @@ for (const slug of ["vf-2", "vf-3"]) {
   assert.equal(tieredPromotionRate(futureGreen,"owner",slug),.03);
   assert.equal(tieredPromotionRate(futureGreen,"special",slug),.06);
 }
-for (const slug of ["vf-7", "vf-9", "vf-8-moi", "ec-van", "vf-wild-comfort"]) {
+for (const slug of ["vf-9", "vf-8-moi", "ec-van", "vf-wild-comfort"]) {
   assert.equal(tieredPromotionRate(futureGreen,"owner",slug),.05);
   assert.equal(tieredPromotionRate(futureGreen,"special",slug),.07);
 }
-for (const slug of ["herio-green", "vf-5", "vf-6", "vf-8", "limo-green", "mpv-7"]) {
+for (const slug of ["herio-green", "vf-5", "vf-6", "vf-7", "vf-8", "limo-green", "mpv-7"]) {
   assert.equal(tieredPromotionRate(futureGreen,"owner",slug),.09);
   assert.equal(tieredPromotionRate(futureGreen,"special",slug),.09);
 }
