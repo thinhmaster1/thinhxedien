@@ -31,7 +31,16 @@ Website được xây dựng bằng HTML, CSS và JavaScript thuần. Dữ liệ
 | `loan.html` | Công cụ tính lãi và dư nợ trả góp |
 | `vinfast-thu-dau-mot-binh-duong.html` | Thông tin tư vấn và showroom |
 
-## Dữ liệu
+## Tài liệu và quy tắc làm việc
+
+- [AGENTS.md](AGENTS.md): quy tắc sửa source và dữ liệu.
+- [Kiến trúc](docs/ARCHITECTURE.md), [hướng dẫn dữ liệu](docs/DATA_GUIDE.md).
+- [Quy tắc báo giá](docs/QUOTE_RULES.md), [kiểm thử](docs/TESTING.md), [phát hành](docs/RELEASE.md).
+- Ba skill được lưu cùng repo tại `.agents/skills/`: `vinfast-data-update`, `vinfast-quote-check`, `vinfast-ui-release`.
+
+Trạng thái 05/10/2026: phí dịch vụ đăng ký chọn miễn phí, 3 triệu mặc định hoặc 5 triệu; VF 7 và VF 8 cũ giảm 9% cho cả hai nhóm Vì tương lai xanh 2. EC Van Tiêu chuẩn có giá niêm yết 248 triệu. Thông số VF Wild được đối chiếu brochure `260919_VF WILD_TSKT_20x15_V1_VIEW.pdf`: 250 km thuần điện, 1.100 km kết hợp (NEDC), pin 46,4 kWh.
+
+## Nguồn dữ liệu dùng chung
 
 - `data/cars.json`: giá, phiên bản, màu sắc, hình ảnh và thông số xe.
 - `data/promotions.json`: ưu đãi theo dòng xe, nhóm khách hàng và các bậc tỷ lệ của chương trình Vì tương lai xanh 2.

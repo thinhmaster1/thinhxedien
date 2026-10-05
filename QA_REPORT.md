@@ -1,4 +1,15 @@
-# Kiểm thử giao diện — 15/09/2026
+# Nhật ký kiểm thử
+
+## Trạng thái hiện hành - 05/10/2026
+
+- Bổ sung bộ test website: 9 trang HTML, liên kết/tài nguyên nội bộ, cú pháp/import JavaScript, HTTP trang và JSON; runner chung và GitHub Actions. Hồi quy phí dịch vụ 0/3/5 triệu, VF 7 9% hai nhóm, phụ phí Xám VF Wild 12 triệu trước ưu đãi/bảo hiểm. `node tests/run-tests.mjs` đạt toàn bộ ba bộ test trên local; không thay kiểm thử trình duyệt. Kết quả GitHub Actions cần xác minh riêng sau push.
+
+- Phí dịch vụ đăng ký linh hoạt 0/3/5 triệu, mặc định 3 triệu; thay cho phí cố định trong các lần kiểm thử lịch sử dưới đây.
+- VF 7 và VF 8 cũ áp dụng 9% cho cả owner/special Vì tương lai xanh 2; tỷ lệ VF 7 5%/7% trong mục 20/09 là kết quả lịch sử.
+- Brochure VF Wild được đọc văn bản và kiểm tra trực quan toàn trang: 250 km thuần điện, 1.100 km kết hợp, 1,2 lít/100 km (NEDC), camera sau, bốn màu thương mại; ngày rà soát 05/10/2026.
+- Cập nhật tài liệu/skills và dữ liệu được kiểm tra bằng hai bài test Node và kiểm tra diff. Ba skill được kiểm tra thủ công cấu trúc, tên và liên kết; validator chuẩn chưa chạy được vì runtime thiếu PyYAML. Đợt này không tái kiểm tra toàn bộ giao diện hay tải file PNG thực tế.
+
+## Kiểm thử giao diện - 15/09/2026 (lịch sử)
 
 ## Phạm vi
 

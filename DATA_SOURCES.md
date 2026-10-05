@@ -1,6 +1,6 @@
 # Nguồn dữ liệu xe
 
-Dữ liệu kỹ thuật được rà soát ngày 19/09/2026. Ưu tiên trang sản phẩm, brochure và chính sách chính thức của VinFast; nguồn báo chí chỉ dùng để đối chiếu khi cần. Mỗi trang chi tiết xe hiển thị ngày rà soát và liên kết nguồn tương ứng.
+Dữ liệu kỹ thuật nền được rà soát ngày 19/09/2026; VF Wild được đối chiếu thêm ngày 05/10/2026. Ưu tiên trang sản phẩm, brochure và chính sách chính thức của VinFast; nguồn báo chí chỉ dùng để đối chiếu khi cần. Mỗi trang chi tiết xe hiển thị ngày rà soát và liên kết nguồn tương ứng.
 
 ## Quy ước
 
@@ -24,7 +24,7 @@ Dữ liệu kỹ thuật được rà soát ngày 19/09/2026. Ưu tiên trang s�
 | Limo Green | Sạc, tiện ích và cấu hình xe dịch vụ | [Trang Limo Green](https://vinfastauto.com/vn_vi/limo-green) |
 | MPV 7 | Chế độ lái, hỗ trợ đỗ, tiện ích và bảo hành | [Trang MPV 7](https://vinfastauto.com/vn_vi/mpv-7) |
 | EC Van | Dùng cấu hình hiện hành 175 km, pin 18,3 kWh và sạc DC 24,2 kW; giữ ghi chú brochure cũ 150 km | [Trang EC Van](https://vinfastauto.com/vn_vi/ec-van) |
-| VF Wild Comfort | Bản bán tải REEV: pin 46,4 kWh, thuần điện trên 250 km, tổng hành trình trên 1.000 km, 160 kW, giá niêm yết 860 triệu đồng và ưu đãi cọc 61 triệu đồng | Bộ tài liệu giới thiệu VinFast ngày 19/09/2026 do người dùng cung cấp; [trang mẫu ý tưởng VF Wild](https://vinfastauto.com/vn_vi/vinfast-gioi-thieu-mau-xe-y-tuong-dong-ban-tai-dien-vf-wild) chỉ dùng làm lịch sử mẫu xe |
+| VF Wild Comfort | Pin 46,4 kWh, thuần điện 250 km, kết hợp 1.100 km, xăng hỗn hợp 1,2 lít/100 km (NEDC), 160 kW/280 Nm, camera sau, bốn màu tên thương mại | Brochure `260919_VF WILD_TSKT_20x15_V1_VIEW.pdf`, trang duy nhất, do người dùng cung cấp, rà soát 05/10/2026. Giá, ưu đãi và bảo hành giữ nguồn Comfort 19/09; thông số bổ sung theo tài liệu 21/09. [Trang mẫu ý tưởng](https://vinfastauto.com/vn_vi/vinfast-gioi-thieu-mau-xe-y-tuong-dong-ban-tai-dien-vf-wild) chỉ dùng làm lịch sử |
 
 ## Lưu ý chênh lệch nguồn
 
@@ -32,6 +32,13 @@ Dữ liệu kỹ thuật được rà soát ngày 19/09/2026. Ưu tiên trang s�
 - VF 7 từng có cấu hình pin CATL 75,3 kWh; cấu hình hiện hành trên trang sản phẩm là 70 kWh.
 - EC Van có brochure cũ 150 km, pin 17 kWh; trang sản phẩm hiện hành công bố 175 km, pin 18,3 kWh.
 - Quãng đường có thể được đo theo NEDC, WLTP hoặc chu trình khác; không so sánh trực tiếp nếu khác chuẩn thử nghiệm.
-- VF Wild Comfort chưa có trang sản phẩm công khai được lập chỉ mục tại thời điểm rà soát. Thông số bản Comfort lấy từ tài liệu ngày 19/09/2026; không trộn với kích thước của mẫu ý tưởng VF Wild năm 2024. Dung tích thùng hàng, số chỗ và danh mục màu thương mại vẫn chờ hãng xác nhận.
+- Brochure VF Wild mới được cung cấp không ghi phiên bản Comfort, giá hoặc bảo hành. Dữ liệu 5 chỗ, thùng 1.574 × 1.512 × 509 mm, tải trọng ≤750 kg và các thông số không có trong brochure giữ nguồn trước và ghi rõ giới hạn. Không trộn thông số mẫu ý tưởng năm 2024. Dung tích thùng theo lít chưa xác nhận.
+- Bảng màu brochure: Stealth Gray, Infinity Blanc, Solar Ruby, Jet Black. Tên Bạc cũ được thay bằng Xám Stealth Gray. Người dùng xác nhận ngày 05/10/2026 phụ phí Xám 12 triệu; Trắng/Đỏ/Đen giữ giá màu 0 theo dữ liệu bán hàng trước. Phụ phí được cộng trước ưu đãi và bảo hiểm.
+- Tính năng điều khiển/cài đặt từ xa trên điện thoại và tính năng đồng hồ là tùy chọn; tính năng thông minh chia gói Cơ bản miễn phí/Nâng cao tính phí. Không coi tất cả đều tiêu chuẩn.
+
+## Cập nhật bán hàng do người dùng xác nhận
+
+- 01/10/2026: EC Van Tiêu chuẩn 248 triệu; VF 7 giảm 9% ở cả hai nhóm Vì tương lai xanh 2. VF 8 cũ hiện cũng ở bậc 9%; VF 8 mới giữ 5%/7%.
+- 05/10/2026: phí dịch vụ đăng ký linh hoạt 0/3/5 triệu, mặc định 3 triệu. Đây là phí dịch vụ báo giá, không thay phí đăng ký biển hoặc lệ phí nhà nước.
 
 Chính sách bảo hành tham chiếu [trang bảo hành ô tô VinFast](https://vinfastauto.com/vn_vi/chinh-sach-bao-hanh-oto). Khi chốt xe thực tế, cần đối chiếu lại phiếu cấu hình, hợp đồng và chính sách bán hàng tại thời điểm giao dịch.

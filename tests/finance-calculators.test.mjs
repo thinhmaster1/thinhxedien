@@ -4,6 +4,7 @@ import { calculateDecliningBalanceSchedule } from "../js/loan-calculator.js";
 import { FIXED_PHYSICAL_INSURANCE, downPaymentForLoanPercentage, manualDiscountLimit, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, roundUpToThousand, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../js/quote-calculator.js";
 
 const promotions = JSON.parse(readFileSync(new URL("../data/promotions.json", import.meta.url), "utf8"));
+const cars = JSON.parse(readFileSync(new URL("../data/cars.json", import.meta.url), "utf8")).cars;
 
 const schedule = calculateDecliningBalanceSchedule({
   principal: 500000000,
@@ -75,4 +76,18 @@ assert.equal(manualDiscountLimit("vf-9"),25000000);
 assert.equal(manualDiscountLimit("vf-wild-comfort"),null);
 assert.match(validateManualDiscount("7,000,000",manualDiscountLimit("vf-2")).error,/6,000,000/);
 
-console.log("PASS: loan schedule, physical insurance and Vì tương lai xanh 2 tiered discounts.");
+for (const [service,cashCosts,loanInitial] of [[0,2325000,35025000],[3000000,5325000,38025000],[5000000,7325000,40025000]]) {
+  assert.equal(rollingCostsTotal(2325000 + service,0),cashCosts);
+  assert.equal(downPaymentForLoanPercentage(188000000) + rollingCostsTotal(2325000 + service,4500000),loanInitial);
+}
+const vf7 = cars.find(car => car.slug === "vf-7");
+for (const audience of ["owner","special"]) {
+  assert.equal(percentagePromotionDiscount(vf7.price,tieredPromotionRate(futureGreen,audience,vf7.slug)),66600000);
+}
+const wild = cars.find(car => car.slug === "vf-wild-comfort");
+const wildBase = vehiclePriceBeforePromotions(wild.price,wild.colorPrices["Xám Stealth Gray"]);
+assert.equal(wildBase,872000000);
+const wildDiscount = percentagePromotionDiscount(wildBase,tieredPromotionRate(futureGreen,"owner",wild.slug));
+assert.equal(wildDiscount,43600000);
+assert.equal(physicalInsuranceQuote(wild,wildBase - wildDiscount).amount,9941000);
+console.log("PASS: loan schedule, fees 0/3/5 million, VF 7 9%, VF Wild gray surcharge, insurance and discounts.");
