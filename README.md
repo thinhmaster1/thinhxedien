@@ -81,7 +81,11 @@ public/
   cars/
 ```
 
-## Chạy demo trên máy
+## Kiểm thử tự động
+
+`node tests/run-tests.mjs` chạy kiểm tra dữ liệu, công thức và tài nguyên HTTP. Để kiểm tra bố cục: cài dependencies với `npm install`, cài browser với `npx playwright install chromium`, sau đó `npm run test:layout`. Báo cáo ảnh nằm trong `playwright-report/`; xem chi tiết tại [docs/TESTING.md](docs/TESTING.md). Dependencies chỉ phục vụ kiểm thử, website vẫn chạy tĩnh không cần build.
+
+## Xem trước trên máy
 
 Giao diện Premium dùng chung cho các trang qua `css/premium.css`, hỗ trợ sáng/tối và giữ nguyên các control HTML hiện có. Open Props được tải từ CDN với phiên bản cố định; các giá trị dự phòng trong CSS bảo đảm giao diện vẫn hoạt động khi CDN không khả dụng. Trang `theme-demo.html` được giữ riêng để tham khảo thiết kế.
 

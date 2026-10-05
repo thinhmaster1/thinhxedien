@@ -1,0 +1,11 @@
+{
+  "name": "thinh-xe-dien",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/run-tests.mjs",
+    "test:layout": "playwright test",
+    "test:all": "npm test && npm run test:layout"
+  },
+  "devDependencies": { "@playwright/test": "1.56.1" }
+}

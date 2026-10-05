@@ -32,6 +32,18 @@ Chạy xem trước bằng `python3 -m http.server 4173 --bind 127.0.0.1`; mở 
 
 ## Giao diện và xuất ảnh
 
+### Test bố cục tự động
+
+```sh
+npm install
+npx playwright install chromium
+npm run test:layout
+```
+
+Playwright kiểm tra 8 trang chính ở 320/390/768/1280px, cả sáng/tối; tràn ngang toàn trang, số tiền/nút bị cắt, nhãn và số tiền chồng nhau, lỗi JavaScript và ảnh đã tải bị lỗi. Báo giá thử tên dài, phí 0/3/5 triệu, tỷ lệ vay 75/80/85%, giảm thêm vượt mức và trả trước toàn bộ. Menu di động kiểm tra mở/đóng bằng Escape.
+
+Ảnh từng trang được đính kèm báo cáo `playwright-report/`; lỗi có screenshot và trace ở `test-results/`. Hai thư mục không commit. GitHub Actions lưu báo cáo 7 ngày. Bộ test chưa so sánh pixel với ảnh chuẩn và chưa xác minh PNG báo giá tải xuống; không tạo baseline từ ảnh chưa được duyệt.
+
 Kiểm tra trang bị ảnh hưởng ở 320/390/1280px, sáng/tối: không tràn toàn trang, số tiền không cắt, bảng rộng cuộn nội bộ, nhãn/radio/nút bấm dùng được. Menu, chuyển trả thẳng/trả góp và kiểm tra dữ liệu nhập bằng bàn phím.
 
 Tải PNG với phí 0/3/5 triệu: đúng phương thức, tổng và dòng phí; tên khách có dấu/SĐT và trường trống. Xác nhận file thực tế nếu công cụ hỗ trợ; ghi rõ nếu mới kiểm tra luồng tạo ảnh.

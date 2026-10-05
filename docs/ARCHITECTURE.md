@@ -1,6 +1,6 @@
 # Kiến trúc
 
-Website tĩnh phục vụ trên GitHub Pages, dùng HTML, CSS và ES modules. Không có package.json hay bước build bắt buộc.
+Website tĩnh phục vụ trên GitHub Pages, dùng HTML, CSS và ES modules. package.json quản lý Playwright và lệnh kiểm thử; không có bước build bắt buộc để chạy website.
 
 | Khu vực | Trách nhiệm |
 | --- | --- |

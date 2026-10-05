@@ -2,6 +2,13 @@
 
 ## Trạng thái hiện hành - 05/10/2026
 
+### Kiểm thử bố cục Chromium
+
+- Playwright: 78 ca đạt, 2 ca menu desktop được bỏ qua có chủ đích; 8 trang chính ở 320/390/768/1280px, sáng/tối, cùng các trạng thái báo giá và menu di động.
+- Kiểm tra tràn ngang, nút/số tiền bị cắt, chồng nhãn với số tiền, lỗi JavaScript, ảnh đã tải lỗi; lưu ảnh từng trang, screenshot/trace khi thất bại.
+- Sửa điều kiện test để bỏ qua tiêu đề bản in đang ẩn ở trang bảng giá. Không sửa giao diện để làm test đạt.
+- Chưa có baseline so sánh pixel được duyệt, chưa kiểm tra Safari/Firefox hoặc PNG tải về.
+
 - Bổ sung bộ test website: 9 trang HTML, liên kết/tài nguyên nội bộ, cú pháp/import JavaScript, HTTP trang và JSON; runner chung và GitHub Actions. Hồi quy phí dịch vụ 0/3/5 triệu, VF 7 9% hai nhóm, phụ phí Xám VF Wild 12 triệu trước ưu đãi/bảo hiểm. `node tests/run-tests.mjs` đạt toàn bộ ba bộ test trên local; không thay kiểm thử trình duyệt. Kết quả GitHub Actions cần xác minh riêng sau push.
 
 - Phí dịch vụ đăng ký linh hoạt 0/3/5 triệu, mặc định 3 triệu; thay cho phí cố định trong các lần kiểm thử lịch sử dưới đây.
