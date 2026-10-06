@@ -12,8 +12,16 @@ const walk = dir => readdirSync(dir,{ withFileTypes:true }).flatMap(entry => {
   return entry.isDirectory() ? walk(path) : [path];
 });
 const files = walk(root);
-const pages = files.filter(path => dirname(path) === root.slice(0,-1) && extname(path) === ".html");
+const rootHtmlFiles = files.filter(path => dirname(path) === root.slice(0,-1) && extname(path) === ".html");
+const verificationFiles = rootHtmlFiles.filter(path => /^google[a-f0-9]+\.html$/.test(relative(root,path)));
+const pages = rootHtmlFiles.filter(path => !verificationFiles.includes(path));
 assert.ok(pages.length >= 8,"Main HTML pages missing");
+
+// Google verification files deliberately contain a token, not a full HTML document.
+for (const path of verificationFiles) {
+  const filename = relative(root,path);
+  assert.equal(readFileSync(path,"utf8").trim(), `google-site-verification: ${filename}`, `Invalid Google verification file: ${filename}`);
+}
 
 function checkReference(from, reference) {
   if (!reference || /^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(reference)) return;
@@ -53,6 +61,12 @@ const server = createServer((req,res) => {
 await new Promise((resolve,reject) => { server.once("error",reject); server.listen(0,"127.0.0.1",resolve); });
 try {
   const base = `http://127.0.0.1:${server.address().port}`;
+  for (const path of verificationFiles) {
+    const filename = relative(root,path);
+    const response = await fetch(`${base}/${filename}`);
+    assert.equal(response.status,200,filename);
+    assert.equal((await response.text()).trim(), `google-site-verification: ${filename}`);
+  }
   for (const page of pages) {
     const response = await fetch(`${base}/${relative(root,page)}`);
     assert.equal(response.status,200);
@@ -73,4 +87,4 @@ try {
   server.closeAllConnections();
   await new Promise(resolve => server.close(resolve));
 }
-console.log(`PASS: ${pages.length} pages, local links/assets, JavaScript syntax/imports and HTTP responses.`);
+console.log(`PASS: ${pages.length} pages, ${verificationFiles.length} Google verification files, local links/assets, JavaScript syntax/imports and HTTP responses.`);
