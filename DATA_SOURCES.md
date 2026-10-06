@@ -38,6 +38,12 @@ Dữ liệu kỹ thuật nền được rà soát ngày 19/09/2026; VF Wild đư
 
 ## Cập nhật bán hàng do người dùng xác nhận
 
+### Rà soát nội dung 06/10/2026
+
+- Bỏ tiêu đề bản tin tháng 9 trên trang chủ/chính sách; ngày rà soát không thay ngày ban hành chính sách hoặc ngày xác minh giá.
+- Nguồn chính thức https://vinfastauto.com/vn_vi/dat-coc-vf-wild (24/09/2026): cọc tiên phong 15 triệu trong 25–30/09/2026, ưu đãi 61 triệu với hạn xuất hóa đơn đến hết 06/2027. Chuyển sang quyền lợi cọc cũ, không quảng bá nhận khách mới tháng 10. Mức 756 triệu là ví dụ cộng 5% Vì tương lai xanh 2 trên MSRP 860 triệu cho khách đủ điều kiện, xuất hóa đơn đến 19/12/2026, chưa phụ phí.
+- Giữ tỷ lệ do người dùng xác nhận, giá niêm yết và ngày nguồn cũ. Chưa có tài liệu bán hàng tháng 10 mới để thay toàn bộ chính sách. Các chương trình “đến khi có thông báo mới” cần xác nhận khi giao dịch.
+
 - 01/10/2026: EC Van Tiêu chuẩn 248 triệu; VF 7 giảm 9% ở cả hai nhóm Vì tương lai xanh 2. VF 8 cũ hiện cũng ở bậc 9%; VF 8 mới giữ 5%/7%.
 - 05/10/2026: phí dịch vụ đăng ký linh hoạt 0/3/5 triệu, mặc định 3 triệu. Đây là phí dịch vụ báo giá, không thay phí đăng ký biển hoặc lệ phí nhà nước.
 

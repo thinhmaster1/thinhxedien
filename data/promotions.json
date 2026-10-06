@@ -43,7 +43,7 @@
     "model": [
       {"id":"vf2-8m","label":"Tiên phong VF 2 · Giảm 8 triệu","carSlugs":["vf-2"],"type":"fixed","value":8000000,"note":"Theo điều kiện cọc còn hiệu lực"},
       {"id":"vf8new-51m","label":"VF 8 Thế hệ mới · Giảm 51 triệu","carSlugs":["vf-8-moi"],"type":"fixed","value":51000000,"note":"Theo điều kiện cọc còn hiệu lực"},
-      {"id":"vfwild-61m","label":"VF Wild Comfort · Ưu đãi cọc 61 triệu","carSlugs":["vf-wild-comfort"],"type":"fixed","value":61000000,"note":"Cọc tiên phong đến 30/06/2027"}
+      {"id":"vfwild-61m","label":"VF Wild Comfort · Cọc cũ đủ điều kiện · 61 triệu","carSlugs":["vf-wild-comfort"],"type":"fixed","value":61000000,"note":"Chỉ cọc 25–30/09/2026; xuất hóa đơn đến 30/06/2027. Cộng Vì tương lai xanh 2 cần xuất hóa đơn đến 19/12/2026."}
     ],
     "customer": [
       {"id":"future-green-2-owner","label":"Vì tương lai xanh 2 · Chủ xe đủ điều kiện","type":"programPercent","program":"futureGreen2","audience":"owner","base":"listPrice"},
@@ -56,12 +56,12 @@
     "note": "Chỉ chọn ưu đãi khi khách hàng đáp ứng đủ điều kiện. Một số chương trình không được cộng gộp; cần xác nhận lại tại thời điểm xuất hóa đơn."
   },
   "active": [
-    {"period":"ĐẾN 30/06/2027","model":"VF Wild Comfort","benefit":"Giảm 61 triệu đồng + miễn phí sạc","description":"Giá niêm yết 860 triệu, giá sau ưu đãi cọc tiên phong 799 triệu. Miễn phí 20 lượt sạc/tháng đến 10/02/2029.","highlight":true},
     {"period":"ĐẾN KHI CÓ THÔNG BÁO MỚI","model":"VF 3 Eco/Plus","benefit":"Miễn phí màu sơn nâng cao","description":"Dành cho xe VIN 2025 trở về trước."},
     {"period":"ĐẾN 31/12/2026","model":"Chủ xe xăng VinFast đổi xanh","benefit":"30–80 triệu đồng","description":"Fadil 30 triệu, Lux A 60 triệu, Lux SA 80 triệu. Mỗi xe điện mới dùng tối đa một voucher."},
     {"period":"ĐẾN KHI CÓ THÔNG BÁO MỚI","model":"Xe công vụ","benefit":"Chiết khấu 5%","description":"Tính trên giá sau khuyến mãi, áp dụng qua kênh O2O và đại lý."}
   ],
   "legacy": [
+    {"name":"VF Wild Comfort · Cọc tiên phong đã đóng","description":"Chỉ áp dụng cọc 25–30/09/2026, giảm 61 triệu khi xuất hóa đơn đến 30/06/2027. Giá 799 triệu trước ưu đãi khác và phụ phí. Kết hợp Vì tương lai xanh 2 mức 5% cho khách đủ điều kiện, xuất hóa đơn đến 19/12/2026: giá tham khảo 756 triệu trên MSRP 860 triệu, chưa gồm phụ phí. Nguồn: https://vinfastauto.com/vn_vi/dat-coc-vf-wild"},
     {"name":"Tiên phong VF 2","description":"Ưu đãi 8 triệu đồng. Cọc khách lẻ còn hiệu lực đến 28/02/2027; cọc sỉ đại lý đến 30/04/2027."},
     {"name":"VF 8 Thế hệ mới","description":"Ưu đãi 51 triệu đồng. Cọc lẻ còn hiệu lực đến 31/12/2026; cọc sỉ đại lý đến 31/01/2027."}
   ]

@@ -2,8 +2,8 @@ import { esc, fail, loadPromotions } from "../core.js?v=2026091903";
 import { applySeo, mountSiteShell } from "../components.js?v=2026100501";
 
 applySeo({
-  title: "Khuyến mãi VinFast tháng 9/2026 | Thịnh Xe Điện",
-  description: "Chương trình Vì tương lai xanh 2 và các ưu đãi VinFast đang áp dụng. Liên hệ tư vấn tại Thủ Dầu Một, Bình Dương: 0352 978 519.",
+  title: "Ưu đãi VinFast & điều kiện áp dụng — Thịnh Xe Điện",
+  description: "Tra cứu Vì tương lai xanh 2, thời hạn, đối tượng và điều kiện ưu đãi VinFast. Phân biệt chương trình mới với quyền lợi cọc cũ tại Thịnh Xe Điện.",
   canonical: "https://thinhmaster1.github.io/thinhxedien/policies.html"
 });
 
