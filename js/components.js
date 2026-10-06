@@ -23,10 +23,12 @@ const ensureMeta = (selector, attributes) => {
   Object.entries(attributes).forEach(([key,value]) => element.setAttribute(key,value));
 };
 
-export function applySeo({ title = document.title, description, canonical, image = `${SITE_URL}/public/cars/thumb-vf8-new.png`, type = "website" } = {}) {
+export function applySeo({ title = document.title, description, canonical, image, type = "website" } = {}) {
   document.title = title;
   const repositoryPath = location.pathname.replace(/^\/thinhxedien(?=\/|$)/, "") || "/index.html";
-  const pageUrl = canonical || `${SITE_URL}${repositoryPath === "/" ? "/index.html" : repositoryPath}`;
+  const pageUrl = canonical || document.querySelector('link[rel="canonical"]')?.href || `${SITE_URL}${repositoryPath === "/" ? "/index.html" : repositoryPath}`;
+  description ||= document.querySelector('meta[name="description"]')?.content;
+  image ||= document.querySelector('meta[property="og:image"]')?.content || `${SITE_URL}/public/cars/thumb-vf8-new.png`;
   if (description) ensureMeta('meta[name="description"]', { name: "description", content: description });
   ensureMeta('link[rel="canonical"]', { rel: "canonical", href: pageUrl });
   ensureMeta('meta[property="og:title"]', { property: "og:title", content: title });
@@ -34,6 +36,9 @@ export function applySeo({ title = document.title, description, canonical, image
   ensureMeta('meta[property="og:url"]', { property: "og:url", content: pageUrl });
   ensureMeta('meta[property="og:type"]', { property: "og:type", content: type });
   ensureMeta('meta[property="og:image"]', { property: "og:image", content: image });
+  ensureMeta('meta[property="og:locale"]', { property: "og:locale", content: "vi_VN" });
+  ensureMeta('meta[property="og:site_name"]', { property: "og:site_name", content: "Thịnh Xe Điện" });
+  ensureMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
 };
 
 applySeo();
@@ -53,7 +58,7 @@ const PAGE_TEMPLATES = {
 /** Shared shell for every production page, including keyboard and navigation states. */
 export function mountSiteShell() {
   const file = location.pathname.split("/").pop() || "index.html";
-  const page = PAGE_TEMPLATES[file] || PAGE_TEMPLATES["index.html"];
+  const page = PAGE_TEMPLATES[file] || (document.querySelector('#detail-root') ? PAGE_TEMPLATES['detail.html'] : PAGE_TEMPLATES["index.html"]);
   document.body.dataset.page = page.key;
   const main = document.querySelector("main");
   if (main) {
@@ -156,7 +161,7 @@ export function Footer() {
 }
 
 export function VehicleCard(car, { large = false } = {}) {
-  return `<article class="vehicle-card ${large ? "is-featured" : ""}"><div class="vehicle-card__copy"><span class="pill">${esc(car.segment)}</span><h3>${esc(car.name)}</h3><p>${esc(car.tagline)}</p><div class="vehicle-card__price"><span>Giá từ</span><strong>${money(car.price)}</strong></div><div class="card-actions"><a href="detail.html?xe=${car.slug}">Tìm hiểu thêm <span>›</span></a><a href="compare.html?xe=${car.slug}">So sánh <span>›</span></a></div></div><a class="vehicle-card__image" href="detail.html?xe=${car.slug}" aria-label="Xem ${esc(car.name)}"><img src="${car.image}" alt="${esc(car.name)}" ${large ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></a></article>`;
+  return `<article class="vehicle-card ${large ? "is-featured" : ""}"><div class="vehicle-card__copy"><span class="pill">${esc(car.segment)}</span><h3>${esc(car.name)}</h3><p>${esc(car.tagline)}</p><div class="vehicle-card__price"><span>Giá từ</span><strong>${money(car.price)}</strong></div><div class="card-actions"><a href="${car.slug}.html">Tìm hiểu thêm <span>›</span></a><a href="compare.html?xe=${car.slug}">So sánh <span>›</span></a></div></div><a class="vehicle-card__image" href="${car.slug}.html" aria-label="Xem ${esc(car.name)}"><img src="${car.image}" alt="${esc(car.name)}" ${large ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></a></article>`;
 }
 
 export function CategorySection(group, index) {

@@ -1,5 +1,5 @@
 import { fail, loadCars, money, param, specGroups } from "../core.js?v=2026092301";
-import { applySeo, mountSiteShell, SpecAccordion, VehicleCard } from "../components.js?v=2026091903";
+import { applySeo, mountSiteShell, SpecAccordion, VehicleCard } from "../components.js?v=2026100501";
 import { CarSummary, CarSources } from "../detail-content.js?v=2026091903";
 
 mountSiteShell();
@@ -98,15 +98,18 @@ const initFuelCalculator = () => {
 };
 
 loadCars().then(cars => {
-  const car = cars.find(item => item.slug === param("xe")) || cars[0];
+  const slug = param("xe") || document.querySelector('#detail-root')?.dataset.carSlug;
+  const car = cars.find(item => item.slug === slug) || cars[0];
   const related = cars.filter(item => item.slug !== car.slug && (item.category === car.category || item.use === car.use)).slice(0,3);
   const detailImage = car.detailImage || car.image;
-  const seoTitle = `Giá VinFast ${car.name} tại Bình Dương 2026 | Thịnh Xe Điện`;
+  const seoTitle = `Giá VinFast ${car.name} tại Bình Dương | Thịnh Xe Điện`;
   const seoDescription = `Xem giá, phiên bản, màu sắc và thông số VinFast ${car.name} tại Thủ Dầu Một, Bình Dương. Nhận tư vấn và báo giá qua 0352 978 519.`;
-  applySeo({ title: seoTitle, description: seoDescription, canonical: `https://thinhmaster1.github.io/thinhxedien/detail.html?xe=${car.slug}`, image: `https://thinhmaster1.github.io/thinhxedien/${car.image}`, type: "product" });
+  applySeo({ title: seoTitle, description: seoDescription, canonical: `https://thinhmaster1.github.io/thinhxedien/${car.slug}.html`, image: `https://thinhmaster1.github.io/thinhxedien/${car.image}`, type: "product" });
   const productSchema = document.createElement("script");
   productSchema.type = "application/ld+json";
-  productSchema.textContent = JSON.stringify({"@context":"https://schema.org","@graph":[{"@type":"Product","name":`VinFast ${car.name}`,"image":[`https://thinhmaster1.github.io/thinhxedien/${car.image}`],"description":seoDescription,"brand":{"@type":"Brand","name":"VinFast"},"offers":{"@type":"AggregateOffer","priceCurrency":"VND","lowPrice":Math.min(...car.versions.map(version => version.price)),"highPrice":Math.max(...car.versions.map(version => version.price)),"offerCount":car.versions.length,"availability":"https://schema.org/InStock","url":`https://thinhmaster1.github.io/thinhxedien/detail.html?xe=${car.slug}`}}, {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Thịnh Xe Điện","item":"https://thinhmaster1.github.io/thinhxedien/index.html"},{"@type":"ListItem","position":2,"name":"Các dòng xe VinFast","item":"https://thinhmaster1.github.io/thinhxedien/index.html#models"},{"@type":"ListItem","position":3,"name":`VinFast ${car.name}`,"item":`https://thinhmaster1.github.io/thinhxedien/detail.html?xe=${car.slug}`}]}]});
+  productSchema.textContent = JSON.stringify({"@context":"https://schema.org","@graph":[{"@type":["Product","Car"],"name":`VinFast ${car.name}`,"image":[`https://thinhmaster1.github.io/thinhxedien/${car.image}`],"description":seoDescription,"brand":{"@type":"Brand","name":"VinFast"},"offers":{"@type":"AggregateOffer","priceCurrency":"VND","lowPrice":Math.min(...car.versions.map(version => version.price)),"highPrice":Math.max(...car.versions.map(version => version.price)),"offerCount":car.versions.length,"url":`https://thinhmaster1.github.io/thinhxedien/${car.slug}.html`}}, {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Thịnh Xe Điện","item":"https://thinhmaster1.github.io/thinhxedien/index.html"},{"@type":"ListItem","position":2,"name":"Các dòng xe VinFast","item":"https://thinhmaster1.github.io/thinhxedien/index.html#category-list"},{"@type":"ListItem","position":3,"name":`VinFast ${car.name}`,"item":`https://thinhmaster1.github.io/thinhxedien/${car.slug}.html`}]}]});
+  document.querySelector('#vehicle-schema')?.remove();
+  productSchema.id = 'vehicle-schema';
   document.head.appendChild(productSchema);
   document.querySelector("#detail-root").innerHTML = `
     <section class="product-intro"><div class="product-intro__copy"><span>${car.segment} · ${car.use}</span><h1>${car.name}</h1><p>${car.tagline}</p><strong>${car.offer ? `${car.offer.label} ${money(car.offer.price)}` : `Giá từ ${money(car.price)}`}</strong>${car.offer ? `<small class="product-intro__offer">Niêm yết ${money(car.price)} · Giảm ${money(car.offer.discount)} · Áp dụng đến ${car.offer.validThrough}<br>${car.offer.charging}</small>` : ""}<div class="hero-actions"><a class="blue-button" href="compare.html?xe=${car.slug}">So sánh xe</a><a href="#overview">Xem tổng quan <span>↓</span></a></div></div><div class="product-intro__visual is-thumbnail"><img src="${car.image}" alt="${car.name}" fetchpriority="high" decoding="async"></div></section>

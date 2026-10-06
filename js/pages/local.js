@@ -1,5 +1,5 @@
 import { fail, loadCars } from "../core.js?v=2026091903";
-import { mountSiteShell, VehicleCard } from "../components.js?v=2026091903";
+import { mountSiteShell, VehicleCard } from "../components.js?v=2026100501";
 
 mountSiteShell();
 

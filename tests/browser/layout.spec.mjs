@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const routes = ['index.html','detail.html?xe=vf-wild-comfort','data.html','compare.html?xe=vf-3,vf-7,vf-9','policies.html','quote.html','loan.html','vinfast-thu-dau-mot-binh-duong.html'];
+const routes = ['index.html','detail.html?xe=vf-wild-comfort','vf-wild-comfort.html','vf-7.html','data.html','compare.html?xe=vf-3,vf-7,vf-9','policies.html','quote.html','loan.html','vinfast-thu-dau-mot-binh-duong.html'];
 
 async function checkLayout(page) {
   const issues = await page.evaluate(() => {

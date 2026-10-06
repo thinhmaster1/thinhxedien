@@ -1,4 +1,4 @@
-import { applySeo, mountSiteShell } from "../components.js?v=2026091903";
+import { applySeo, mountSiteShell } from "../components.js?v=2026100501";
 import { formatMoneyInput, money, moneyInputValue } from "../core.js?v=2026091903";
 import { calculateDecliningBalanceSchedule } from "../loan-calculator.js?v=2026091701";
 

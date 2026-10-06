@@ -42,6 +42,10 @@ Trạng thái 05/10/2026: phí dịch vụ đăng ký chọn miễn phí, 3 tri�
 
 ## Nguồn dữ liệu dùng chung
 
+## SEO Google
+
+Trang xe có URL riêng như `vf-7.html`, chứa nội dung và dữ liệu có cấu trúc trong HTML. Sau khi sửa `data/cars.json` hoặc `detail.html`, chạy `node scripts/generate-seo.mjs`; kiểm thử tự động phát hiện trang SEO chưa đồng bộ. URL chi tiết cũ vẫn hoạt động. Hướng dẫn Search Console và phát hành: [docs/SEO.md](docs/SEO.md).
+
 - `data/cars.json`: giá, phiên bản, màu sắc, hình ảnh và thông số xe.
 - `data/promotions.json`: ưu đãi theo dòng xe, nhóm khách hàng và các bậc tỷ lệ của chương trình Vì tương lai xanh 2.
 

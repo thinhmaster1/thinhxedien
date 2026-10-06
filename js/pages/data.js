@@ -1,5 +1,5 @@
 import { esc, fail, loadCarData, money, UPDATING } from "../core.js?v=2026091903";
-import { applySeo, mountSiteShell } from "../components.js?v=2026091903";
+import { applySeo, mountSiteShell } from "../components.js?v=2026100501";
 
 applySeo({
   title: "Bảng giá xe VinFast 2026 | Tất cả phiên bản",
@@ -13,7 +13,7 @@ const modelRow = car => {
   const prices = car.versions.map(version => version.price).filter(Boolean);
   const lowest = prices.length ? Math.min(...prices) : 0;
   const modelLink = car.slug
-    ? `<a href="detail.html?xe=${car.slug}"><strong>${esc(car.name)}</strong><span>${esc(car.use)}</span></a>`
+    ? `<a href="${car.slug}.html"><strong>${esc(car.name)}</strong><span>${esc(car.use)}</span></a>`
     : `<span><strong>${esc(car.name)}</strong><span>${esc(car.use)}</span></span>`;
   return `<tr class="car-summary" data-model="${esc(car.slug || car.name)}">
     <td>${modelLink}</td><td>${esc(car.segment)}</td>
