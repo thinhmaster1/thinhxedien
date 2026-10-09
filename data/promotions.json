@@ -1,6 +1,8 @@
 {
   "updated": "20/09/2026",
   "futureGreen2": {
+    "startsAt": "2026-09-19",
+    "endsAt": "2026-12-19",
     "label": "CHƯƠNG TRÌNH MỚI · VÌ TƯƠNG LAI XANH 2",
     "title": "Chuyển đổi xanh, ưu đãi đến 9% MSRP.",
     "period": "19/09/2026–19/12/2026",
@@ -41,16 +43,16 @@
   },
   "quoteOptions": {
     "model": [
-      {"id":"vf2-8m","label":"Tiên phong VF 2 · Giảm 8 triệu","carSlugs":["vf-2"],"type":"fixed","value":8000000,"note":"Theo điều kiện cọc còn hiệu lực"},
-      {"id":"vf8new-51m","label":"VF 8 Thế hệ mới · Giảm 51 triệu","carSlugs":["vf-8-moi"],"type":"fixed","value":51000000,"note":"Theo điều kiện cọc còn hiệu lực"},
-      {"id":"vfwild-61m","label":"VF Wild Comfort · Cọc cũ đủ điều kiện · 61 triệu","carSlugs":["vf-wild-comfort"],"type":"fixed","value":61000000,"note":"Chỉ cọc 25–30/09/2026; xuất hóa đơn đến 30/06/2027. Cộng Vì tương lai xanh 2 cần xuất hóa đơn đến 19/12/2026."}
+      {"id":"vf2-8m","endsAt":"2027-04-30","label":"Tiên phong VF 2 · Giảm 8 triệu","carSlugs":["vf-2"],"type":"fixed","value":8000000,"note":"Theo điều kiện cọc còn hiệu lực"},
+      {"id":"vf8new-51m","endsAt":"2027-01-31","label":"VF 8 Thế hệ mới · Giảm 51 triệu","carSlugs":["vf-8-moi"],"type":"fixed","value":51000000,"note":"Theo điều kiện cọc còn hiệu lực"},
+      {"id":"vfwild-61m","endsAt":"2027-06-30","label":"VF Wild Comfort · Cọc cũ đủ điều kiện · 61 triệu","carSlugs":["vf-wild-comfort"],"type":"fixed","value":61000000,"note":"Chỉ cọc 25–30/09/2026; xuất hóa đơn đến 30/06/2027. Cộng Vì tương lai xanh 2 cần xuất hóa đơn đến 19/12/2026."}
     ],
     "customer": [
       {"id":"future-green-2-owner","label":"Vì tương lai xanh 2 · Chủ xe đủ điều kiện","type":"programPercent","program":"futureGreen2","audience":"owner","base":"listPrice"},
       {"id":"future-green-2-special","label":"Vì tương lai xanh 2 · Công an/Quân đội/VNPost","type":"programPercent","program":"futureGreen2","audience":"special","base":"listPrice"},
-      {"id":"trade-fadil","label":"Đổi xe xăng VinFast · Fadil · Giảm 30 triệu","type":"fixed","value":30000000},
-      {"id":"trade-luxa","label":"Đổi xe xăng VinFast · Lux A · Giảm 60 triệu","type":"fixed","value":60000000},
-      {"id":"trade-luxsa","label":"Đổi xe xăng VinFast · Lux SA · Giảm 80 triệu","type":"fixed","value":80000000},
+      {"id":"trade-fadil","endsAt":"2026-12-31","label":"Đổi xe xăng VinFast · Fadil · Giảm 30 triệu","type":"fixed","value":30000000},
+      {"id":"trade-luxa","endsAt":"2026-12-31","label":"Đổi xe xăng VinFast · Lux A · Giảm 60 triệu","type":"fixed","value":60000000},
+      {"id":"trade-luxsa","endsAt":"2026-12-31","label":"Đổi xe xăng VinFast · Lux SA · Giảm 80 triệu","type":"fixed","value":80000000},
       {"id":"public-service","label":"Xe công vụ · Chiết khấu 5%","type":"percent","value":0.05,"base":"afterModel"}
     ],
     "note": "Chỉ chọn ưu đãi khi khách hàng đáp ứng đủ điều kiện. Một số chương trình không được cộng gộp; cần xác nhận lại tại thời điểm xuất hóa đơn."

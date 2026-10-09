@@ -7,7 +7,7 @@ import { createServer } from "node:http";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const walk = dir => readdirSync(dir,{ withFileTypes:true }).flatMap(entry => {
-  if (entry.name.startsWith(".") || entry.name === "node_modules") return [];
+  if (entry.name.startsWith(".") || ['node_modules','playwright-report','test-results'].includes(entry.name)) return [];
   const path = resolve(dir,entry.name);
   return entry.isDirectory() ? walk(path) : [path];
 });

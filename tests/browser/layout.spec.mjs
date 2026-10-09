@@ -55,7 +55,10 @@ test('quote fees, loan presets and long customer name', async ({ page }) => {
     await checkLayout(page);
   }
   await page.locator('#discount').fill('7000000');
-  await expect(page.locator('#discount-note')).toContainText('không được vượt quá');
+  await expect(page.locator('#discount-note')).toBeEmpty();
+  await expect(page.locator('#discount')).toHaveAttribute('aria-invalid','false');
+  await expect(page.locator('#discount-limit')).toContainText('6,000,000');
+  await expect(page.locator('.vehicle-cost .subtotal b')).toContainText('181,000,000');
   await checkLayout(page);
   await page.locator('#discount').fill('');
   await page.locator('#loan-down-payment').fill('188000000');

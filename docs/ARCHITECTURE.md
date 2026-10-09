@@ -11,6 +11,9 @@ Website tĩnh phục vụ trên GitHub Pages, dùng HTML, CSS và ES modules. pa
 | js/detail-content.js | Tóm tắt xe và nguồn tham chiếu |
 | js/pages/*.js | Điều phối từng trang và tương tác biểu mẫu |
 | js/quote-calculator.js | Ưu đãi, giảm thêm, bảo hiểm, khoản trả trước và tổng phí |
+| js/quote-validation.js | Tiền nhập, ngày lập và thời hạn ưu đãi |
+| js/quote-view.js | HTML biểu mẫu và kết quả; escape dữ liệu hiển thị |
+| js/quote-image.js | Lấy dữ liệu phương thức đang chọn, dựng PNG và tải ảnh |
 | js/loan-calculator.js | Lịch vay dư nợ giảm dần và giai đoạn thả nổi |
 | js/access.js | Passcode và quyền truy cập trong sessionStorage |
 | tests/*.test.mjs | Kiểm tra dữ liệu và công thức bằng Node |

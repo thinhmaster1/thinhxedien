@@ -1,6 +1,9 @@
-import { esc, fail, formatMoneyInput, loadCars, loadPromotions, money, moneyInputValue } from "../core.js?v=2026091903";
+import { renderQuoteForm,renderQuoteResults } from '../quote-view.js?v=2026100602';
+import { downloadQuoteImage } from "../quote-image.js?v=2026100602";
+import { validateMoneyInput, promotionAvailability, localDateKey } from "../quote-validation.js?v=2026100602";
+import { esc, fail, formatMoneyInput, loadCars, loadPromotions, money } from "../core.js?v=2026091903";
 import { applySeo, mountSiteShell } from "../components.js?v=2026100501";
-import { downPaymentForLoanPercentage, manualDiscountLimit, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../quote-calculator.js?v=2026092403";
+import { quoteLoanBreakdown, manualDiscountLimit, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../quote-calculator.js?v=2026100602";
 
 applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhmaster1.github.io/thinhxedien/quote.html" });
 let robotsMeta = document.head.querySelector('meta[name="robots"]');
@@ -21,356 +24,26 @@ const FEES = {
 };
 const SALES_PHONE = "0352 978 519";
 const SALES_ADVISOR = "Bùi Đắc Thịnh";
-const QUOTE_IMAGE_WIDTH = 1080;
-const QUOTE_IMAGE_FONT = '-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif';
 
-const fileNamePart = value => String(value || "")
-  .replace(/Đ/g,"D")
-  .replace(/đ/g,"d")
-  .normalize("NFD")
-  .replace(/[\u0300-\u036f]/g,"")
-  .replace(/[^a-zA-Z0-9]+/g,"-")
-  .replace(/^-+|-+$/g,"")
-  .slice(0,60)
-  .replace(/-+$/g,"");
-
-export function quoteImageFileName(car, paymentMode, { customerName = "", customerPhone = "" } = {}, date = new Date()) {
-  const paymentName = paymentMode === "cash" ? "Tra-thang" : "Tra-gop";
-  const namePart = fileNamePart(customerName);
-  const phonePart = String(customerPhone).replace(/\D/g,"").slice(0,15);
-  const datePart = [date.getFullYear(),String(date.getMonth() + 1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-");
-  return [
-    "Bao-gia",
-    "VinFast",
-    fileNamePart(car?.name || car?.slug || "Xe"),
-    paymentName,
-    namePart ? `Khach-${namePart}` : "",
-    phonePart ? `SDT-${phonePart}` : "",
-    datePart
-  ].filter(Boolean).join("-") + ".png";
-}
-
-const feeRow = (label, value, note = "") => `<div><span>${esc(label)}${note ? `<small>${esc(note)}</small>` : ""}</span><b>${money(value)}</b></div>`;
-const feeDivider = label => `<div class="fee-divider"><span>${esc(label)}</span></div>`;
-const feeSubtotal = (label, value) => `<div class="fee-subtotal"><span>${esc(label)}</span><b>${money(value)}</b></div>`;
-const formatPercentage = value => new Intl.NumberFormat("vi-VN",{ maximumFractionDigits:1 }).format(value);
-
-export function quoteLoanBreakdown(vehicleValue, requestedDownPayment = null, defaultLoanPercentage = 85) {
-  const safeVehicleValue = Math.max(0,Number(vehicleValue) || 0);
-  const defaultDownPayment = downPaymentForLoanPercentage(safeVehicleValue,defaultLoanPercentage);
-  const customDownPayment = requestedDownPayment == null ? null : Math.max(0,Number(requestedDownPayment) || 0);
-  const downPayment = customDownPayment == null ? defaultDownPayment : Math.min(customDownPayment,safeVehicleValue);
-  const remainingLoan = Math.max(0,safeVehicleValue - downPayment);
-  return {
-    downPayment,
-    remainingLoan,
-    downPaymentPercentage: safeVehicleValue ? downPayment / safeVehicleValue * 100 : 0,
-    loanPercentage: safeVehicleValue ? remainingLoan / safeVehicleValue * 100 : 0
-  };
-}
-
-const setCanvasFont = (context, size, weight = 400) => {
-  context.font = `${weight} ${size}px ${QUOTE_IMAGE_FONT}`;
-};
-
-function roundedRect(context, x, y, width, height, radius) {
-  const safeRadius = Math.min(radius,width / 2,height / 2);
-  context.beginPath();
-  context.moveTo(x + safeRadius,y);
-  context.arcTo(x + width,y,x + width,y + height,safeRadius);
-  context.arcTo(x + width,y + height,x,y + height,safeRadius);
-  context.arcTo(x,y + height,x,y,safeRadius);
-  context.arcTo(x,y,x + width,y,safeRadius);
-  context.closePath();
-}
-
-function wrappedLines(context, text, maxWidth) {
-  const words = String(text || "").trim().split(/\s+/).filter(Boolean);
-  if (!words.length) return [];
-  const lines = [];
-  let line = words.shift();
-  words.forEach(word => {
-    const candidate = `${line} ${word}`;
-    if (context.measureText(candidate).width <= maxWidth) line = candidate;
-    else {
-      lines.push(line);
-      line = word;
-    }
-  });
-  lines.push(line);
-  return lines;
-}
-
-function rowLayout(context, row, labelWidth) {
-  if (row.isDivider) return { labelLines:[row.label],noteLines:[],height:58 };
-  setCanvasFont(context,22,600);
-  const labelLines = wrappedLines(context,row.label,labelWidth);
-  setCanvasFont(context,17,400);
-  const noteLines = wrappedLines(context,row.note,labelWidth);
-  return { labelLines, noteLines, height: Math.max(66,18 + labelLines.length * 28 + noteLines.length * 22 + 14) };
-}
-
-function rowsHeight(context, rows, labelWidth) {
-  return rows.reduce((height,row) => height + rowLayout(context,row,labelWidth).height,0);
-}
-
-function drawRows(context, rows, x, y, width) {
-  const labelWidth = width - 350;
-  rows.forEach((row,index) => {
-    const layout = rowLayout(context,row,labelWidth);
-    if (row.isDivider) {
-      context.strokeStyle = "#d7dde4";
-      context.lineWidth = 1;
-      context.beginPath();
-      context.moveTo(x,y + 10.5);
-      context.lineTo(x + width,y + 10.5);
-      context.stroke();
-      context.textAlign = "left";
-      context.fillStyle = "#0879e8";
-      setCanvasFont(context,16,750);
-      context.fillText(row.label.toUpperCase(),x,y + 27);
-      y += layout.height;
-      return;
-    }
-    if (row.isTotal) {
-      context.fillStyle = "#edf6ff";
-      roundedRect(context,x - 12,y + 4,width + 24,layout.height - 8,14);
-      context.fill();
-    }
-    context.textAlign = "left";
-    context.fillStyle = row.isTotal ? "#0879e8" : "#1d1d1f";
-    setCanvasFont(context,22,row.isTotal ? 750 : 600);
-    layout.labelLines.forEach((line,lineIndex) => context.fillText(line,x,y + 15 + lineIndex * 28));
-    context.fillStyle = "#6e6e73";
-    setCanvasFont(context,17,400);
-    const noteTop = y + 16 + layout.labelLines.length * 28;
-    layout.noteLines.forEach((line,lineIndex) => context.fillText(line,x,noteTop + lineIndex * 22));
-    context.textAlign = "right";
-    context.fillStyle = row.isTotal ? "#0879e8" : "#1d1d1f";
-    setCanvasFont(context,row.isTotal ? 26 : 22,750);
-    context.fillText(row.value,x + width,y + 16);
-    if (!row.isTotal && index < rows.length - 1) {
-      context.strokeStyle = "#e2e5e9";
-      context.lineWidth = 1;
-      context.beginPath();
-      context.moveTo(x,y + layout.height - .5);
-      context.lineTo(x + width,y + layout.height - .5);
-      context.stroke();
-    }
-    y += layout.height;
-  });
-  context.textAlign = "left";
-  return y;
-}
-
-const directText = element => [...(element?.childNodes || [])]
-  .filter(node => node.nodeType === Node.TEXT_NODE)
-  .map(node => node.textContent.trim())
-  .filter(Boolean)
-  .join(" ");
-
-function resultRows(container) {
-  return [...(container?.children || [])].filter(element => element.matches("div")).map(element => {
-    const label = element.querySelector(":scope > span");
-    return {
-      label: directText(label),
-      note: label?.querySelector("small")?.textContent.trim() || "",
-      value: element.querySelector(":scope > b")?.textContent.trim() || "",
-      isTotal: element.classList.contains("subtotal") || element.classList.contains("fee-subtotal"),
-      isDivider: element.classList.contains("fee-divider")
-    };
-  });
-}
-
-export function currentQuoteImageData() {
-  const results = document.querySelector("#quote-results");
-  const head = results.querySelector(".quote-result-head > div");
-  const paymentPanel = results.querySelector("[data-payment-panel]:not([hidden])");
-  const customer = head.querySelector(":scope > small")?.textContent.trim() || "";
-  const loanNote = paymentPanel.querySelector(".loan-note");
-  return {
-    car: head.querySelector("h2").textContent.trim(),
-    version: head.querySelector(":scope > p").textContent.trim(),
-    customer,
-    vehicleRows: resultRows(results.querySelector(".vehicle-cost")),
-    paymentLabel: paymentPanel.querySelector(":scope > span").textContent.trim(),
-    paymentTotal: paymentPanel.querySelector(":scope > h3").textContent.trim(),
-    paymentDescription: paymentPanel.querySelector(":scope > p").textContent.trim(),
-    paymentRows: resultRows(paymentPanel.querySelector(".fee-breakdown")),
-    loan: loanNote ? {
-      label: loanNote.querySelector(":scope > span").textContent.trim(),
-      value: loanNote.querySelector(":scope > b").textContent.trim(),
-      note: loanNote.querySelector(":scope > small").textContent.trim()
-    } : null,
-    disclaimer: results.querySelector(".quote-disclaimer").textContent.trim()
-  };
-}
-
-export function quoteImageUrl(data) {
-  const measureCanvas = document.createElement("canvas");
-  const measureContext = measureCanvas.getContext("2d");
-  const panelWidth = QUOTE_IMAGE_WIDTH - 80;
-  const rowWidth = panelWidth - 64;
-  const vehicleHeight = 86 + rowsHeight(measureContext,data.vehicleRows,rowWidth - 350);
-  const paymentHeight = 174 + rowsHeight(measureContext,data.paymentRows,rowWidth - 350) + (data.loan ? 148 : 0);
-  setCanvasFont(measureContext,18,400);
-  const disclaimerLines = wrappedLines(measureContext,data.disclaimer,panelWidth - 64);
-  const headerHeight = data.customer ? 342 : 310;
-  const footerHeight = 112 + disclaimerLines.length * 25;
-  const height = 40 + headerHeight + 24 + vehicleHeight + 24 + paymentHeight + 24 + footerHeight + 40;
-  const canvas = document.createElement("canvas");
-  canvas.width = QUOTE_IMAGE_WIDTH;
-  canvas.height = height;
-  const context = canvas.getContext("2d");
-  if (!context) throw new Error("Trình duyệt không hỗ trợ tạo ảnh");
-
-  context.textBaseline = "top";
-  context.fillStyle = "#f3f6f9";
-  context.fillRect(0,0,canvas.width,canvas.height);
-  const gradient = context.createLinearGradient(40,40,QUOTE_IMAGE_WIDTH - 40,40 + headerHeight);
-  gradient.addColorStop(0,"#0879e8");
-  gradient.addColorStop(1,"#0054b4");
-  context.fillStyle = gradient;
-  roundedRect(context,40,40,panelWidth,headerHeight,30);
-  context.fill();
-
-  context.textAlign = "left";
-  context.fillStyle = "#ddecff";
-  setCanvasFont(context,18,750);
-  context.fillText("THỊNH XE ĐIỆN · BÁO GIÁ DỰ KIẾN",76,76);
-  context.textAlign = "right";
-  setCanvasFont(context,17,600);
-  context.fillText(new Intl.DateTimeFormat("vi-VN").format(new Date()),QUOTE_IMAGE_WIDTH - 76,78);
-  context.textAlign = "left";
-  context.fillStyle = "#ffffff";
-  setCanvasFont(context,58,750);
-  context.fillText(data.car,76,126);
-  context.fillStyle = "#ddecff";
-  setCanvasFont(context,25,500);
-  context.fillText(data.version,76,199);
-  let headerLine = 241;
-  if (data.customer) {
-    context.fillStyle = "#ffffff";
-    setCanvasFont(context,21,600);
-    context.fillText(data.customer,76,headerLine);
-    headerLine += 42;
-  }
-  context.strokeStyle = "#ffffff42";
-  context.beginPath();
-  context.moveTo(76,headerLine);
-  context.lineTo(QUOTE_IMAGE_WIDTH - 76,headerLine);
-  context.stroke();
-  context.fillStyle = "#ddecff";
-  setCanvasFont(context,17,500);
-  context.fillText("TƯ VẤN BÁN HÀNG",76,headerLine + 21);
-  context.fillStyle = "#ffffff";
-  setCanvasFont(context,22,750);
-  context.fillText(`${SALES_ADVISOR} · ${SALES_PHONE}`,270,headerLine + 17);
-
-  let y = 40 + headerHeight + 24;
-  context.fillStyle = "#ffffff";
-  context.strokeStyle = "#dfe3e8";
-  context.lineWidth = 1;
-  roundedRect(context,40,y,panelWidth,vehicleHeight,25);
-  context.fill();
-  context.stroke();
-  context.fillStyle = "#0879e8";
-  setCanvasFont(context,19,750);
-  context.fillText("GIÁ TRỊ XE",72,y + 30);
-  drawRows(context,data.vehicleRows,72,y + 72,rowWidth);
-
-  y += vehicleHeight + 24;
-  context.fillStyle = "#ffffff";
-  context.strokeStyle = "#dfe3e8";
-  roundedRect(context,40,y,panelWidth,paymentHeight,25);
-  context.fill();
-  context.stroke();
-  context.fillStyle = "#0879e8";
-  setCanvasFont(context,19,750);
-  context.fillText(data.paymentLabel,72,y + 30);
-  context.fillStyle = "#1d1d1f";
-  setCanvasFont(context,45,750);
-  context.fillText(data.paymentTotal,72,y + 64);
-  context.fillStyle = "#6e6e73";
-  setCanvasFont(context,18,400);
-  context.fillText(data.paymentDescription,72,y + 121);
-  let paymentY = drawRows(context,data.paymentRows,72,y + 158,rowWidth);
-  if (data.loan) {
-    context.fillStyle = "#edf6ff";
-    roundedRect(context,64,paymentY + 12,panelWidth - 48,120,18);
-    context.fill();
-    context.fillStyle = "#6e6e73";
-    setCanvasFont(context,17,600);
-    context.fillText(data.loan.label,88,paymentY + 33);
-    context.fillStyle = "#0879e8";
-    setCanvasFont(context,29,750);
-    context.fillText(data.loan.value,88,paymentY + 59);
-    context.textAlign = "right";
-    context.fillStyle = "#6e6e73";
-    setCanvasFont(context,16,400);
-    context.fillText(data.loan.note,QUOTE_IMAGE_WIDTH - 88,paymentY + 67);
-    context.textAlign = "left";
-  }
-
-  y += paymentHeight + 24;
-  context.fillStyle = "#ffffff";
-  context.strokeStyle = "#dfe3e8";
-  roundedRect(context,40,y,panelWidth,footerHeight,25);
-  context.fill();
-  context.stroke();
-  context.fillStyle = "#0879e8";
-  setCanvasFont(context,18,750);
-  context.fillText("LƯU Ý",72,y + 28);
-  context.fillStyle = "#6e6e73";
-  setCanvasFont(context,18,400);
-  disclaimerLines.forEach((line,index) => context.fillText(line,72,y + 61 + index * 25));
-  context.fillStyle = "#1d1d1f";
-  setCanvasFont(context,17,700);
-  context.fillText("VinFast Bình Thủy Thủ Dầu Một · 645 Đại lộ Bình Dương",72,y + footerHeight - 34);
-
-  return canvas.toDataURL("image/png");
-}
-
-function downloadQuoteImage(car, paymentMode) {
-  const button = document.querySelector("#download-quote-image");
-  const status = document.querySelector("#quote-export-status");
-  button.disabled = true;
-  button.textContent = "Đang tạo ảnh...";
-  status.textContent = "";
-  try {
-    const link = document.createElement("a");
-    const customerName = document.querySelector("#customer-name")?.value.trim() || "";
-    const customerPhone = document.querySelector("#customer-phone")?.value.trim() || "";
-    link.href = quoteImageUrl(currentQuoteImageData());
-    link.download = quoteImageFileName(car,paymentMode,{ customerName,customerPhone });
-    link.hidden = true;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    status.textContent = "Đã tải ảnh PNG.";
-  } catch (error) {
-    console.error(error);
-    status.textContent = "Không thể tạo ảnh. Vui lòng thử lại.";
-  } finally {
-    button.disabled = false;
-    button.textContent = "Tải ảnh báo giá";
-  }
-}
+const formatPercentage = value => new Intl.NumberFormat('vi-VN',{ maximumFractionDigits:1 }).format(value);
 
 Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
   const quoteCars = [...cars].sort((a,b) => a.price - b.price);
   const root = document.querySelector("#quote-root");
-  root.innerHTML = `<section class="quote-hero"><span>CÔNG CỤ BÁO GIÁ</span><h1>Lập báo giá VinFast.</h1><p>Chọn xe, phiên bản, màu sắc và thông tin đăng ký để xem ngay chi phí dự kiến theo hai phương thức thanh toán.</p></section>
-    <section class="quote-workspace"><form class="quote-form" id="quote-form">
-      <div class="quote-form__heading"><span>THÔNG TIN BÁO GIÁ</span><h2>Lựa chọn của khách hàng</h2></div>
-      <div class="customer-fields"><label><span>Tên khách hàng <small>Không bắt buộc</small></span><input id="customer-name" type="text" placeholder="Nhập tên khách hàng"></label><label><span>Số điện thoại <small>Không bắt buộc</small></span><input id="customer-phone" type="tel" placeholder="Nhập số điện thoại"></label></div>
-      <fieldset><legend>Xe và phiên bản</legend><div class="form-grid"><label><span>Dòng xe · xếp theo giá tăng dần</span><select id="car-select">${quoteCars.map(car => `<option value="${car.slug}">${esc(car.name)}</option>`).join("")}</select></label><label><span>Phiên bản</span><select id="version-select"></select></label></div><label><span>Màu ngoại thất</span><select id="color-select"></select></label></fieldset>
-      <fieldset><legend>Ưu đãi áp dụng</legend><div class="quote-promotion-group"><span>Ưu đãi theo dòng xe</span><div class="promotion-options" id="model-promotions"></div></div><label><span>Ưu đãi theo khách hàng</span><select id="customer-promotion"><option value="">Không áp dụng</option>${promotions.quoteOptions.customer.map(item => `<option value="${esc(item.id)}">${esc(item.label)}</option>`).join("")}</select></label><p class="promotion-help">${esc(promotions.futureGreen2.quoteNote)}</p><label><span>Giảm giá thêm <small>Có thể bỏ trống</small></span><div class="money-input"><input id="discount" type="text" inputmode="numeric" placeholder="0" aria-describedby="discount-limit discount-note"><i>₫</i></div><small class="field-guidance" id="discount-limit"></small><small class="field-validation" id="discount-note" role="status" aria-live="polite"></small></label></fieldset>
-      <fieldset><legend>Đăng ký và sử dụng</legend><div class="choice-group"><span>Khu vực đăng ký biển</span><div><label><input type="radio" name="registration" value="province" checked><b>Tỉnh</b><small>140.000 ₫</small></label><label><input type="radio" name="registration" value="city"><b>Thành phố</b><small>14.000.000 ₫</small></label></div></div><div class="choice-group"><span>Loại biển số</span><div><label><input type="radio" name="plate" value="white" checked><b>Biển trắng</b><small>Xe cá nhân</small></label><label><input type="radio" name="plate" value="yellow"><b>Biển vàng</b><small>Xe kinh doanh</small></label></div></div><div class="choice-group is-three"><span>Phí dịch vụ đăng ký xe</span><div><label><input type="radio" name="registrationService" value="0"><b>Miễn phí</b><small>0 ₫</small></label><label><input type="radio" name="registrationService" value="3000000" checked><b>3 triệu</b><small>Mặc định</small></label><label><input type="radio" name="registrationService" value="5000000"><b>5 triệu</b><small>Gói dịch vụ</small></label></div></div><label class="check-option"><input id="physical-cash" type="checkbox"><span><b>Thêm bảo hiểm vật chất cho thanh toán tiền mặt</b><small>Không bắt buộc khi mua tiền mặt. Phương án vay luôn bắt buộc.</small></span></label></fieldset>
-      <fieldset class="loan-quote-options" id="loan-quote-options" hidden><legend>Phương án trả góp</legend><div class="loan-percentage-presets"><span>Chọn tỷ lệ vay</span><div role="group" aria-label="Chọn tỷ lệ vay"><button type="button" data-loan-percentage="75" aria-pressed="false"><b>Vay 75%</b><small>Trả trước 25%</small></button><button type="button" data-loan-percentage="80" aria-pressed="false"><b>Vay 80%</b><small>Trả trước 20%</small></button><button type="button" data-loan-percentage="85" aria-pressed="true"><b>Vay 85%</b><small>Trả trước 15%</small></button></div></div><label><span>Số tiền trả trước <small>Có thể nhập số tiền khác</small></span><div class="money-input"><input id="loan-down-payment" type="text" inputmode="numeric" aria-describedby="loan-down-payment-note"><i>₫</i></div></label><div class="loan-default-control"><small id="loan-down-payment-note" aria-live="polite"></small></div></fieldset>
-    </form><aside class="quote-results" id="quote-results"></aside></section>`;
+  root.innerHTML = renderQuoteForm(quoteCars,promotions);
 
   const form = document.querySelector("#quote-form");
+  const confirmationLabel = document.createElement('label');
+  confirmationLabel.className = 'check-option';
+  confirmationLabel.innerHTML = '<input id="promotion-confirmed" type="checkbox"><span><b>Đã kiểm tra hồ sơ và điều kiện ưu đãi</b><small>Bao gồm cọc cũ, ngày xuất hóa đơn và khả năng cộng gộp. Chưa xác nhận thì ưu đãi không được tính.</small></span>';
+  document.querySelector('#model-promotions').closest('fieldset').append(confirmationLabel);
+  const confirmed = confirmationLabel.querySelector('input');
+  for (const id of ['customer-name','customer-phone']) {
+    const input = document.getElementById(id);
+    input.maxLength = id === 'customer-name' ? 120 : 20;
+    input.autocomplete = 'off';
+  }
+  document.querySelector('.customer-fields').insertAdjacentHTML('afterend', '<p class="promotion-help">Thông tin khách chỉ dùng trong phiên hiện tại, không được website lưu hoặc gửi tự động. Ảnh tải về và tên file có thể chứa tên/SĐT; chỉ chia sẻ với người được phép.</p>');
   const carSelect = document.querySelector("#car-select");
   const versionSelect = document.querySelector("#version-select");
   const colorSelect = document.querySelector("#color-select");
@@ -408,15 +81,19 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
 
   function calculate() {
     const car = selectedCar();
-    const version = car.versions[Number(versionSelect.value) || 0];
+    const version = car.versions[Number(versionSelect.value)] || car.versions[0];
     const color = colorSelect.value || car.colors[0];
     const listPrice = version.price;
     const colorFee = car.colorPrices?.[color] || 0;
     const pendingColorPrice = car.pendingColorPrices?.includes(color);
     const promotionBase = vehiclePriceBeforePromotions(listPrice,colorFee);
     const selectedPromotionIds = [...form.querySelectorAll('[name="modelPromotion"]:checked')].map(input => input.value);
-    const modelPromotions = promotions.quoteOptions.model.filter(item => selectedPromotionIds.includes(item.id));
-    const customerPromotion = promotions.quoteOptions.customer.find(item => item.id === customerPromotionSelect.value);
+    const requestedModelPromotions = promotions.quoteOptions.model.filter(item => selectedPromotionIds.includes(item.id) && item.carSlugs.includes(car.slug));
+    const requestedCustomerPromotion = promotions.quoteOptions.customer.find(item => item.id === customerPromotionSelect.value);
+    const requestedPromotions = [...requestedModelPromotions, ...(requestedCustomerPromotion ? [requestedCustomerPromotion] : [])];
+    const expiredPromotions = requestedPromotions.filter(item => !promotionAvailability(item,promotions).available);
+    const modelPromotions = confirmed.checked ? requestedModelPromotions.filter(item => promotionAvailability(item,promotions).available) : [];
+    const customerPromotion = confirmed.checked && requestedCustomerPromotion && promotionAvailability(requestedCustomerPromotion,promotions).available ? requestedCustomerPromotion : null;
     const modelDiscount = Math.min(modelPromotions.filter(item => item.type === "fixed").reduce((total,item) => total + item.value,0),promotionBase);
     const customerBase = customerPromotion?.base === "afterModel" ? Math.max(0,promotionBase - modelDiscount) : promotionBase;
     const customerRate = customerPromotionRate(customerPromotion,car.slug);
@@ -425,11 +102,12 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const customerPromotionNote = customerPromotion?.type === "programPercent" ? `${customerPromotion.label} · ${formatPercentage(customerRate * 100)}% MSRP` : customerPromotion?.label;
     const policyPrice = Math.max(0,promotionBase - modelDiscount - customerDiscount);
     const configuredDiscountLimit = manualDiscountLimit(car.slug);
-    const manualDiscountMaximum = configuredDiscountLimit == null ? policyPrice : Math.min(policyPrice,configuredDiscountLimit);
+    const manualDiscountMaximum = policyPrice;
     discountLimitNote.textContent = configuredDiscountLimit == null
       ? "Chưa có gợi ý mức giảm thêm tối đa cho dòng xe này."
       : `Gợi ý giảm thêm tối đa: ${money(configuredDiscountLimit)}.`;
-    const manualDiscountValidation = validateManualDiscount(discountInput.value,manualDiscountMaximum);
+    const parsedDiscount = validateMoneyInput(discountInput.value,Number.MAX_SAFE_INTEGER,'Giảm thêm');
+    const manualDiscountValidation = parsedDiscount.error ? { value:0, error:parsedDiscount.error } : validateManualDiscount(discountInput.value,manualDiscountMaximum);
     const manualDiscount = manualDiscountValidation.value;
     discountInput.setCustomValidity(manualDiscountValidation.error);
     discountInput.setAttribute("aria-invalid",String(Boolean(manualDiscountValidation.error)));
@@ -437,7 +115,7 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const discount = modelDiscount + customerDiscount + manualDiscount;
     const vehicleValue = Math.max(0,promotionBase - discount);
     const registrationType = form.elements.registration.value;
-    const registrationService = Math.max(0,Number(form.elements.registrationService.value) || 0);
+    const registrationService = [0,3000000,5000000].includes(Number(form.elements.registrationService.value)) ? Number(form.elements.registrationService.value) : 3000000;
     const plate = form.elements.plate.value;
     const sevenSeats = /(?:6\s*\/\s*7|7)\s*chỗ/i.test(car.specs.seats || "");
     const registration = FEES.registration[registrationType];
@@ -452,7 +130,10 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const loanRollingCosts = rollingCostsTotal(fixedFees,physical);
     const cashTotal = vehicleValue + cashRollingCosts;
     const customDownPayment = downPaymentInput.dataset.customized === "true";
-    const requestedDownPayment = moneyInputValue(downPaymentInput.value);
+    const parsedDownPayment = validateMoneyInput(downPaymentInput.value,vehicleValue,'Trả trước');
+    const requestedDownPayment = parsedDownPayment.value;
+    downPaymentInput.setCustomValidity(paymentMode === 'loan' && customDownPayment ? parsedDownPayment.error : '');
+    downPaymentInput.setAttribute('aria-invalid',String(customDownPayment && Boolean(parsedDownPayment.error)));
     const { downPayment,remainingLoan,downPaymentPercentage,loanPercentage } = quoteLoanBreakdown(vehicleValue,customDownPayment ? requestedDownPayment : null,selectedLoanPercentage ?? 85);
     if (!customDownPayment || requestedDownPayment > vehicleValue) {
       downPaymentInput.value = String(downPayment);
@@ -461,27 +142,35 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const loanTotal = downPayment + loanRollingCosts;
     const downPaymentPercentageText = formatPercentage(downPaymentPercentage);
     const loanPercentageText = formatPercentage(loanPercentage);
-    downPaymentNote.textContent = `Trả trước ${downPaymentPercentageText}% · khoản vay dự kiến ${loanPercentageText}% giá trị xe.`;
+    downPaymentNote.textContent = customDownPayment && parsedDownPayment.error ? parsedDownPayment.error : `Trả trước ${downPaymentPercentageText}% · khoản vay dự kiến ${loanPercentageText}% giá trị xe.`;
     loanPercentageButtons.forEach(button => button.setAttribute("aria-pressed",String(!customDownPayment && Number(button.dataset.loanPercentage) === selectedLoanPercentage)));
     const customer = document.querySelector("#customer-name").value.trim();
     const customerPhone = document.querySelector("#customer-phone").value.trim();
+    const phoneInput = document.querySelector('#customer-phone');
+    phoneInput.setCustomValidity(customerPhone && (!/^[0-9 +()-]{9,20}$/.test(customerPhone) || customerPhone.replace(/\D/g,'').length < 9) ? 'Số điện thoại không hợp lệ.' : '');
 
-    document.querySelector("#quote-results").innerHTML = `<div class="quote-result-head"><div><span>BÁO GIÁ DỰ KIẾN</span><h2>${esc(car.name)}</h2><p>${esc(version.name)} · ${esc(color)}</p>${customer ? `<small>Khách hàng: ${esc(customer)}${customerPhone ? ` · ${esc(customerPhone)}` : ""}</small>` : customerPhone ? `<small>SĐT khách hàng: ${esc(customerPhone)}</small>` : ""}<a class="quote-contact" href="tel:0352978519"><span>Tư vấn bán hàng</span><b>${SALES_ADVISOR}</b><small>${SALES_PHONE}</small></a></div><div class="quote-actions"><button class="is-secondary" type="button" id="download-quote-image">Tải ảnh báo giá</button><small id="quote-export-status" role="status" aria-live="polite"></small></div></div>
-      <section class="vehicle-cost"><h3>Giá trị xe</h3>${feeRow("Giá niêm yết",listPrice)}${pendingColorPrice ? '<div><span>Phụ phí màu</span><b>Chưa công bố</b></div>' : feeRow("Phụ phí màu",colorFee)}${modelPromotions.filter(item => item.type === "fixed").map(item => feeRow("Ưu đãi dòng xe",-item.value,item.label)).join("")}${modelPromotions.filter(item => item.type === "gift").map(item => `<div class="promotion-gift"><span>${esc(item.label)}<small>${esc(item.note || "Quà tặng kèm")}</small></span><b>Tặng kèm</b></div>`).join("")}${customerPromotion ? feeRow("Ưu đãi khách hàng",-customerDiscount,customerPromotionNote) : ""}${manualDiscount ? feeRow("Giảm giá thêm",-manualDiscount) : ""}<div class="subtotal"><span>Giá xe sau ưu đãi</span><b>${money(vehicleValue)}</b></div></section>
-      <div class="payment-switch" role="tablist" aria-label="Phương thức thanh toán"><button type="button" role="tab" data-payment-mode="cash" aria-selected="${paymentMode === "cash"}">Trả thẳng</button><button type="button" role="tab" data-payment-mode="loan" aria-selected="${paymentMode === "loan"}">Trả góp</button></div>
-      <div class="payment-results"><article class="payment-card cash" data-payment-panel="cash" ${paymentMode === "cash" ? "" : "hidden"}><span>THANH TOÁN TIỀN MẶT</span><h3>${money(cashTotal)}</h3><p>Giá xe cộng tổng chi phí lăn bánh và bảo hiểm tùy chọn.</p><div class="fee-breakdown">${feeRow("Giá xe",vehicleValue)}${feeDivider("Chi phí lăn bánh")}${feeRow("Đăng ký biển",registration,registrationType === "city" ? "Thành phố" : "Tỉnh")}${feeRow("Phí dịch vụ đăng ký xe",registrationService)}${feeRow("Lệ phí đăng kiểm",FEES.inspection)}${feeRow("Bảo trì đường bộ",road,plate === "white" ? "Biển trắng" : "Biển vàng")}${feeRow("Bảo hiểm TNDS",liability,liabilityNote)}${document.querySelector("#physical-cash").checked ? feeRow("Bảo hiểm vật chất",physical,physicalInsurance.note) : ""}${feeSubtotal("Tổng chi phí lăn bánh",cashRollingCosts)}</div></article>
-      <article class="payment-card loan" data-payment-panel="loan" ${paymentMode === "loan" ? "" : "hidden"}><span>THANH TOÁN VAY</span><h3>${money(loanTotal)}</h3><p>Trả trước cộng tổng chi phí lăn bánh, đã gồm bảo hiểm vật chất.</p><div class="fee-breakdown">${feeRow("Số tiền trả trước",downPayment,`${downPaymentPercentageText}% giá trị xe`)}${feeDivider("Chi phí lăn bánh")}${feeRow("Đăng ký biển",registration,registrationType === "city" ? "Thành phố" : "Tỉnh")}${feeRow("Phí dịch vụ đăng ký xe",registrationService)}${feeRow("Lệ phí đăng kiểm",FEES.inspection)}${feeRow("Bảo trì đường bộ",road,plate === "white" ? "Biển trắng" : "Biển vàng")}${feeRow("Bảo hiểm TNDS",liability,liabilityNote)}${feeRow("Bảo hiểm vật chất bắt buộc",physical,physicalInsurance.note)}${feeSubtotal("Tổng chi phí lăn bánh",loanRollingCosts)}</div><div class="loan-note"><span>Dư nợ dự kiến ${loanPercentageText}%</span><b>${money(remainingLoan)}</b><small>${remainingLoan ? "Chưa bao gồm lãi vay ngân hàng." : "Bạn đã nhập số tiền trả trước bằng toàn bộ giá trị xe."}</small>${remainingLoan ? `<a href="loan.html?amount=${Math.ceil(remainingLoan)}">Tính lãi và lịch trả góp <span>›</span></a>` : '<span class="loan-paid-off">Không còn dư nợ để tính lãi</span>'}</div></article></div>
-      <p class="quote-disclaimer">Báo giá mang tính tham khảo theo dữ liệu hiện có. Chi phí thực tế có thể thay đổi theo thời điểm, địa phương, ngân hàng và chính sách bán hàng.${car.registrationNote ? ` ${esc(car.registrationNote)}` : ""}</p>`;
-    document.querySelector("#download-quote-image").addEventListener("click", () => downloadQuoteImage(car,paymentMode));
+    document.querySelector('#quote-results').innerHTML = renderQuoteResults({car,version,color,customer,customerPhone,listPrice,pendingColorPrice,colorFee,modelPromotions,customerPromotion,customerDiscount,customerPromotionNote,manualDiscount,vehicleValue,paymentMode,cashTotal,loanTotal,registration,registrationType,registrationService,road,plate,liability,liabilityNote,physical,physicalInsurance,cashRollingCosts,loanRollingCosts,downPayment,downPaymentPercentageText,loanPercentageText,remainingLoan, physicalCash:document.querySelector('#physical-cash').checked, inspection:FEES.inspection});
+    const warnings = [];
+    if (requestedPromotions.length && !confirmed.checked) warnings.push('Chưa xác nhận điều kiện: ưu đãi đã chọn chưa được áp dụng.');
+    if (expiredPromotions.length) warnings.push('Có ưu đãi chưa đến hạn hoặc đã hết hạn: không áp dụng và không xuất ảnh.');
+    if (manualDiscountValidation.error) warnings.push(manualDiscountValidation.error);
+    if (paymentMode === 'loan' && customDownPayment && parsedDownPayment.error) warnings.push(parsedDownPayment.error);
+    if (!document.querySelector('#customer-phone').checkValidity()) warnings.push('Số điện thoại không hợp lệ.');
+    const issued = localDateKey();
+    document.querySelector('.quote-disclaimer').prepend(`Ngày lập: ${issued}. Đây không phải hợp đồng hoặc cam kết cấp tín dụng. Cần xác nhận hồ sơ, ưu đãi và chi phí trước giao dịch. `);
+    if (warnings.length) document.querySelector('.quote-disclaimer').append(` ${warnings.join(' ')}`);
+    const exportButton = document.querySelector('#download-quote-image');
+    exportButton.disabled = warnings.length > 0;
+    exportButton.addEventListener('click', () => {
+      if (!exportButton.disabled && form.checkValidity()) downloadQuoteImage(car,paymentMode);
+    });
     if (pendingColorPrice) {
       document.querySelector(".quote-disclaimer").append(` Báo giá tạm tính CHƯA BAO GỒM phụ phí màu ${color}; giá xe, ưu đãi, bảo hiểm và khoản vay sẽ được tính lại khi có phụ phí chính thức.`);
     }
     loanOptions.hidden = paymentMode !== "loan";
     document.querySelectorAll("[data-payment-mode]").forEach(button => button.addEventListener("click", () => {
       paymentMode = button.dataset.paymentMode;
-      loanOptions.hidden = paymentMode !== "loan";
-      document.querySelectorAll("[data-payment-mode]").forEach(item => item.setAttribute("aria-selected",String(item.dataset.paymentMode === paymentMode)));
-      document.querySelectorAll("[data-payment-panel]").forEach(panel => { panel.hidden = panel.dataset.paymentPanel !== paymentMode; });
+      calculate();
       if (paymentMode === "loan" && matchMedia("(max-width: 980px)").matches) {
         requestAnimationFrame(() => loanOptions.scrollIntoView({ behavior:"smooth", block:"center" }));
       }
@@ -490,12 +179,12 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
 
   carSelect.addEventListener("change", () => { updateOptions(); calculate(); });
   discountInput.addEventListener("input", () => {
-    if (!discountInput.value.includes("-")) formatMoneyInput(discountInput);
+    if (!validateMoneyInput(discountInput.value).error) formatMoneyInput(discountInput);
   });
   downPaymentInput.addEventListener("input", () => {
     selectedLoanPercentage = null;
     downPaymentInput.dataset.customized = "true";
-    formatMoneyInput(downPaymentInput);
+    if (!validateMoneyInput(downPaymentInput.value).error) formatMoneyInput(downPaymentInput);
   });
   downPaymentInput.addEventListener("blur", () => {
     if (downPaymentInput.value) return;
@@ -510,6 +199,13 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
   }));
   form.addEventListener("input", calculate);
   form.addEventListener("change", calculate);
+  form.addEventListener('change', event => {
+    if (event.target.matches('#car-select,#version-select,#color-select,#customer-promotion,[name="modelPromotion"]')) {
+      confirmed.checked = false;
+      calculate();
+    }
+  });
+  form.addEventListener('submit', event => event.preventDefault());
   updateOptions();
   calculate();
 }).catch(fail);
