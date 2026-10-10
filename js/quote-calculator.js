@@ -1,6 +1,4 @@
-import { validateMoneyInput } from './quote-validation.js?v=2026100602';
 export const PHYSICAL_INSURANCE_RATES = Object.freeze({ white: .012, yellow: .016 });
-const safeAmount = value => Number.isFinite(Number(value)) ? Math.min(Number.MAX_SAFE_INTEGER,Math.max(0,Number(value))) : 0;
 export const FIXED_PHYSICAL_INSURANCE = 4500000;
 export const FIXED_PHYSICAL_INSURANCE_SLUGS = Object.freeze(["vf-2", "vf-3", "ec-van"]);
 export const MANUAL_DISCOUNT_LIMITS = Object.freeze({
@@ -31,15 +29,15 @@ export function tieredPromotionRate(program, audience, carSlug) {
 }
 
 export function percentagePromotionDiscount(basePrice, rate) {
-  return Math.round(safeAmount(basePrice) * Math.min(1,safeAmount(rate)));
+  return Math.round(Math.max(0,Number(basePrice) || 0) * Math.max(0,Number(rate) || 0));
 }
 
 export function vehiclePriceBeforePromotions(listPrice, colorFee = 0) {
-  return safeAmount(safeAmount(listPrice) + safeAmount(colorFee));
+  return Math.max(0,Number(listPrice) || 0) + Math.max(0,Number(colorFee) || 0);
 }
 
 export function downPaymentForLoanPercentage(vehicleValue, loanPercentage = 85) {
-  const safeVehicleValue = safeAmount(vehicleValue);
+  const safeVehicleValue = Math.max(0,Number(vehicleValue) || 0);
   const numericPercentage = Number(loanPercentage);
   const safeLoanPercentage = Number.isFinite(numericPercentage) ? Math.min(100,Math.max(0,numericPercentage)) : 85;
   return Math.round(safeVehicleValue * (100 - safeLoanPercentage) / 100);
@@ -49,19 +47,17 @@ export function validateManualDiscount(input, maximumDiscount) {
   const raw = String(input ?? "").trim();
   const maximum = Math.max(0,Number(maximumDiscount) || 0);
   if (raw.includes("-")) return { value:0, error:"Giảm giá thêm không được là số âm." };
-  const parsed = validateMoneyInput(raw);
-  if (parsed.error) return {value:0,error:parsed.error};
-  const value = parsed.value;
+  const value = Math.max(0,Number(raw.replace(/[^\d]/g,"")) || 0);
   if (value > maximum) return { value:0, error:`Giảm giá thêm không được vượt quá ${new Intl.NumberFormat("en-US").format(maximum)} ₫.` };
   return { value, error:"" };
 }
 
 export function rollingCostsTotal(registrationCosts, physicalInsurance = 0) {
-  return safeAmount(safeAmount(registrationCosts) + safeAmount(physicalInsurance));
+  return Math.max(0,Number(registrationCosts) || 0) + Math.max(0,Number(physicalInsurance) || 0);
 }
 
 export function roundUpToThousand(value) {
-  return Math.ceil(safeAmount(value) / 1000) * 1000;
+  return Math.ceil(Math.max(0,Number(value) || 0) / 1000) * 1000;
 }
 
 export function physicalInsuranceQuote(car, vehicleValue, plate = "white") {
@@ -70,14 +66,7 @@ export function physicalInsuranceQuote(car, vehicleValue, plate = "white") {
   }
   const rate = PHYSICAL_INSURANCE_RATES[plate] ?? PHYSICAL_INSURANCE_RATES.white;
   return {
-    amount: roundUpToThousand(safeAmount(vehicleValue) * rate),
+    amount: roundUpToThousand(Math.max(0,Number(vehicleValue) || 0) * rate),
     note: `${new Intl.NumberFormat("vi-VN",{ maximumFractionDigits:1 }).format(rate * 100)}% giá xe sau ưu đãi · làm tròn lên 1.000đ`
   };
-}
-
-export function quoteLoanBreakdown(vehicleValue, requestedDownPayment = null, defaultLoanPercentage = 85) {
-  const value = safeAmount(vehicleValue);
-  const downPayment = requestedDownPayment == null ? downPaymentForLoanPercentage(value,defaultLoanPercentage) : Math.min(safeAmount(requestedDownPayment),value);
-  const remainingLoan = value - downPayment;
-  return { downPayment, remainingLoan, downPaymentPercentage:value ? downPayment / value * 100 : 0, loanPercentage:value ? remainingLoan / value * 100 : 0 };
 }

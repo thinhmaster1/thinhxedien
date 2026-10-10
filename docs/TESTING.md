@@ -24,13 +24,6 @@ Chạy xem trước bằng `python3 -m http.server 4173 --bind 127.0.0.1`; mở 
 
 ## Ca nghiệp vụ
 
-### An toàn báo giá (06/10/2026)
-
-- Node: `tests/quote-validation.test.mjs` kiểm tra số âm, chữ, số mũ, số vượt an toàn, dấu phân cách sai và biên ngày ưu đãi.
-- Browser: `tests/browser/quote-safety.spec.mjs` kiểm tra tên chứa HTML không được thực thi, số điện thoại sai, khóa tải khi dữ liệu sai, xác nhận điều kiện và chương trình hết hạn.
-- Tải PNG thật cho trả thẳng/trả góp với phí 0/3/5 triệu: xác minh chữ ký PNG, chiều rộng 1080, tên file, ngày lập và dữ liệu tổng tiền đưa vào ảnh khớp màn hình. Không phải OCR hay so sánh pixel nội dung từng dòng.
-- Bài website bỏ qua node_modules, playwright-report và test-results: chỉ kiểm tra source, không kiểm tra JavaScript của báo cáo sinh tự động.
-
 - VF 2 giá 188 triệu, màu chuẩn, không ưu đãi, tỉnh/biển trắng: phí không kể dịch vụ là 2.325.000đ. Lăn bánh tiền mặt ở mức dịch vụ 0/3/5 triệu: 2.325.000/5.325.000/7.325.000đ.
 - Vay VF 2 mặc định 85%: trả trước 28.200.000đ, dư nợ 159.800.000đ; gồm bảo hiểm 4,5 triệu, thanh toán ban đầu 35.025.000/38.025.000/40.025.000đ theo ba mức phí.
 - VF 7 Eco 740 triệu, không phụ phí màu: cả hai nhóm Vì tương lai xanh 2 giảm 66.600.000đ (9%), giá sau ưu đãi 673.400.000đ trước giảm thêm.

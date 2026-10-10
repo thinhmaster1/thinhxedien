@@ -2,21 +2,12 @@
 
 Trạng thái cập nhật 05/10/2026. Chính sách bán hàng theo dữ liệu người dùng đã cung cấp; không phải xác nhận độc lập từ hãng.
 
-## Kiểm soát báo giá (06/10/2026)
-
-- `js/quote-validation.js`: chỉ nhận tiền nguyên không âm, dạng chữ số hoặc nhóm hàng nghìn bằng dấu phẩy; không âm thầm biến chữ, số mũ hoặc số quá lớn thành tiền.
-- Ưu đãi chỉ tính khi nhân viên bật xác nhận hồ sơ/điều kiện. Thay xe, phiên bản, màu hoặc lựa chọn ưu đãi sẽ bỏ xác nhận. startsAt/endsAt kiểm tra theo ngày lập hiện tại; đây không phải xác minh hồ sơ từ máy chủ.
-- Cọc VF 2/VF 8 mới có thời hạn lẻ/sỉ khác nhau: chặn sau hạn cuối cùng đã công bố, vẫn phải xác nhận đúng nhóm và hạn trên hồ sơ trước khi bật. VF Wild chỉ dành cho cọc 25–30/09/2026.
-- Đầu vào sai, ưu đãi không hợp lệ hoặc thiếu xác nhận: khóa tải PNG. Ảnh ghi ngày lập, tính tham khảo và điều kiện giao dịch; không phải hợp đồng hay cam kết cho vay.
-- Dữ liệu khách không được ghi vào storage hoặc gửi tự động trong công cụ báo giá. PNG/tên file chứa thông tin khách khi nhập: chỉ chia sẻ với người được phép. Passcode phía trình duyệt không bảo vệ dữ liệu thật; không đặt khóa bí mật hoặc hồ sơ khách vào repo công khai.
-- `js/quote-image.js` phụ trách dựng và tải PNG; công thức khoản vay nằm trong calculator, trang quote phụ trách biểu mẫu và trình bày. Chưa cần backend nếu chỉ lập báo giá tham khảo.
-
 ## Giá và ưu đãi
 
 1. Cơ sở ưu đãi = giá phiên bản + phụ phí màu đã công bố.
 2. Trừ ưu đãi cố định dòng xe, rồi ưu đãi khách hàng theo base trong JSON. programPercent dùng MSRP gồm màu; base afterModel dùng cơ sở đã trừ ưu đãi dòng xe.
 3. Chỉ chọn một ưu đãi khách hàng. Vì tương lai xanh 2 không đồng thời với voucher Tri ân xe xăng.
-4. Trừ giảm thêm hợp lệ; không để giá xe âm. Nhập âm hoặc vượt giá xe sau ưu đãi chính sách thì báo lỗi và khoản giảm thêm không được áp dụng. Mức tối đa theo dòng xe chỉ là gợi ý hiển thị, không dùng để chặn nhập (09/10/2026).
+4. Trừ giảm thêm hợp lệ; không để giá xe âm. Nhập âm/vượt giới hạn thì báo lỗi và khoản giảm thêm không được áp dụng.
 
 VF 7 và VF 8 cũ: 9% cho owner và special. VF 8 Thế hệ mới: owner 5%, special 7%. Tỷ lệ các xe khác đọc từ JSON, không hardcode ở từng trang.
 
