@@ -32,6 +32,9 @@ html[data-theme="dark"] .loan-page #loan-error { color:#ff9898; }
 .loan-page .loan-totals b { margin:0; font-size:1rem; color:var(--black); overflow-wrap:anywhere; }
 .loan-page #print-loan { display:block; width:100%; margin-top:20px; border:0; cursor:pointer; font:inherit; text-align:center; white-space:normal; }
 .loan-page #print-loan:disabled { opacity:.45; cursor:not-allowed; }
+.loan-page #download-loan-schedule { display:block; width:100%; margin-top:10px; padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--soft); color:var(--blue); font:inherit; text-align:center; cursor:pointer; white-space:normal; }
+.loan-page #download-loan-schedule:disabled { opacity:.45; cursor:not-allowed; }
+.loan-page #floating-start-label { color:var(--gray); font-size:.85rem; margin:12px 0; line-height:1.5; }
 .loan-page .loan-export { width:100%; margin:8px 0 0; }
 .loan-page #loan-export-status { color:var(--gray); font-size:.8rem; line-height:1.5; }
 .loan-page #loan-export-status:empty { display:none; }
@@ -48,6 +51,7 @@ html[data-theme="dark"] .loan-page #loan-error { color:#ff9898; }
 @media(max-width:900px) { .loan-page .loan-workspace { grid-template-columns:1fr; gap:16px; } }
 @media(max-width:600px) { .loan-page .loan-form,.loan-page .loan-overview { padding:20px; } }
 @media print {
+ .loan-page #download-loan-schedule { display:none!important; }
  @page { size:A4 landscape; margin:12mm; }
  html,html[data-theme],.loan-page { color-scheme:light!important; background:#fff!important; color:#111!important; }
  .loan-page #header,.loan-page #footer,.loan-page .skip-link,.loan-page .site-breadcrumb,.loan-page .loan-hero,.loan-page .loan-form,.loan-page #print-loan,.loan-page .loan-export,.loan-page .loan-schedule>summary { display:none!important; }

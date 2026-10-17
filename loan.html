@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/refinements.css">
   <link rel="stylesheet" href="css/premium.css?v=2026091903">
-  <link rel="stylesheet" href="css/loan.css?v=2026101703"><script src="js/file-protocol.js" defer></script>
+  <link rel="stylesheet" href="css/loan.css?v=2026101704"><script src="js/file-protocol.js" defer></script>
 </head>
 <body class="loan-page">
   <div id="header"></div>
@@ -36,20 +36,18 @@
             <div><span>Kỳ đầu · ưu đãi</span><strong id="monthly-payment">—</strong></div>
             <div><span>Kỳ đầu · thả nổi</span><strong id="floating-payment">—</strong></div>
           </div>
-          <div class="loan-balance-after-fixed">
-            <div><span>DƯ NỢ SAU KHI HẾT ƯU ĐÃI</span><strong id="balance-after-fixed">—</strong></div>
-            <p id="floating-start-label">—</p>
-          </div>
+          <p id="floating-start-label">—</p>
           <p id="loan-term-label">—</p>
         </div>
         <div class="loan-totals"><article><span>Tổng tiền lãi</span><b id="total-interest">—</b></article><article><span>Tổng cộng</span><b id="total-payment">—</b></article><article><span>Tiền vay ban đầu</span><b id="principal-total">—</b></article></div>
         <button type="button" id="print-loan" class="blue-button" disabled>Tải ảnh tóm tắt</button>
+        <button type="button" id="download-loan-schedule" class="blue-button" disabled>Tải ảnh lịch trả nợ hàng tháng</button>
         <section class="loan-export" aria-label="Ảnh tóm tắt khoản vay"><p id="loan-export-status" role="status" aria-live="polite"></p><div id="loan-export-links"></div></section>
       </div>
     </section>
     <details class="loan-schedule" id="loan-details"><summary>Xem lịch trả nợ từng tháng</summary><div class="loan-schedule__heading"><div><span>LỊCH THANH TOÁN</span><h2>Chi tiết từng tháng.</h2></div><p>Mỗi kỳ thể hiện tiền gốc chia đều, lãi trên dư nợ đầu kỳ và dư nợ giảm sau thanh toán. Vuốt ngang để xem đủ bảng trên điện thoại.</p></div><div class="loan-table-wrap" tabindex="0" role="region" aria-label="Bảng lịch trả nợ, có thể cuộn ngang"><table class="loan-table"><thead><tr><th scope="col">Tháng</th><th scope="col">Lãi suất</th><th scope="col">Dư nợ đầu kỳ</th><th scope="col">Tiền gốc</th><th scope="col">Tiền lãi</th><th scope="col">Thanh toán</th><th scope="col">Dư nợ còn lại</th></tr></thead><tbody id="loan-schedule-body"></tbody></table></div><p class="loan-note">Báo cáo tham khảo, không phải cam kết cấp tín dụng. Lãi thả nổi là giả định cố định cho giai đoạn sau ưu đãi, không dự báo điều chỉnh thực tế. Tính theo lãi suất năm / 12; ngân hàng có thể tính theo ngày, cách làm tròn, phí và lịch giải ngân khác. Số hiển thị làm tròn đến đồng, không làm tròn sớm trong công thức.</p></details>
   </main>
   <div id="footer"></div>
-  <script type="module" src="js/pages/loan.js?v=2026101703"></script>
+  <script type="module" src="js/pages/loan.js?v=2026101704"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@ const day=date=>[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),St
 // One compact image; the full monthly schedule remains available on the page.
 export async function createLoanImages(plan,date=new Date()) {
   const {principal,annualRate,floatingAnnualRate,months,fixedMonths,schedule}=plan;
-  const canvas=document.createElement('canvas'); canvas.width=1080; canvas.height=1120;
+  const canvas=document.createElement('canvas'); canvas.width=1080; canvas.height=1040;
   const ctx=canvas.getContext('2d');
   if (!ctx) throw new Error('Không thể tạo ảnh.');
   ctx.fillStyle='#fff'; ctx.fillRect(0,0,1080,1120); ctx.textBaseline='top';
@@ -22,22 +22,21 @@ export async function createLoanImages(plan,date=new Date()) {
   const rows=[
     ['Trả kỳ đầu ưu đãi',fixedMonths ? `${number(schedule.introductoryFirstPayment)} đ` : 'Không áp dụng'],
     ['Trả kỳ đầu thả nổi',schedule.floatingFirstPayment===null ? 'Không áp dụng' : `${number(schedule.floatingFirstPayment)} đ`],
-    [`Dư nợ sau ${fixedMonths} tháng`,`${number(schedule.balanceAfterFixed)} đ`],
     ['Gốc trả mỗi tháng',`${number(schedule.regularPrincipal)} đ`],
     ['Tổng tiền lãi',`${number(schedule.totalInterest)} đ`],
     ['Tổng gốc + lãi',`${number(schedule.totalPayment)} đ`]
   ];
   rows.forEach(([label,value],index)=>{
     const y=386+index*82;
-    ctx.fillStyle=index===2 || index===5 ? '#edf4ff' : index%2 ? '#f7f9fc' : '#fff';
+    ctx.fillStyle=index===4 ? '#edf4ff' : index%2 ? '#f7f9fc' : '#fff';
     ctx.fillRect(32,y-14,1016,78);
     text(label,48,y+7,25,'#51647d',400,'left',450);
-    text(value,1032,y+7,30,index===2 || index===5 ? '#084ec0' : '#172b4d',700,'right',480);
+    text(value,1032,y+7,30,index===4 ? '#084ec0' : '#172b4d',700,'right',480);
   });
-  text('Khoản trả thay đổi theo từng tháng; các mức trên là kỳ đầu mỗi giai đoạn.',48,902,22,'#51647d');
-  text('Lãi = dư nợ đầu kỳ × lãi suất năm / 12. Gốc chia đều theo thời hạn.',48,945,22,'#51647d');
-  text('Chỉ tham khảo, không phải cam kết ngân hàng. Chưa bao gồm phí.',48,988,22,'#51647d');
-  text('Lãi thả nổi thực tế và cách tính có thể thay đổi. Số tiền làm tròn đến đồng.',48,1031,22,'#51647d');
+  text('Khoản trả thay đổi theo từng tháng; các mức trên là kỳ đầu mỗi giai đoạn.',48,820,22,'#51647d');
+  text('Lãi = dư nợ đầu kỳ × lãi suất năm / 12. Gốc chia đều theo thời hạn.',48,863,22,'#51647d');
+  text('Chỉ tham khảo, không phải cam kết ngân hàng. Chưa bao gồm phí.',48,906,22,'#51647d');
+  text('Lãi thả nổi thực tế và cách tính có thể thay đổi. Số tiền làm tròn đến đồng.',48,949,22,'#51647d');
   const blob=await new Promise((resolve,reject)=>canvas.toBlob(value=>value ? resolve(value) : reject(new Error('Không thể tạo PNG.')),'image/png'));
   return [{blob,fileName:`Tom-tat-khoan-vay-VinFast-${principal}VND-${months}thang-${day(date)}.png`}];
 }
