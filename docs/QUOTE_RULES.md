@@ -43,3 +43,7 @@ Trả thẳng = giá xe + lăn bánh tiền mặt. PNG phải dùng phương th�
 ## Lãi dư nợ giảm dần
 
 Gốc mỗi tháng = khoản vay / số tháng. Lãi kỳ = dư nợ đầu kỳ × lãi suất năm / 100 / 12. Lãi thả nổi bắt đầu tháng sau fixedMonths. Kỳ cuối trả hết dư nợ còn lại. Không làm tròn sớm từng phép tính; định dạng khi hiển thị.
+
+Rà soát 17/10/2026: chặn số không hữu hạn, tiền vay không nguyên/ngoài 1đ–1.000 tỷ, lãi ngoài 0–100%, kỳ hạn không nguyên hoặc ngoài 1–360 tháng và kỳ ưu đãi ngoài 0–kỳ hạn. Trang nhập kỳ hạn 1–30 năm nguyên. Không tự sửa số sai thành số hợp lệ. Ưu đãi 0 tháng nghĩa là lãi thả nổi từ kỳ đầu; ưu đãi hết kỳ hạn thì không có giai đoạn thả nổi. Mức thả nổi là giả định cố định cho giai đoạn sau ưu đãi, không mô phỏng từng lần ngân hàng điều chỉnh.
+
+Nút In lịch trả nợ chỉ bật khi kết quả hợp lệ. Bản in có ngày lập, toàn bộ đầu vào, tổng gốc/lãi và tất cả các kỳ; A4 ngang, không giới hạn vùng cuộn, lặp tiêu đề bảng. Không phải báo giá tín dụng được ngân hàng xác nhận. Các dòng và tổng làm tròn độc lập đến đồng khi hiển thị nên cộng các số đã hiển thị có thể lệch vài đồng.

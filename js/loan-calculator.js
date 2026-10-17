@@ -4,9 +4,14 @@ export function calculateDecliningBalanceSchedule({ principal, annualRate, float
   const safePrincipal = asFiniteNumber(principal);
   const safeAnnualRate = asFiniteNumber(annualRate);
   const safeFloatingRate = asFiniteNumber(floatingAnnualRate);
-  const safeMonths = Math.round(asFiniteNumber(months));
-  const safeFixedMonths = Math.round(asFiniteNumber(fixedMonths));
-  if (safePrincipal <= 0 || safeAnnualRate < 0 || safeFloatingRate < 0 || safeMonths < 1 || safeFixedMonths < 1 || safeFixedMonths > safeMonths) {
+  const safeMonths = asFiniteNumber(months);
+  const safeFixedMonths = asFiniteNumber(fixedMonths);
+  if (![principal,annualRate,floatingAnnualRate,months,fixedMonths].every(value => value !== null && value !== undefined && String(value).trim() !== '') ||
+      ![safePrincipal,safeAnnualRate,safeFloatingRate,safeMonths,safeFixedMonths].every(Number.isFinite) ||
+      !Number.isSafeInteger(safePrincipal) || safePrincipal <= 0 || safePrincipal > 1e12 ||
+      safeAnnualRate < 0 || safeAnnualRate > 100 || safeFloatingRate < 0 || safeFloatingRate > 100 ||
+      !Number.isInteger(safeMonths) || safeMonths < 1 || safeMonths > 360 ||
+      !Number.isInteger(safeFixedMonths) || safeFixedMonths < 0 || safeFixedMonths > safeMonths) {
     throw new RangeError("Thông tin khoản vay không hợp lệ.");
   }
 

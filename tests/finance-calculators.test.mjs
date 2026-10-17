@@ -29,6 +29,24 @@ assert.equal(zeroInterest.totalInterest,0);
 assert.equal(zeroInterest.totalPayment,120000000);
 assert.equal(Math.round(zeroInterest.rows.at(-1).balance),0);
 
+const baseLoan = {principal:500000000,annualRate:8.5,floatingAnnualRate:11.5,months:60,fixedMonths:12};
+for (const [key,value] of [['principal',NaN],['principal',Infinity],['principal',-1],['principal',1e13],['annualRate',undefined],['annualRate',''],['floatingAnnualRate',Infinity],['months',1.5],['months',361],['months',NaN],['fixedMonths',-1],['fixedMonths',61],['fixedMonths',2.5]]) {
+  assert.throws(()=>calculateDecliningBalanceSchedule({...baseLoan,[key]:value}),RangeError,`${key}=${value}`);
+}
+const noFixed = calculateDecliningBalanceSchedule({...baseLoan,fixedMonths:0});
+assert.equal(noFixed.balanceAfterFixed,500000000);
+assert.equal(noFixed.floatingFirstPayment,noFixed.rows[0].payment);
+assert.equal(noFixed.rows[0].floating,true);
+const fullFixed = calculateDecliningBalanceSchedule({...baseLoan,fixedMonths:60});
+assert.equal(fullFixed.floatingFirstPayment,null);
+for (const result of [schedule,noFixed,fullFixed,zeroInterest]) {
+  assert.ok(Math.abs(result.rows.reduce((sum,row)=>sum+row.principalPayment,0)-result.rows[0].openingBalance)<.001);
+  assert.ok(Math.abs(result.totalPayment-result.totalInterest-result.rows[0].openingBalance)<.001);
+  assert.equal(result.rows.at(-1).balance,0);
+}
+const smallLoan = calculateDecliningBalanceSchedule({principal:100,annualRate:12,floatingAnnualRate:24,months:3,fixedMonths:1});
+assert.ok(Math.abs(smallLoan.totalInterest-3)<1e-10); // 1 + 4/3 + 2/3.
+
 for (const slug of ["vf-2", "vf-3", "ec-van"]) {
   assert.equal(physicalInsuranceQuote({ slug },999000000,"white").amount,FIXED_PHYSICAL_INSURANCE);
   assert.equal(physicalInsuranceQuote({ slug },999000000,"yellow").amount,FIXED_PHYSICAL_INSURANCE);

@@ -1,0 +1,47 @@
+import { test,expect } from '@playwright/test';
+
+test('declining balance stages, invalid input and printing',async ({page},testInfo)=>{
+  const errors=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('loan.html');
+  await expect(page.locator('#loan-schedule-body tr')).toHaveCount(60);
+  await expect(page.locator('#monthly-payment')).toContainText('11,875,000');
+  await expect(page.locator('#balance-after-fixed')).toContainText('400,000,000');
+  await expect(page.locator('#floating-payment')).toContainText('12,166,667');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  await testInfo.attach('loan-screen',{body:await page.screenshot({fullPage:true}),contentType:'image/png'});
+  for (const raw of ['-500','abc','1e6','9999999999999999999']) {
+    await page.locator('#loan-amount').fill(raw);
+    await expect(page.locator('#print-loan')).toBeDisabled();
+    await expect(page.locator('#total-interest')).toHaveText('—');
+  }
+  await page.locator('#loan-amount').fill('500000000');
+  await page.locator('#loan-fixed-months').fill('61');
+  await expect(page.locator('#print-loan')).toBeDisabled();
+  await page.locator('#loan-fixed-months').fill('0');
+  await expect(page.locator('#monthly-payment')).toHaveText('Không áp dụng');
+  await expect(page.locator('#balance-after-fixed')).toContainText('500,000,000');
+  await page.locator('#loan-fixed-months').fill('60');
+  await expect(page.locator('#floating-payment')).toHaveText('Không áp dụng');
+  await expect(page.locator('#balance-after-fixed')).toContainText('0');
+  await page.locator('#loan-fixed-months').fill('12');
+  await page.locator('#loan-years').fill('1.5');
+  await expect(page.locator('#print-loan')).toBeDisabled();
+  await page.locator('#loan-years').fill('5');
+  await page.evaluate(()=>{ window.printCalls=0; window.print=()=>{window.printCalls++;}; });
+  await page.locator('#print-loan').click();
+  expect(await page.evaluate(()=>window.printCalls)).toBe(1);
+  await expect(page.locator('#loan-print-summary')).toContainText('60 tháng');
+  await page.locator('#loan-years').fill('30');
+  await expect(page.locator('#loan-schedule-body tr')).toHaveCount(360);
+  await page.setViewportSize({width:1123,height:794});
+  await page.emulateMedia({media:'print'});
+  await expect(page.locator('#header')).toBeHidden();
+  await expect(page.locator('#loan-form')).toBeHidden();
+  await expect(page.locator('.loan-print-heading')).toBeVisible();
+  await expect(page.locator('#loan-schedule-body tr').last()).toBeVisible();
+  expect(await page.locator('.loan-table-wrap').evaluate(el=>getComputedStyle(el).maxHeight)).toBe('none');
+  expect(await page.locator('.loan-table thead').evaluate(el=>getComputedStyle(el).display)).toBe('table-header-group');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  expect(errors).toEqual([]);
+});
