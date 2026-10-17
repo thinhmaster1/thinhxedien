@@ -1,6 +1,6 @@
 import { test,expect } from '@playwright/test';
 
-test('declining balance stages, invalid input and printing',async ({page},testInfo)=>{
+test('declining balance stages, invalid input and PNG download',async ({page},testInfo)=>{
   const errors=[];
   page.on('pageerror',error=>errors.push(error.message));
   await page.goto('loan.html');
@@ -28,12 +28,35 @@ test('declining balance stages, invalid input and printing',async ({page},testIn
   await page.locator('#loan-years').fill('1.5');
   await expect(page.locator('#print-loan')).toBeDisabled();
   await page.locator('#loan-years').fill('5');
-  await page.evaluate(()=>{ window.printCalls=0; window.print=()=>{window.printCalls++;}; });
   await page.locator('#print-loan').click();
-  expect(await page.evaluate(()=>window.printCalls)).toBe(1);
+  await expect(page.locator('#loan-export-links a')).toHaveCount(1);
+  for (const index of [0]) {
+    const waiting=page.waitForEvent('download');
+    await page.locator('#loan-export-links a').nth(index).click();
+    const download=await waiting;
+    expect(download.suggestedFilename()).toMatch(/Tom-tat-khoan-vay-VinFast-500000000VND-60thang-.*\.png$/);
+    const stream=await download.createReadStream(); const chunks=[];
+    for await (const chunk of stream) chunks.push(chunk);
+    const png=Buffer.concat(chunks);
+    expect(png.subarray(0,8).toString('hex')).toBe('89504e470d0a1a0a');
+    expect(png.readUInt32BE(16)).toBe(1080);
+    expect(png.readUInt32BE(20)).toBe(1120);
+    await testInfo.attach(`loan-export-${index+1}`,{body:png,contentType:'image/png'});
+  }
   await expect(page.locator('#loan-print-summary')).toContainText('60 tháng');
   await page.locator('#loan-years').fill('30');
+  await expect(page.locator('#loan-export-links a')).toHaveCount(0);
   await expect(page.locator('#loan-schedule-body tr')).toHaveCount(360);
+  await page.locator('#print-loan').click();
+  await expect(page.locator('#loan-export-links a')).toHaveCount(1);
+  await expect(page.locator('#loan-details')).not.toHaveAttribute('open','');
+  await page.locator('#loan-details > summary').click();
+  await expect(page.locator('#loan-schedule-body tr').last()).toBeVisible();
+  await page.locator('#loan-amount').fill('1000000000000');
+  await expect(page.locator('#loan-export-links a')).toHaveCount(0);
+  expect(await page.locator('#balance-after-fixed').evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
+  expect(await page.locator('#balance-after-fixed').evaluate(el=>getComputedStyle(el).whiteSpace)).toBe('nowrap');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
   await page.setViewportSize({width:1123,height:794});
   await page.emulateMedia({media:'print'});
   await expect(page.locator('#header')).toBeHidden();

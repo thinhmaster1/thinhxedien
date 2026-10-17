@@ -1,6 +1,7 @@
 import { applySeo, mountSiteShell } from '../components.js?v=2026100501';
 import { formatMoneyInput, money } from '../core.js?v=2026091903';
 import { calculateDecliningBalanceSchedule } from '../loan-calculator.js?v=2026101701';
+import { createLoanImages } from '../loan-image.js?v=2026101703';
 
 applySeo({ title:'Tính lãi vay dư nợ giảm dần | Thịnh Xe Điện', canonical:'https://thinhmaster1.github.io/thinhxedien/loan.html' });
 mountSiteShell();
@@ -9,6 +10,17 @@ const input = id => document.querySelector(`#loan-${id}`);
 const amountInput = input('amount');
 const printButton = document.querySelector('#print-loan');
 const body = document.querySelector('#loan-schedule-body');
+const exportStatus = document.querySelector('#loan-export-status');
+const exportLinks = document.querySelector('#loan-export-links');
+let currentPlan = null;
+let revision = 0;
+let urls = [];
+function invalidateImages() {
+  revision++;
+  urls.forEach(url=>URL.revokeObjectURL(url)); urls=[];
+  exportLinks.replaceChildren(); exportStatus.textContent='';
+  printButton.textContent='Tải ảnh tóm tắt';
+}
 const set = (id,value) => { document.getElementById(id).textContent = value; };
 const currency = value => money(Math.round(value));
 const percent = value => new Intl.NumberFormat('vi-VN',{maximumFractionDigits:2}).format(value);
@@ -18,6 +30,7 @@ const validAmountSyntax = value => /^(?:\d+|\d{1,3}(?:,\d{3})+)$/.test(value.tri
 if (validAmountSyntax(amountInput.value)) formatMoneyInput(amountInput);
 
 function clearResults(message) {
+  currentPlan=null;
   for (const id of ['monthly-payment','floating-payment','balance-after-fixed','loan-term-label','total-interest','total-payment','principal-total']) set(id,'—');
   set('floating-start-label','Nhập thông tin hợp lệ để xem kết quả.');
   set('loan-error',message);
@@ -28,9 +41,11 @@ function clearResults(message) {
 }
 
 function calculate() {
+  invalidateImages();
   const fields = [amountInput,input('rate'),input('floating-rate'),input('fixed-months'),input('years')];
   fields.forEach(field => field.setAttribute('aria-invalid','false'));
   const principal = Number(amountInput.value.replaceAll(',',''));
+  document.body.classList.toggle('is-large-loan',Number.isFinite(principal) && principal>=1e10);
   const annualRate = Number(input('rate').value);
   const floatingAnnualRate = Number(input('floating-rate').value);
   const years = Number(input('years').value);
@@ -60,12 +75,34 @@ function calculate() {
   set('principal-total',currency(principal));
   body.innerHTML = schedule.rows.map(row => `<tr class="${row.month===fixedMonths+1 ? 'is-floating-start' : ''}"><td>${row.month}${row.month===fixedMonths+1 ? '<small>Bắt đầu thả nổi</small>' : ''}</td><td>${percent(row.appliedAnnualRate)}%/năm</td><td>${currency(row.openingBalance)}</td><td>${currency(row.principalPayment)}</td><td>${currency(row.interest)}</td><td><b>${currency(row.payment)}</b></td><td>${currency(row.balance)}</td></tr>`).join('');
   set('loan-print-summary',`Ngày lập ${new Intl.DateTimeFormat('vi-VN').format(new Date())} · Vay ${currency(principal)} · Thời hạn ${years} năm (${months} tháng) · Ưu đãi ${percent(annualRate)}%/năm trong ${fixedMonths} tháng · Thả nổi giả định ${percent(floatingAnnualRate)}%/năm ${floating ? `từ tháng ${fixedMonths+1}` : '(không áp dụng)'}. Phương pháp: gốc chia đều, lãi dư nợ giảm dần.`);
+  currentPlan={principal,annualRate,floatingAnnualRate,months,fixedMonths,schedule};
   printButton.disabled = false;
   return true;
 }
 amountInput.addEventListener('input',()=> { if (validAmountSyntax(amountInput.value)) formatMoneyInput(amountInput); });
 form.addEventListener('input',calculate);
 form.addEventListener('submit',event=>event.preventDefault());
-printButton.addEventListener('click',()=> { if (calculate()) window.print(); });
-window.addEventListener('beforeprint',calculate);
+printButton.addEventListener('click',async ()=> {
+  if (!calculate()) return;
+  const version=revision;
+  printButton.disabled=true; printButton.textContent='Đang tạo ảnh…';
+  exportStatus.textContent='Đang dựng toàn bộ lịch trả nợ thành PNG.';
+  try {
+    const pages = await createLoanImages(currentPlan);
+    if (version!==revision) return;
+    pages.forEach((page,index)=>{
+      const url=URL.createObjectURL(page.blob); urls.push(url);
+      const link=document.createElement('a'); link.href=url; link.download=page.fileName;
+      link.textContent='Tải lại ảnh tóm tắt (PNG)';
+      link.className='loan-image-download'; exportLinks.append(link);
+    });
+    exportStatus.textContent='Đã tạo 1 ảnh tóm tắt. Lịch từng tháng xem ở cuối trang.';
+    if (pages.length===1) exportLinks.querySelector('a').click();
+    exportLinks.scrollIntoView({behavior:'smooth',block:'nearest'});
+  } catch { if (version===revision) exportStatus.textContent='Không thể tạo ảnh. Vui lòng thử lại.'; }
+  finally { if (version===revision) {printButton.disabled=false;printButton.textContent='Tải ảnh tóm tắt';} }
+});
+let detailsWereOpen=false;
+window.addEventListener('beforeprint',()=>{calculate();const details=document.querySelector('#loan-details');detailsWereOpen=details.open;details.open=true;});
+window.addEventListener('afterprint',()=>{document.querySelector('#loan-details').open=detailsWereOpen;});
 calculate();
