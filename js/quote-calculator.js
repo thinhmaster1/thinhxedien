@@ -7,7 +7,7 @@ export const MANUAL_DISCOUNT_LIMITS = Object.freeze({
   "ec-van": 6000000,
   "vf-3": 6000000,
   "vf-5": 10000000,
-  "vf-6": 12000000,
+  "vf-6": 42000000,
   "limo-green": 12000000,
   "vf-7": 15000000,
   "mpv-7": 25000000,

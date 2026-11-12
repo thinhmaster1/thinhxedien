@@ -87,7 +87,9 @@ assert.deepEqual(validateManualDiscount("-10,000,000",188000000),{ value:0,error
 assert.match(validateManualDiscount("999,999,999",188000000).error,/không được vượt quá/);
 assert.equal(manualDiscountLimit("vf-2"),6000000);
 assert.equal(manualDiscountLimit("vf-5"),10000000);
-assert.equal(manualDiscountLimit("vf-6"),12000000);
+assert.equal(manualDiscountLimit("vf-6"),42000000);
+assert.equal(validateManualDiscount("42,000,000",manualDiscountLimit("vf-6")).value,42000000);
+assert.ok(validateManualDiscount("42,000,001",manualDiscountLimit("vf-6")).error);
 assert.equal(manualDiscountLimit("mpv-7"),25000000);
 assert.equal(validateManualDiscount("25,000,000",manualDiscountLimit("mpv-7")).value,25000000);
 assert.ok(validateManualDiscount("25,000,001",manualDiscountLimit("mpv-7")).error);
