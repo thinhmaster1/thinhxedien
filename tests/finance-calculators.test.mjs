@@ -1,9 +1,14 @@
 import assert from "node:assert/strict";
+import { applyTotalDiscount } from '../js/quote-calculator.js';
 import { readFileSync } from "node:fs";
 import { calculateDecliningBalanceSchedule } from "../js/loan-calculator.js";
 import { FIXED_PHYSICAL_INSURANCE, downPaymentForLoanPercentage, manualDiscountLimit, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, roundUpToThousand, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../js/quote-calculator.js";
 
 const promotions = JSON.parse(readFileSync(new URL("../data/promotions.json", import.meta.url), "utf8"));
+assert.deepEqual(applyTotalDiscount('1,000,000',193325000),{value:1000000,total:192325000,error:''});
+assert.equal(applyTotalDiscount('1000000',38025000).total,37025000);
+assert.equal(applyTotalDiscount('38025000',38025000).total,0);
+for (const value of ['-1','abc','1e6','38025001']) assert.ok(applyTotalDiscount(value,38025000).error);
 const cars = JSON.parse(readFileSync(new URL("../data/cars.json", import.meta.url), "utf8")).cars;
 
 const schedule = calculateDecliningBalanceSchedule({

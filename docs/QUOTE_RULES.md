@@ -36,6 +36,10 @@ Phí biển, TNDS, đường bộ ở FEES của js/pages/quote.js. VF Wild vẫ
 
 ## Trả góp và PNG
 
+### Ghi chú và giảm trên tổng thanh toán
+
+Dropdown ghi chú có thể thêm lựa chọn mới (tối đa 80 ký tự, chỉ trong phiên trang hiện tại). Khoản giảm riêng này áp dụng sau cùng: trả thẳng trừ khỏi giá xe + lăn bánh; trả góp trừ khỏi trả trước + lăn bánh. Không thay đổi giá xe sau ưu đãi, cơ sở bảo hiểm, trả trước theo giá xe hoặc dư nợ vay. PNG lấy đúng dòng giảm, ghi chú và tổng của phương thức đang chọn. Khoản âm/sai định dạng/vượt tổng phương thức đang chọn bị báo lỗi, không áp dụng và khóa xuất ảnh; đổi phương thức tính và kiểm tra lại.
+
 Vay nhanh 75/80/85% giá xe sau ưu đãi; mặc định 85%. Trả trước = giá xe × (100 - tỷ lệ vay)/100, làm tròn đồng. Nhập thủ công được giới hạn từ 0 đến toàn bộ giá xe.
 
 Dư nợ = giá xe - trả trước. Thanh toán ban đầu = trả trước + lăn bánh phương án vay. Lăn bánh không được cộng vào khoản vay. Dư nợ 0 không mở tính lãi.

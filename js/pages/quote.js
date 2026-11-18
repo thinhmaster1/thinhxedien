@@ -1,6 +1,6 @@
 import { esc, fail, formatMoneyInput, loadCars, loadPromotions, money, moneyInputValue } from "../core.js?v=2026091903";
 import { applySeo, mountSiteShell } from "../components.js?v=2026100501";
-import { downPaymentForLoanPercentage, manualDiscountLimit, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../quote-calculator.js?v=2026111801";
+import { applyTotalDiscount, downPaymentForLoanPercentage, manualDiscountLimit, percentagePromotionDiscount, physicalInsuranceQuote, rollingCostsTotal, tieredPromotionRate, validateManualDiscount, vehiclePriceBeforePromotions } from "../quote-calculator.js?v=2026111803";
 
 applySeo({ title: "Lập báo giá VinFast | Thịnh Xe Điện", canonical: "https://thinhmaster1.github.io/thinhxedien/quote.html" });
 let robotsMeta = document.head.querySelector('meta[name="robots"]');
@@ -371,6 +371,22 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     </form><aside class="quote-results" id="quote-results"></aside></section>`;
 
   const form = document.querySelector("#quote-form");
+  form.insertAdjacentHTML('beforeend',`<fieldset><legend>Ghi chú & giảm trên tổng</legend><label><span>Ghi chú</span><select id="total-discount-note"><option value="Giảm trên tổng thanh toán">Giảm trên tổng thanh toán</option></select></label><label><span>Thêm ghi chú mới</span><input id="new-total-discount-note" type="text" maxlength="80" placeholder="Nhập nội dung ghi chú"></label><button type="button" id="add-total-discount-note" class="blue-button">Thêm vào danh sách</button><small id="total-note-status" role="status"></small><label><span>Số tiền giảm trên tổng</span><div class="money-input"><input id="total-discount" type="text" inputmode="numeric" placeholder="0" aria-describedby="total-discount-error"><i>₫</i></div><small id="total-discount-error" class="field-validation" role="status"></small></label><p class="promotion-help">Trừ vào tổng trả thẳng hoặc thanh toán ban đầu khi trả góp. Không đổi giá xe, bảo hiểm hay dư nợ vay. Ghi chú mới chỉ lưu trong phiên trang đang mở.</p></fieldset>`);
+  const totalDiscountInput=document.querySelector('#total-discount');
+  const totalNoteSelect=document.querySelector('#total-discount-note');
+  document.querySelector('#new-total-discount-note').addEventListener('keydown',event=>{
+    if (event.key==='Enter') {event.preventDefault();document.querySelector('#add-total-discount-note').click();}
+  });
+  document.querySelector('#add-total-discount-note').addEventListener('click',()=>{
+    const field=document.querySelector('#new-total-discount-note');
+    const value=field.value.trim();
+    if (!value) {document.querySelector('#total-note-status').textContent='Vui lòng nhập nội dung ghi chú.';return;}
+    if (![...totalNoteSelect.options].some(option=>option.value===value)) totalNoteSelect.add(new Option(value,value));
+    totalNoteSelect.value=value;field.value='';
+    document.querySelector('#total-note-status').textContent='Đã chọn ghi chú mới.';
+    calculate();
+  });
+  totalDiscountInput.addEventListener('input',()=>{if (/^(?:\d+|\d{1,3}(?:,\d{3})+)$/.test(totalDiscountInput.value)) formatMoneyInput(totalDiscountInput);});
   const carSelect = document.querySelector("#car-select");
   const versionSelect = document.querySelector("#version-select");
   const colorSelect = document.querySelector("#color-select");
@@ -450,7 +466,7 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const cashPhysical = document.querySelector("#physical-cash").checked ? physical : 0;
     const cashRollingCosts = rollingCostsTotal(fixedFees,cashPhysical);
     const loanRollingCosts = rollingCostsTotal(fixedFees,physical);
-    const cashTotal = vehicleValue + cashRollingCosts;
+    const cashBeforeTotalDiscount = vehicleValue + cashRollingCosts;
     const customDownPayment = downPaymentInput.dataset.customized === "true";
     const requestedDownPayment = moneyInputValue(downPaymentInput.value);
     const { downPayment,remainingLoan,downPaymentPercentage,loanPercentage } = quoteLoanBreakdown(vehicleValue,customDownPayment ? requestedDownPayment : null,selectedLoanPercentage ?? 85);
@@ -458,7 +474,16 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
       downPaymentInput.value = String(downPayment);
       formatMoneyInput(downPaymentInput);
     }
-    const loanTotal = downPayment + loanRollingCosts;
+    const loanBeforeTotalDiscount = downPayment + loanRollingCosts;
+    const cashAdjustment=applyTotalDiscount(totalDiscountInput.value,cashBeforeTotalDiscount);
+    const loanAdjustment=applyTotalDiscount(totalDiscountInput.value,loanBeforeTotalDiscount);
+    const cashTotal=cashAdjustment.total;
+    const loanTotal=loanAdjustment.total;
+    const activeAdjustment=paymentMode==='cash' ? cashAdjustment : loanAdjustment;
+    totalDiscountInput.setCustomValidity(activeAdjustment.error);
+    totalDiscountInput.setAttribute('aria-invalid',String(Boolean(activeAdjustment.error)));
+    document.querySelector('#total-discount-error').textContent=activeAdjustment.error;
+    const totalDiscountRows=(adjustment,before)=>adjustment.value || totalNoteSelect.selectedIndex>0 ? `${feeSubtotal('Tổng trước giảm',before)}${feeRow('Giảm trên tổng thanh toán',-adjustment.value,totalNoteSelect.value)}` : '';
     const downPaymentPercentageText = formatPercentage(downPaymentPercentage);
     const loanPercentageText = formatPercentage(loanPercentage);
     downPaymentNote.textContent = `Trả trước ${downPaymentPercentageText}% · khoản vay dự kiến ${loanPercentageText}% giá trị xe.`;
@@ -473,12 +498,16 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
       <article class="payment-card loan" data-payment-panel="loan" ${paymentMode === "loan" ? "" : "hidden"}><span>THANH TOÁN VAY</span><h3>${money(loanTotal)}</h3><p>Trả trước cộng tổng chi phí lăn bánh, đã gồm bảo hiểm vật chất.</p><div class="fee-breakdown">${feeRow("Số tiền trả trước",downPayment,`${downPaymentPercentageText}% giá trị xe`)}${feeDivider("Chi phí lăn bánh")}${feeRow("Đăng ký biển",registration,registrationType === "city" ? "Thành phố" : "Tỉnh")}${feeRow("Phí dịch vụ đăng ký xe",registrationService)}${feeRow("Lệ phí đăng kiểm",FEES.inspection)}${feeRow("Bảo trì đường bộ",road,plate === "white" ? "Biển trắng" : "Biển vàng")}${feeRow("Bảo hiểm TNDS",liability,liabilityNote)}${feeRow("Bảo hiểm vật chất bắt buộc",physical,physicalInsurance.note)}${feeSubtotal("Tổng chi phí lăn bánh",loanRollingCosts)}</div><div class="loan-note"><span>Dư nợ dự kiến ${loanPercentageText}%</span><b>${money(remainingLoan)}</b><small>${remainingLoan ? "Chưa bao gồm lãi vay ngân hàng." : "Bạn đã nhập số tiền trả trước bằng toàn bộ giá trị xe."}</small>${remainingLoan ? `<a href="loan.html?amount=${Math.ceil(remainingLoan)}">Tính lãi và lịch trả góp <span>›</span></a>` : '<span class="loan-paid-off">Không còn dư nợ để tính lãi</span>'}</div></article></div>
       <p class="quote-disclaimer">Báo giá mang tính tham khảo theo dữ liệu hiện có. Chi phí thực tế có thể thay đổi theo thời điểm, địa phương, ngân hàng và chính sách bán hàng.${car.registrationNote ? ` ${esc(car.registrationNote)}` : ""}</p>`;
     document.querySelector("#download-quote-image").addEventListener("click", () => downloadQuoteImage(car,paymentMode));
+    document.querySelector('.payment-card.cash .fee-breakdown').insertAdjacentHTML('beforeend',totalDiscountRows(cashAdjustment,cashBeforeTotalDiscount));
+    document.querySelector('.payment-card.loan .fee-breakdown').insertAdjacentHTML('beforeend',totalDiscountRows(loanAdjustment,loanBeforeTotalDiscount));
+    document.querySelector('#download-quote-image').disabled=Boolean(activeAdjustment.error);
     if (pendingColorPrice) {
       document.querySelector(".quote-disclaimer").append(` Báo giá tạm tính CHƯA BAO GỒM phụ phí màu ${color}; giá xe, ưu đãi, bảo hiểm và khoản vay sẽ được tính lại khi có phụ phí chính thức.`);
     }
     loanOptions.hidden = paymentMode !== "loan";
     document.querySelectorAll("[data-payment-mode]").forEach(button => button.addEventListener("click", () => {
       paymentMode = button.dataset.paymentMode;
+      calculate();
       loanOptions.hidden = paymentMode !== "loan";
       document.querySelectorAll("[data-payment-mode]").forEach(item => item.setAttribute("aria-selected",String(item.dataset.paymentMode === paymentMode)));
       document.querySelectorAll("[data-payment-panel]").forEach(panel => { panel.hidden = panel.dataset.paymentPanel !== paymentMode; });
@@ -509,7 +538,9 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     calculate();
   }));
   form.addEventListener("input", calculate);
-  form.addEventListener("change", calculate);
+  form.addEventListener("change", event => {
+    if (event.target.matches('select,input[type="radio"],input[type="checkbox"]')) calculate();
+  });
   updateOptions();
   calculate();
 }).catch(fail);

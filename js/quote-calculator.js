@@ -56,6 +56,14 @@ export function rollingCostsTotal(registrationCosts, physicalInsurance = 0) {
   return Math.max(0,Number(registrationCosts) || 0) + Math.max(0,Number(physicalInsurance) || 0);
 }
 
+export function applyTotalDiscount(input, total) {
+  const raw=String(input ?? '').trim();
+  if (raw && !/^(?:\d+|\d{1,3}(?:,\d{3})+)$/.test(raw)) return {value:0,total,error:'Giảm trên tổng phải là số nguyên không âm.'};
+  const value=raw ? Number(raw.replaceAll(',','')) : 0;
+  if (!Number.isSafeInteger(value) || value>total) return {value:0,total,error:'Khoản giảm không được vượt tổng thanh toán của phương án đang chọn.'};
+  return {value,total:total-value,error:''};
+}
+
 export function roundUpToThousand(value) {
   return Math.ceil(Math.max(0,Number(value) || 0) / 1000) * 1000;
 }
