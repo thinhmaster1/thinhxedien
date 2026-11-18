@@ -7,11 +7,11 @@ Trạng thái cập nhật 05/10/2026. Chính sách bán hàng theo dữ liệu 
 1. Cơ sở ưu đãi = giá phiên bản + phụ phí màu đã công bố.
 2. Trừ ưu đãi cố định dòng xe, rồi ưu đãi khách hàng theo base trong JSON. programPercent dùng MSRP gồm màu; base afterModel dùng cơ sở đã trừ ưu đãi dòng xe.
 3. Chỉ chọn một ưu đãi khách hàng. Vì tương lai xanh 2 không đồng thời với voucher Tri ân xe xăng.
-4. Trừ giảm thêm hợp lệ; không để giá xe âm. Nhập âm/vượt giới hạn thì báo lỗi và khoản giảm thêm không được áp dụng.
+4. Mức giảm tối đa theo dòng xe chỉ là gợi ý, không chặn nhập cao hơn. Chỉ chặn số âm hoặc giảm vượt giá xe sau ưu đãi chính sách để tránh giá xe âm.
 
 VF 7 và VF 8 cũ: 9% cho owner và special. VF 8 Thế hệ mới: owner 5%, special 7%. Tỷ lệ các xe khác đọc từ JSON, không hardcode ở từng trang.
 
-| Dòng xe | Giảm thêm tối đa |
+| Dòng xe | Gợi ý giảm thêm tối đa (không chặn nhập) |
 | --- | --- |
 | VF 2, VF 3, EC Van, Minio Green | 6 triệu |
 | VF 5 | 25 triệu (người dùng xác nhận 18/11/2026) |

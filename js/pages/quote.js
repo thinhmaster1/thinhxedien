@@ -425,7 +425,7 @@ Promise.all([loadCars(),loadPromotions()]).then(([cars,promotions]) => {
     const customerPromotionNote = customerPromotion?.type === "programPercent" ? `${customerPromotion.label} · ${formatPercentage(customerRate * 100)}% MSRP` : customerPromotion?.label;
     const policyPrice = Math.max(0,promotionBase - modelDiscount - customerDiscount);
     const configuredDiscountLimit = manualDiscountLimit(car.slug);
-    const manualDiscountMaximum = configuredDiscountLimit == null ? policyPrice : Math.min(policyPrice,configuredDiscountLimit);
+    const manualDiscountMaximum = policyPrice;
     discountLimitNote.textContent = configuredDiscountLimit == null
       ? "Chưa có gợi ý mức giảm thêm tối đa cho dòng xe này."
       : `Gợi ý giảm thêm tối đa: ${money(configuredDiscountLimit)}.`;
