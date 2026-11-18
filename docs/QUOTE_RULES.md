@@ -14,7 +14,7 @@ VF 7 và VF 8 cũ: 9% cho owner và special. VF 8 Thế hệ mới: owner 5%, sp
 | Dòng xe | Giảm thêm tối đa |
 | --- | --- |
 | VF 2, VF 3, EC Van, Minio Green | 6 triệu |
-| VF 5 | 10 triệu |
+| VF 5 | 25 triệu (người dùng xác nhận 18/11/2026) |
 | VF 6 | 42 triệu (người dùng xác nhận 12/11/2026) |
 | Limo Green | 12 triệu |
 | VF 7 | 15 triệu |
