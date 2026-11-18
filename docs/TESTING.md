@@ -1,5 +1,7 @@
 # Kiểm tra
 
+CI dùng Ubuntu 24.04 cố định cho Playwright 1.56.1, không dùng ubuntu-latest vì runner có thể nâng hệ điều hành khiến bước cài Chromium/dependencies lỗi trước khi chạy test. Khi nâng Playwright hoặc runner, kiểm tra tương thích cả hai. Bài website chỉ quét source và bỏ qua playwright-report/test-results sinh tự động.
+
 Chạy từ thư mục repo, với Node hỗ trợ ES modules:
 
 ```sh
